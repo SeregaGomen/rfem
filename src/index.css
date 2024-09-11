@@ -11,3 +11,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.href {
+  width: 400px;
+  margin: 6px 4px;
+}
+
+table, th {
+  border-collapse: collapse;
+  border: 3px solid #245488;
+}
+
+/*label {*/
+/*  font-weight: bold;*/
+/*}*/
