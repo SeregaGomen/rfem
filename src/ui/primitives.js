@@ -144,7 +144,26 @@ export class FileUploader extends React.Component {
                                     });
 
                                     if (response.ok) {
-                                        this.setState({uploadStatus: 'File uploaded successfully'});
+                                        //this.setState({uploadStatus: 'File uploaded successfully'});
+
+
+
+
+                                        let text = await response.text();
+
+                                        //alert(text);
+                                        this.setState({uploadStatus: text});
+
+                                        // response.json().then(function (data) {
+                                        //     alert(data)
+                                        // });
+                                        //alert("Response: " + response.body.toString());
+                                        //const json = await response.json();
+                                        //alert(JSON.stringify(json));
+                                        //const msg = JSON.parse(json).msg;
+                                        //console.log(msg);
+
+
                                     } else {
                                         this.setState({uploadStatus: 'Failed to upload file'});
                                     }
@@ -153,6 +172,10 @@ export class FileUploader extends React.Component {
                                     console.error('Error:', error);
                                     alert('Error: ' + error.toString())
                                 }
+
+
+
+
 
                                 // if (!this.state.file) {
                                 //     alert("Please select a file first!");
