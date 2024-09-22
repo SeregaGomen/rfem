@@ -96,7 +96,7 @@ export class FileUploader extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            file: "",
+            file: null,
             uploadStatus: "",
         };
     }
@@ -201,7 +201,7 @@ export class FileUploader extends React.Component {
                                 //         console.error('Failed to upload file:', error);
                                 //         alert('Error: ' + error.toString())
                                 //     });
-                            }} value="Upload" disabled={!this.state.file.length}/>
+                            }} value="Upload" disabled={this.state.file ? null : 'disabled'}/>
                 {<p>{this.state.uploadStatus}</p>}
             </form>
         );
