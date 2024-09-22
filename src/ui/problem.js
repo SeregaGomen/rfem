@@ -1,5 +1,5 @@
 import React from "react";
-import {Ref, ParamTable} from "./primitives";
+import {ParamTable} from "./primitives";
 import {WebCPU} from 'webcpu';
 import axios from 'axios';
 
@@ -195,8 +195,6 @@ export class ProblemForm extends React.Component {
                 }}>Calculate
                 </button>
                 <br/>
-
-                <Ref href="#" title="home"/>
             </form>
         )
     }

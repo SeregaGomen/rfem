@@ -1,13 +1,6 @@
 import React from "react";
-import axios from 'axios';
-
-export class Ref extends React.Component {
-    render() {
-        return (
-            <a className="href" href={this.props.href}>{this.props.title}</a>
-        )
-    }
-}
+//import axios from 'axios';
+//import {useNavigate} from "react-router-dom";
 
 //https://htmlbook.ru/samhtml/tablitsy/obedinenie-yacheek
 export class ParamTable extends React.Component {
@@ -117,7 +110,6 @@ export class FileUploader extends React.Component {
                             this.setState({file: event.target.files[0]});
                             this.setState({uploadStatus: ""});
                         }}/><br/>
-                        {<p>{this.state.uploadStatus}</p>}
                     </label>
                 </fieldset>
                 <button onClick=
@@ -131,6 +123,7 @@ export class FileUploader extends React.Component {
                                 const formData = new FormData();
                                 formData.append('file', this.state.file);
 
+                                //---------------------------------------------------------------------
                                 try {
                                     // Отправка данных на сервер через fetch
                                     const response = await fetch('http://localhost:8001/upload', {
@@ -147,12 +140,18 @@ export class FileUploader extends React.Component {
                                         //this.setState({uploadStatus: 'File uploaded successfully'});
 
 
-
-
                                         let text = await response.text();
 
                                         //alert(text);
                                         this.setState({uploadStatus: text});
+                                        //useNavigate()('/info', { state: { uploadStratus: text } });
+
+
+
+                                        window.history.pushState({uploadStatus: text}, "Hello", "/problem");
+                                        //window.history.forward();
+                                        window.history.go(-1); // https://developer.mozilla.org/en-US/docs/Web/API/History_API
+                                        //window.location.assign('/problem');
 
                                         // response.json().then(function (data) {
                                         //     alert(data)
@@ -174,17 +173,9 @@ export class FileUploader extends React.Component {
                                 }
 
 
+                                //---------------------------------------------------------------------
 
 
-
-                                // if (!this.state.file) {
-                                //     alert("Please select a file first!");
-                                //     return;
-                                // }
-                                //
-                                // const formData = new FormData();
-                                // formData.append('file', this.state.file);
-                                //
                                 // axios.post('http://localhost:8001/upload', formData, {
                                 //     headers: {
                                 //         'Content-Type': 'multipart/form-data',
@@ -193,20 +184,35 @@ export class FileUploader extends React.Component {
                                 //     },
                                 // })
                                 // .then(response => {
-                                //     this.setState({uploadStatus: 'File uploaded successfully'});
-                                //     console.log('File uploaded successfully:', response.data);
+                                //
+                                //
+                                //     let text = response.data;
+                                //     //
+                                //     //         //alert(text);
+                                //     this.setState({uploadStatus: text});
+                                //
+                                //
+                                //     //this.setState({uploadStatus: 'File uploaded successfully'});
+                                //     //console.log('File uploaded successfully:', response.data);
+                                //
                                 // })
-                                // .catch(error => {
-                                //     this.setState({uploadStatus: 'Failed to upload file'});
-                                //     console.error('Failed to upload file:', error);
-                                //     alert('Error: ' + error.toString())
-                                // });
+                                //     .catch(error => {
+                                //         this.setState({uploadStatus: 'Failed to upload file'});
+                                //         console.error('Failed to upload file:', error);
+                                //         alert('Error: ' + error.toString())
+                                //     });
                             }}>Upload
                 </button>
+                {<p>{this.state.uploadStatus}</p>}
             </form>
         );
     }
 }
 
-
 // https://muhimasri.com/blogs/react-editable-table/
+
+
+
+// https://stackoverflow.com/questions/41956465/how-to-create-multiple-page-app-using-react
+// https://qna.habr.com/q/621746
+// https://reactrouter.com/en/main/start/tutorial

@@ -1,5 +1,4 @@
 import React from "react";
-import {Ref} from "./primitives";
 
 export class LoadProblemForm extends React.Component {
     constructor(props) {
@@ -12,7 +11,6 @@ export class LoadProblemForm extends React.Component {
         return (
             <form>
                 <h1>Open Problem</h1>
-                <Ref href="#" title="home" />
             </form>
         )
     }

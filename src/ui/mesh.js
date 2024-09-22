@@ -1,5 +1,5 @@
 import React from "react";
-import {Ref, FileUploader} from "./primitives";
+import {FileUploader} from "./primitives";
 
 export class MeshForm extends React.Component {
     constructor(props) {
@@ -10,11 +10,10 @@ export class MeshForm extends React.Component {
 
     render() {
         return (
-            <form>
+            <div>
                 <h1>Upload Mesh</h1>
                 <FileUploader />
-                <Ref href="#" title="home" />
-            </form>
+            </div>
         )
     }
 }
