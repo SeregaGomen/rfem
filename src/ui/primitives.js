@@ -112,7 +112,7 @@ export class FileUploader extends React.Component {
                         }}/><br/>
                     </label>
                 </fieldset>
-                <button onClick=
+                <input type="button" onClick=
                             {async () => {
                                 if (!this.state.file) {
                                     alert("Please select a file first!");
@@ -148,9 +148,9 @@ export class FileUploader extends React.Component {
 
 
 
-                                        window.history.pushState({uploadStatus: text}, "Hello", "/problem");
+                                        //window.history.pushState({uploadStatus: text}, '', '/problem');
                                         //window.history.forward();
-                                        window.history.go(-1); // https://developer.mozilla.org/en-US/docs/Web/API/History_API
+                                        //window.history.go(-1); // https://developer.mozilla.org/en-US/docs/Web/API/History_API
                                         //window.location.assign('/problem');
 
                                         // response.json().then(function (data) {
@@ -201,8 +201,7 @@ export class FileUploader extends React.Component {
                                 //         console.error('Failed to upload file:', error);
                                 //         alert('Error: ' + error.toString())
                                 //     });
-                            }}>Upload
-                </button>
+                            }} value="Upload" disabled={!this.state.file.length}/>
                 {<p>{this.state.uploadStatus}</p>}
             </form>
         );
