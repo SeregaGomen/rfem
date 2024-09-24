@@ -11,14 +11,15 @@ export class ParamTable extends React.Component {
         };
     }
 
-    addRows(rows) {
+    prepareRows(rows) {
         for (let i = 0; i < this.props.data.length; i++) {
+            let row = [];
             for (let j = 0; j < this.props.data[i].length; j++) {
                 if (this.props.direct === "on" && j === this.props.data[i].length - 1) {
                     continue;
                 }
 
-                rows.push(<td key={i.toString() + "_" + j.toString()}>
+                row.push(<td key={i.toString() + "_" + j.toString()}>
                     <input id={i.toString() + "_" + j.toString()} type={this.state.col_type[j] === "str" ?
                         "text" : "number"} step="any" defaultValue={this.props.data[i][j]}
                            onChange={(event) => {
@@ -34,7 +35,7 @@ export class ParamTable extends React.Component {
                 let mask = [1, 2, 4]; // X, Y or Z
                 for (let j = 0; j < 3; j++) {
                     let value = Number(this.state.data[i][this.state.data[i].length - 1]) & mask[j];
-                    rows.push(
+                    row.push(
                         <td key={j}><input id={i.toString() + "_" + j.toString()} type="checkbox"
                                            checked={Boolean(value)}
                                            onChange={(event) => {
@@ -48,7 +49,26 @@ export class ParamTable extends React.Component {
                     )
                 }
             }
+            rows.push(<tr>{row}</tr>);
         }
+    }
+
+    addRow() {
+        let old_data = this.state.data;
+        let row = [];
+
+        for (let j = 0; j < this.props.data[0].length; j++) {
+            if (this.props.direct === "on" && j === this.props.data[0].length - 1) {
+                continue;
+            }
+            row.push("");
+        }
+        if (this.props.direct === "on") {
+            row.push(0);
+        }
+        old_data.push(row);
+        this.setState({data: old_data});
+
     }
 
     render() {
@@ -60,7 +80,7 @@ export class ParamTable extends React.Component {
         if (this.props.direct === "on") {
             headers.push(<th key="Direction" colSpan="4">Direction</th>);
         }
-        this.addRows(rows);
+        this.prepareRows(rows);
         return (
             <table>
                 <thead>
@@ -71,21 +91,14 @@ export class ParamTable extends React.Component {
                     <th key="Z">Z</th>
                 </tr> : null}
                 </thead>
-                <tbody>
-                {
-                    <tr>{rows}</tr>
-                }
+                <tbody>{rows}
                 <tr>
                     <td>
-                        <input type="button" value="add" onClick={() => {
-                            let d = this.state.data;
-                            d.push(["", ""]);
-                            this.setState({data: d})
-                        }}/>
+                        <input type="button" value="add" onClick={() => { this.addRow(); }}/>
                         <input type="button" value="del" disabled={!this.state.data.length} onClick={() => {
-                            let d = this.state.data;
-                            d.splice(d.length - 1, 1);
-                            this.setState({data: d});
+                            let old_data = this.state.data;
+                            old_data.splice(old_data.length - 1, 1);
+                            this.setState({data: old_data});
                         }}/>
                     </td>
                 </tr>

@@ -65,7 +65,8 @@ export class ProblemForm extends React.Component {
                 </fieldset>
                 <fieldset>
                     <legend>Variables</legend>
-                    <ParamTable headers={["Name", "Value"]} data={this.state.variables} col_type={["str", "num"]}/>
+                    <ParamTable headers={["Name", "Value"]} data={this.state.variables} col_type={["str", "num"]}
+                                direct="off"/>
                 </fieldset>
                 <fieldset>
                     <legend>Elastic parameters</legend>
