@@ -6,7 +6,7 @@ import axios from 'axios';
 export class ProblemForm extends React.Component {
     constructor(props) {
         super(props);
-        this.getNumCores();
+        this.getNumCores().then(() => {});
         this.state = {
             file: "",
             numThread: 1,

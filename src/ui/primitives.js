@@ -1,6 +1,5 @@
 import React from "react";
 //import axios from 'axios';
-//import {useNavigate} from "react-router-dom";
 
 //https://htmlbook.ru/samhtml/tablitsy/obedinenie-yacheek
 export class ParamTable extends React.Component {
@@ -11,16 +10,8 @@ export class ParamTable extends React.Component {
             col_type: this.props.col_type,
         };
     }
-    render() {
-        const headers = [];
-        for (const title of this.props.headers) {
-            headers.push(<th key={title} rowSpan="2">{title}</th>);
-        }
-        if (this.props.direct === "on") {
-            headers.push(<th key="Direction" colSpan="4">Direction</th>);
-        }
 
-        const rows = [];
+    addRows(rows) {
         for (let i = 0; i < this.props.data.length; i++) {
             for (let j = 0; j < this.props.data[i].length; j++) {
                 if (this.props.direct === "on" && j === this.props.data[i].length - 1) {
@@ -43,21 +34,33 @@ export class ParamTable extends React.Component {
                 let mask = [1, 2, 4]; // X, Y or Z
                 for (let j = 0; j < 3; j++) {
                     let value = Number(this.state.data[i][this.state.data[i].length - 1]) & mask[j];
-                    rows.push(<td key={j}><input id={i.toString() + "_" + j.toString()} type="checkbox" checked={Boolean(value)}
-                                         onChange={(event) => {
-                                             let index = Number(event.target.id.substring(0, 1));
-                                             let table = this.state.data;
-                                             table[index][table[index].length - 1] ^= mask[j];
-                                             this.setState({data: table});
-                                             //alert("New value: " + table[index][table[index].length - 1]);
-                                         }}/></td>
+                    rows.push(
+                        <td key={j}><input id={i.toString() + "_" + j.toString()} type="checkbox"
+                                           checked={Boolean(value)}
+                                           onChange={(event) => {
+                                                 let index = Number(event.target.id.substring(0, 1));
+                                                 let table = this.state.data;
+                                                 table[index][table[index].length - 1] ^= mask[j];
+                                                 this.setState({data: table});
+                                                 //alert("New value: " + table[index][table[index].length - 1]);
+                                           }}/>
+                        </td>
                     )
                 }
             }
-
         }
+    }
 
-
+    render() {
+        const rows = [];
+        const headers = [];
+        for (const title of this.props.headers) {
+            headers.push(<th key={title} rowSpan="2">{title}</th>);
+        }
+        if (this.props.direct === "on") {
+            headers.push(<th key="Direction" colSpan="4">Direction</th>);
+        }
+        this.addRows(rows);
         return (
             <table>
                 <thead>
@@ -76,7 +79,7 @@ export class ParamTable extends React.Component {
                     <td>
                         <input type="button" value="add" onClick={() => {
                             let d = this.state.data;
-                            d.push(["", ""])
+                            d.push(["", ""]);
                             this.setState({data: d})
                         }}/>
                         <input type="button" value="del" disabled={!this.state.data.length} onClick={() => {
@@ -144,6 +147,11 @@ export class FileUploader extends React.Component {
 
                                         //alert(text);
                                         this.setState({uploadStatus: text});
+
+
+                                        this.props.history.push('/problem');
+
+
                                         //useNavigate()('/info', { state: { uploadStratus: text } });
 
 
