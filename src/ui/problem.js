@@ -1,7 +1,7 @@
 import React from "react";
 import {ParamTable} from "./primitives";
 import {WebCPU} from 'webcpu';
-import axios from 'axios';
+//import axios from 'axios';
 
 export class ProblemForm extends React.Component {
     constructor(props) {
@@ -26,6 +26,23 @@ export class ProblemForm extends React.Component {
     async getNumCores() {
         let result = await WebCPU.detectCPU();
         this.setState({numThread: result.reportedCores})
+    }
+
+    prepareFormData() {
+        const formData = new FormData();
+        formData.append('file', this.state.file);
+        formData.append('threads', this.state.numThread);
+        formData.append('eps', this.state.eps);
+        formData.append('variables', this.state.variables);
+        formData.append('youngModulus', this.state.youngModulus);
+        formData.append('poissonRatio', this.state.poissonRatio);
+        formData.append('thickness', this.state.thickness);
+        formData.append('volumeLoad', this.state.volumeLoad);
+        formData.append('surfaceLoad', this.state.surfaceLoad);
+        formData.append('pointLoad', this.state.pointLoad);
+        formData.append('pressureLoad', this.state.pressureLoad);
+        formData.append('boundaryCondition', this.state.boundaryCondition);
+        return formData;
     }
 
     render() {
@@ -111,71 +128,42 @@ export class ProblemForm extends React.Component {
                     </label>
                 </fieldset>
                 <button onClick={async () => {
-                    // const formData = new FormData();
-                    // formData.append('file', this.state.file);
-                    // formData.append('threads', this.state.numThread);
-                    // formData.append('eps', this.state.eps);
-                    // formData.append('variables', this.state.variables);
-                    // formData.append('youngModulus', this.state.youngModulus);
-                    // formData.append('poissonRatio', this.state.poissonRatio);
-                    // formData.append('thickness', this.state.thickness);
-                    // formData.append('volumeLoad', this.state.volumeLoad);
-                    // formData.append('surfaceLoad', this.state.surfaceLoad);
-                    // formData.append('pointLoad', this.state.pointLoad);
-                    // formData.append('pressureLoad', this.state.pressureLoad);
-                    // formData.append('boundaryCondition', this.state.boundaryCondition);
-
-                    // try {
-                    //     const response =  fetch('http://localhost:7878/', {
-                    //         method: 'POST',
-                    //         headers: {
-                    //             // 'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
-                    //             'Content-Type': 'multipart/form-data',
-                    //             'Access-Control-Allow-Origin':'*',
-                    //         },
-                    //         body: formData,
-                    //     });
-                    //
-                    //     if (response.ok) {
-                    //         const data = await response.json();
-                    //         console.log('Файл успешно загружен:', data);
-                    //     } else {
-                    //         //console.error('Ошибка загрузки файла');
-                    //         alert('Ошибка загрузки файла');
-                    //     }
-                    // } catch (error) {
-                    //     //console.error('Ошибка:', error);
-                    //     alert('Ошибка: ' + error.toString());
-                    // }
-
-
-
-                    const formData = new FormData();
-                    formData.append('file', this.state.file);
-                    formData.append('threads', this.state.numThread);
-                    formData.append('eps', this.state.eps);
-                    formData.append('variables', this.state.variables);
-                    formData.append('youngModulus', this.state.youngModulus);
-                    formData.append('poissonRatio', this.state.poissonRatio);
-                    formData.append('thickness', this.state.thickness);
-                    formData.append('volumeLoad', this.state.volumeLoad);
-                    formData.append('surfaceLoad', this.state.surfaceLoad);
-                    formData.append('pointLoad', this.state.pointLoad);
-                    formData.append('pressureLoad', this.state.pressureLoad);
-                    formData.append('boundaryCondition', this.state.boundaryCondition);
-
-                    axios.post('http://localhost:8001/problem', formData, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                        },
-                    })
-                        .then(response => {
-                            console.log('Файл успешно загружен:', response.data);
-                        })
-                        .catch(error => {
-                            console.error('Ошибка при загрузке файла:', error);
-                            alert('Error: ' + error.toString())
+                    const formData = this.prepareFormData();
+                    try {
+                        // Отправка данных на сервер через fetch
+                        const response = await fetch('http://localhost:8001/problem', {
+                            method: 'POST',
+                            // headers: {
+                            //     'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
+                                'Content-Type': 'multipart/form-data',
+                            //      'Access-Control-Allow-Origin':'*',
+                            // },
+                            body: formData, // Передаем FormData объект как тело запроса
                         });
+                        if (!response.ok) {
+                            alert('Failed to upload file');
+                        }
+                    } catch (error) {
+                        this.setState({uploadStatus: 'Failed to upload file'});
+                        console.error('Error:', error);
+                        alert('Error: ' + error.toString())
+                    }
+
+
+                    //---------------------------------------------------------------------
+                    // const formData = this.prepareFormData();
+                    // axios.post('http://localhost:8001/problem', formData, {
+                    //     headers: {
+                    //         'Content-Type': 'multipart/form-data',
+                    //     },
+                    // })
+                    //     .then(response => {
+                    //         console.log('Файл успешно загружен:', response.data);
+                    //     })
+                    //     .catch(error => {
+                    //         console.error('Ошибка при загрузке файла:', error);
+                    //         alert('Error: ' + error.toString())
+                    //     });
 
 
 
@@ -196,6 +184,24 @@ export class ProblemForm extends React.Component {
                 }}>Calculate
                 </button>
                 <br/>
+                <input type="button" value="Save" onClick={() => {
+                    const jsonString = JSON.stringify(Object.fromEntries(this.prepareFormData()));
+
+                    // Создаем Blob из строки JSON
+                    const blob = new Blob([jsonString], { type: 'application/json' });
+
+                    // Создаем ссылку для скачивания
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'data.json'; // Указываем имя файла для скачивания
+
+                    // Программно вызываем клик по ссылке для скачивания файла
+                    link.click();
+
+                    // Освобождаем память, удаляя объект URL после скачивания
+                    URL.revokeObjectURL(url);
+                }}></input>
             </form>
         )
     }
