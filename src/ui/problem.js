@@ -1,7 +1,7 @@
 import React from "react";
-import {ParamTable} from "./primitives";
 import {WebCPU} from 'webcpu';
-//import axios from 'axios';
+import axios from 'axios';
+import {ParamTable} from "./primitives";
 
 export class ProblemForm extends React.Component {
     constructor(props) {
@@ -129,41 +129,40 @@ export class ProblemForm extends React.Component {
                 </fieldset>
                 <button onClick={async () => {
                     const formData = this.prepareFormData();
-                    try {
-                        // Отправка данных на сервер через fetch
-                        const response = await fetch('http://localhost:8001/problem', {
-                            method: 'POST',
-                            // headers: {
-                            //     'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
-                                'Content-Type': 'multipart/form-data',
-                            //      'Access-Control-Allow-Origin':'*',
-                            // },
-                            body: formData, // Передаем FormData объект как тело запроса
-                        });
-                        if (!response.ok) {
-                            alert('Failed to upload file');
-                        }
-                    } catch (error) {
-                        this.setState({uploadStatus: 'Failed to upload file'});
-                        console.error('Error:', error);
-                        alert('Error: ' + error.toString())
-                    }
+                    // try {
+                    //     // Отправка данных на сервер через fetch
+                    //     const response = await fetch('http://localhost:8001/problem', {
+                    //         method: 'POST',
+                    //         // headers: {
+                    //         //     'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
+                    //             'Content-Type': 'multipart/form-data',
+                    //         //      'Access-Control-Allow-Origin':'*',
+                    //         // },
+                    //         body: formData, // Передаем FormData объект как тело запроса
+                    //     });
+                    //     if (!response.ok) {
+                    //         alert('Failed to upload file');
+                    //     }
+                    // } catch (error) {
+                    //     this.setState({uploadStatus: 'Failed to upload file'});
+                    //     console.error('Error:', error);
+                    //     alert('Error: ' + error.toString())
+                    // }
 
 
                     //---------------------------------------------------------------------
-                    // const formData = this.prepareFormData();
-                    // axios.post('http://localhost:8001/problem', formData, {
-                    //     headers: {
-                    //         'Content-Type': 'multipart/form-data',
-                    //     },
-                    // })
-                    //     .then(response => {
-                    //         console.log('Файл успешно загружен:', response.data);
-                    //     })
-                    //     .catch(error => {
-                    //         console.error('Ошибка при загрузке файла:', error);
-                    //         alert('Error: ' + error.toString())
-                    //     });
+                    axios.post('http://localhost:8001/problem', formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    })
+                        .then(response => {
+                            console.log('Файл успешно загружен:', response.data);
+                        })
+                        .catch(error => {
+                            console.error('Ошибка при загрузке файла:', error);
+                            alert('Error: ' + error.toString())
+                        });
 
 
 
