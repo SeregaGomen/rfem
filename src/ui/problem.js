@@ -28,7 +28,7 @@ export class ProblemForm extends React.Component {
         this.setState({numThread: result.reportedCores})
     }
 
-    prepareFormData() {
+    getFormData() {
         const formData = new FormData();
         formData.append('file', this.state.file);
         formData.append('threads', this.state.numThread);
@@ -128,7 +128,7 @@ export class ProblemForm extends React.Component {
                     </label>
                 </fieldset>
                 <button onClick={async () => {
-                    const formData = this.prepareFormData();
+                    const formData = this.getFormData();
                     // try {
                     //     // Отправка данных на сервер через fetch
                     //     const response = await fetch('http://localhost:8001/problem', {
@@ -148,8 +148,6 @@ export class ProblemForm extends React.Component {
                     //     console.error('Error:', error);
                     //     alert('Error: ' + error.toString())
                     // }
-
-
                     //---------------------------------------------------------------------
                     axios.post('http://localhost:8001/problem', formData, {
                         headers: {
@@ -163,28 +161,11 @@ export class ProblemForm extends React.Component {
                             console.error('Ошибка при загрузке файла:', error);
                             alert('Error: ' + error.toString())
                         });
-
-
-
-
-                    // try {
-                    //     const response = await fetch('http://localhost:7878');
-                    //     if (!response.ok) {
-                    //         //throw new Error('Сетевая ошибка');
-                    //         alert('Сетевая ошибка');
-                    //     }
-                    //     const data = await response.json();
-                    //     console.log(data);
-                    // } catch (error) {
-                    //     //console.error('Ошибка:', error);
-                    //     alert('Ошибка: ' + error.toString());
-                    // }
-
                 }}>Calculate
                 </button>
                 <br/>
                 <input type="button" value="Save" onClick={() => {
-                    const jsonString = JSON.stringify(Object.fromEntries(this.prepareFormData()));
+                    const jsonString = JSON.stringify(Object.fromEntries(this.getFormData()));
 
                     // Создаем Blob из строки JSON
                     const blob = new Blob([jsonString], { type: 'application/json' });
