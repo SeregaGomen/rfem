@@ -6,6 +6,7 @@ export class ParamTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            cols: this.props.data[0].length ? this.props.data[0].length : 0,
             data: this.props.data,
             col_type: this.props.col_type,
         };
@@ -57,8 +58,8 @@ export class ParamTable extends React.Component {
         let old_data = this.state.data;
         let row = [];
 
-        for (let j = 0; j < this.props.data[0].length; j++) {
-            if (this.props.direct === "on" && j === this.props.data[0].length - 1) {
+        for (let j = 0; j < this.state.cols; j++) {
+            if (this.props.direct === "on" && j === this.state.cols - 1) {
                 continue;
             }
             row.push("");
