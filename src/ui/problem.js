@@ -8,7 +8,8 @@ export class ProblemForm extends React.Component {
         super(props);
         this.getNumCores().then(() => {});
         this.state = {
-            file: "",
+            mesh: null,
+            fileName: "",
             numThread: 1,
             eps: 1.0E-6,
             variables: [["eps", "0.001"]],
@@ -30,7 +31,8 @@ export class ProblemForm extends React.Component {
 
     getFormData() {
         const formData = new FormData();
-        formData.append('file', this.state.file);
+        formData.append('mesh', this.state.mesh);
+        formData.append('fileName', this.state.fileName);
         formData.append('threads', this.state.numThread);
         formData.append('eps', this.state.eps);
         formData.append('variables', this.state.variables);
@@ -61,7 +63,8 @@ export class ProblemForm extends React.Component {
                     <legend>Mesh</legend>
                     <label>File name:<br/>
                         <input type="file" name="mesh_file" id="get_files" key="mesh" onChange={(event) => {
-                            this.setState({file: event.target.files[0]});
+                            this.setState({mesh: event.target.files[0]});
+                            this.setState({fileName: event.target.files[0].name});
                         }}/>
                     </label>
                 </fieldset>
@@ -163,7 +166,7 @@ export class ProblemForm extends React.Component {
                         });
                 }}>Calculate
                 </button>
-                <br/>
+                {/*<br/>*/}
                 <input type="button" value="Save" onClick={() => {
                     const jsonString = JSON.stringify(Object.fromEntries(this.getFormData()));
 
@@ -181,8 +184,13 @@ export class ProblemForm extends React.Component {
 
                     // Освобождаем память, удаляя объект URL после скачивания
                     URL.revokeObjectURL(url);
-                }}></input>
-            </form>
+                }} />
+
+                {/*https://developer.mozilla.org/ru/docs/Web/API/File_API/Using_files_from_web_applications*/}
+                <input type="button" value="Load" onClick={() => {
+
+                }} />
+                </form>
         )
     }
 }
