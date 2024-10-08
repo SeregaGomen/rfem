@@ -166,12 +166,12 @@ export class ProblemForm extends React.Component {
                         });
                 }}>Calculate
                 </button>
-                {/*<br/>*/}
-                <input type="button" value="Save" onClick={() => {
+                <br/>
+                <input type="button" value="Save" id="saveFile" style={{display: 'none'}} onClick={() => {
                     const jsonString = JSON.stringify(Object.fromEntries(this.getFormData()));
 
                     // Создаем Blob из строки JSON
-                    const blob = new Blob([jsonString], { type: 'application/json' });
+                    const blob = new Blob([jsonString], {type: 'application/json'});
 
                     // Создаем ссылку для скачивания
                     const url = URL.createObjectURL(blob);
@@ -184,13 +184,24 @@ export class ProblemForm extends React.Component {
 
                     // Освобождаем память, удаляя объект URL после скачивания
                     URL.revokeObjectURL(url);
-                }} />
+                }}/>
+                <label htmlFor="saveFile">Save</label>
+                <br/>
 
                 {/*https://developer.mozilla.org/ru/docs/Web/API/File_API/Using_files_from_web_applications*/}
-                <input type="button" value="Load" onClick={() => {
+                <input
+                    type="file"
+                    id="loadFile"
+                    style={{display: 'none'}}
+                    // multiple
+                    // accept="image/*"
+                    onChange={() => {
 
-                }} />
-                </form>
+                    }}
+                />
+                <label htmlFor="loadFile">Load</label>
+
+            </form>
         )
     }
 }
