@@ -2,6 +2,7 @@ import React from "react";
 import {WebCPU} from 'webcpu';
 import axios from 'axios';
 import {ParamTable} from "./primitives";
+import {Link} from "react-router-dom";
 
 export class ProblemForm extends React.Component {
     constructor(props) {
@@ -161,7 +162,7 @@ export class ProblemForm extends React.Component {
                             console.error('Ошибка при загрузке файла:', error);
                             alert('Error: ' + error.toString())
                         });
-                    }} value="Calculate"/>
+                }} value="Calculate"/>
                 {/*<br/>*/}
                 {/*<input type="button" value="Save" id="saveFile" style={{display: 'none'}} onClick={() => {*/}
                 {/*    const jsonString = JSON.stringify(Object.fromEntries(this.getFormData()));*/}
@@ -196,8 +197,11 @@ export class ProblemForm extends React.Component {
                 {/*    }}*/}
                 {/*/>*/}
                 {/*<label htmlFor="loadFile">Load</label>*/}
-
+                <br/>
+                <br/>
+                <Link to="/">Home</Link>
             </form>
+
         )
     }
 }
