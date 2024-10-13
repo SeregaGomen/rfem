@@ -1,4 +1,5 @@
 import React from "react";
+import {ProblemList} from "./primitives";
 
 export class LoadProblemForm extends React.Component {
     constructor(props) {
@@ -11,6 +12,7 @@ export class LoadProblemForm extends React.Component {
         return (
             <form>
                 <h1>Open Problem</h1>
+                <ProblemList />
             </form>
         )
     }

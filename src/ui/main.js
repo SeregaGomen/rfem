@@ -18,6 +18,7 @@ export class MainForm extends React.Component {
                             <li><Link to='/'>Home</Link></li>
                             <li><Link to='/mesh'>Upload Mesh</Link></li>
                             <li><Link to='/problem'>New Problem</Link></li>
+                            <li><Link to='/list'>Load Problem</Link></li>
                         </ul>
                     </nav>
             </div>

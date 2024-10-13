@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { MainForm } from "./ui/main"
 import { MeshForm } from "./ui/mesh"
 import { ProblemForm } from "./ui/problem"
+import { LoadProblemForm } from "./ui/load";
 import './app.css';
 
 export class App extends React.Component {
@@ -15,9 +16,10 @@ export class App extends React.Component {
             <div className="App">
                 <BrowserRouter>
                     <Routes>
-                        <Route path="/" element={<MainForm/> } />
+                        <Route path="/" element={<MainForm/>} />
                         <Route exact path="/mesh" element={<MeshForm/>}/>
                         <Route exact path="/problem" element={<ProblemForm/>}/>
+                        <Route exact path="/list" element={<LoadProblemForm/>}/>
                     </Routes>
                 </BrowserRouter>
             </div>
