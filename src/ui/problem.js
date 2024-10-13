@@ -9,7 +9,6 @@ export class ProblemForm extends React.Component {
         this.getNumCores().then(() => {});
         this.state = {
             mesh: null,
-            fileName: "",
             numThread: 1,
             eps: 1.0E-6,
             variables: [["eps", "0.001"]],
@@ -32,7 +31,6 @@ export class ProblemForm extends React.Component {
     getFormData() {
         const formData = new FormData();
         formData.append('mesh', this.state.mesh);
-        formData.append('fileName', this.state.fileName);
         formData.append('threads', this.state.numThread);
         formData.append('eps', this.state.eps);
         formData.append('variables', this.state.variables);
@@ -64,7 +62,6 @@ export class ProblemForm extends React.Component {
                     <label>File name:<br/>
                         <input type="file" name="mesh_file" id="get_files" key="mesh" onChange={(event) => {
                             this.setState({mesh: event.target.files[0]});
-                            this.setState({fileName: event.target.files[0].name});
                         }}/>
                     </label>
                 </fieldset>
@@ -130,7 +127,7 @@ export class ProblemForm extends React.Component {
                                     col_type={["str", "str"]} direct="on"/>
                     </label>
                 </fieldset>
-                <button onClick={async () => {
+                <input type="button" onClick={async () => {
                     const formData = this.getFormData();
                     // try {
                     //     // Отправка данных на сервер через fetch
@@ -164,42 +161,41 @@ export class ProblemForm extends React.Component {
                             console.error('Ошибка при загрузке файла:', error);
                             alert('Error: ' + error.toString())
                         });
-                }}>Calculate
-                </button>
-                <br/>
-                <input type="button" value="Save" id="saveFile" style={{display: 'none'}} onClick={() => {
-                    const jsonString = JSON.stringify(Object.fromEntries(this.getFormData()));
+                    }} value="Calculate"/>
+                {/*<br/>*/}
+                {/*<input type="button" value="Save" id="saveFile" style={{display: 'none'}} onClick={() => {*/}
+                {/*    const jsonString = JSON.stringify(Object.fromEntries(this.getFormData()));*/}
 
-                    // Создаем Blob из строки JSON
-                    const blob = new Blob([jsonString], {type: 'application/json'});
+                {/*    // Создаем Blob из строки JSON*/}
+                {/*    const blob = new Blob([jsonString], {type: 'application/json'});*/}
 
-                    // Создаем ссылку для скачивания
-                    const url = URL.createObjectURL(blob);
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.download = 'data.json'; // Указываем имя файла для скачивания
+                {/*    // Создаем ссылку для скачивания*/}
+                {/*    const url = URL.createObjectURL(blob);*/}
+                {/*    const link = document.createElement('a');*/}
+                {/*    link.href = url;*/}
+                {/*    link.download = 'data.json'; // Указываем имя файла для скачивания*/}
 
-                    // Программно вызываем клик по ссылке для скачивания файла
-                    link.click();
+                {/*    // Программно вызываем клик по ссылке для скачивания файла*/}
+                {/*    link.click();*/}
 
-                    // Освобождаем память, удаляя объект URL после скачивания
-                    URL.revokeObjectURL(url);
-                }}/>
-                <label htmlFor="saveFile">Save</label>
-                <br/>
+                {/*    // Освобождаем память, удаляя объект URL после скачивания*/}
+                {/*    URL.revokeObjectURL(url);*/}
+                {/*}}/>*/}
+                {/*<label htmlFor="saveFile">Save</label>*/}
+                {/*<br/>*/}
 
-                {/*https://developer.mozilla.org/ru/docs/Web/API/File_API/Using_files_from_web_applications*/}
-                <input
-                    type="file"
-                    id="loadFile"
-                    style={{display: 'none'}}
-                    // multiple
-                    // accept="image/*"
-                    onChange={() => {
+                {/*/!*https://developer.mozilla.org/ru/docs/Web/API/File_API/Using_files_from_web_applications*!/*/}
+                {/*<input*/}
+                {/*    type="file"*/}
+                {/*    id="loadFile"*/}
+                {/*    style={{display: 'none'}}*/}
+                {/*    // multiple*/}
+                {/*    // accept="image/*"*/}
+                {/*    onChange={() => {*/}
 
-                    }}
-                />
-                <label htmlFor="loadFile">Load</label>
+                {/*    }}*/}
+                {/*/>*/}
+                {/*<label htmlFor="loadFile">Load</label>*/}
 
             </form>
         )
