@@ -1,7 +1,6 @@
 import React from "react";
 import {WebCPU} from 'webcpu';
 import axios from 'axios';
-import {ParamTable} from "./primitives";
 import {Link} from "react-router-dom";
 
 export class ProblemForm extends React.Component {
@@ -205,3 +204,111 @@ export class ProblemForm extends React.Component {
         )
     }
 }
+
+class ParamTable extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            cols: this.props.data[0].length ? this.props.data[0].length : 0,
+            data: this.props.data,
+            col_type: this.props.col_type,
+        };
+    }
+
+    prepareRows(rows) {
+        for (let i = 0; i < this.props.data.length; i++) {
+            let row = [];
+            for (let j = 0; j < this.props.data[i].length; j++) {
+                if (this.props.direct === "on" && j === this.props.data[i].length - 1) {
+                    continue;
+                }
+
+                row.push(<td key={i.toString() + "_" + j.toString()}>
+                    <input id={i.toString() + "_" + j.toString()} type={this.state.col_type[j] === "str" ?
+                        "text" : "number"} step="any" defaultValue={this.props.data[i][j]}
+                           onChange={(event) => {
+                               let row_index = Number(event.target.id.substring(0, event.target.id.search("_")));
+                               let col_index = Number(event.target.id.substring(event.target.id.search("_") + 1, event.target.id.length));
+                               let table = this.state.data;
+                               table[row_index][col_index] = event.target.value;
+                               this.setState({data: table});
+                           }}/>
+                </td>);
+            }
+            if (this.props.direct === "on") {
+                let mask = [1, 2, 4]; // X, Y or Z
+                for (let j = 0; j < 3; j++) {
+                    let value = Number(this.state.data[i][this.state.data[i].length - 1]) & mask[j];
+                    row.push(
+                        <td key={j}><input id={i.toString() + "_" + j.toString()} type="checkbox"
+                                           checked={Boolean(value)}
+                                           onChange={(event) => {
+                                               let index = Number(event.target.id.substring(0, 1));
+                                               let table = this.state.data;
+                                               table[index][table[index].length - 1] ^= mask[j];
+                                               this.setState({data: table});
+                                               //alert("New value: " + table[index][table[index].length - 1]);
+                                           }}/>
+                        </td>
+                    )
+                }
+            }
+            rows.push(<tr>{row}</tr>);
+        }
+    }
+
+    addRow() {
+        let old_data = this.state.data;
+        let row = [];
+
+        for (let j = 0; j < this.state.cols; j++) {
+            if (this.props.direct === "on" && j === this.state.cols - 1) {
+                continue;
+            }
+            row.push("");
+        }
+        if (this.props.direct === "on") {
+            row.push(0);
+        }
+        old_data.push(row);
+        this.setState({data: old_data});
+
+    }
+
+    render() {
+        const rows = [];
+        const headers = [];
+        for (const title of this.props.headers) {
+            headers.push(<th key={title} rowSpan="2">{title}</th>);
+        }
+        if (this.props.direct === "on") {
+            headers.push(<th key="Direction" colSpan="4">Direction</th>);
+        }
+        this.prepareRows(rows);
+        return (
+            <table>
+                <thead>
+                <tr>{headers}</tr>
+                {this.props.direct === "on" ? <tr>
+                    <th key="X">X</th>
+                    <th key="Y">Y</th>
+                    <th key="Z">Z</th>
+                </tr> : null}
+                </thead>
+                <tbody>{rows}
+                <tr>
+                    <td>
+                        <input type="button" value="add" onClick={() => { this.addRow(); }}/>
+                        <input type="button" value="del" disabled={!this.state.data.length} onClick={() => {
+                            let old_data = this.state.data;
+                            old_data.splice(old_data.length - 1, 1);
+                            this.setState({data: old_data});
+                        }}/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        );
+    }
+}
+
