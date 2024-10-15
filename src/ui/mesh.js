@@ -31,7 +31,7 @@ class FileUploader extends React.Component {
         return (
             <form>
                 <fieldset>
-                    <legend>Mesh file name</legend>
+                    <legend>Mesh files</legend>
                     <label>File name:<br/>
                         <input type="file" onChange={(event) => {
                             this.setState({file: event.target.files[0]});

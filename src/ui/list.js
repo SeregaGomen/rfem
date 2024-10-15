@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 
 export class LoadProblemForm extends React.Component {
     constructor(props) {
@@ -9,10 +10,10 @@ export class LoadProblemForm extends React.Component {
 
     render() {
         return (
-            <form>
+            <div>
                 <h1>Open Problem</h1>
                 <ProblemList />
-            </form>
+            </div>
         )
     }
 }
@@ -23,7 +24,8 @@ class ProblemList extends React.Component {
         this.state = {
             error: null,
             isLoaded: false,
-            files: []
+            files: [],
+            index: null
         };
     }
 
@@ -32,9 +34,6 @@ class ProblemList extends React.Component {
             .then(res => res.json())
             .then(
                 (result) => {
-
-                    alert(result);
-
                     this.setState({
                         isLoaded: true,
                         files: result
@@ -54,18 +53,30 @@ class ProblemList extends React.Component {
     render() {
         //const { error, isLoaded, items } = this.state;
         if (this.state.error) {
-            return <div>Ошибка: {this.state.error.message}</div>;
+            return <div>Error: {this.state.error.message}</div>;
         } else if (!this.state.isLoaded) {
-            return <div>Загрузка...</div>;
+            return <div>Downloading...</div>;
         } else {
             return (
-                <ul>
-                    {this.state.files.map(file => (
-                        <li>
-                            {file}
-                        </li>
-                    ))}
-                </ul>
+                <form>
+                    <fieldset>
+                        <legend>Mesh files</legend>
+                        <label>File name:<br/>
+                            <select name="problem_list" size="1">
+                                {
+                                    this.state.files.map((file, i) => (
+                                        <option key={i}>
+                                            {file}
+                                        </option>
+                                    ))
+                                }
+                            </select>
+                        </label>
+                    </fieldset>
+                    <input type="button" onClick=
+                        {async () => {
+                        }} value="Download" disabled={this.state.index ? null : 'disabled'}/>
+                </form>
             );
         }
     }
