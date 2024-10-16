@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 
 export class LoadProblemForm extends React.Component {
     constructor(props) {
@@ -25,7 +24,6 @@ class ProblemList extends React.Component {
             error: null,
             isLoaded: false,
             files: [],
-            index: null
         };
     }
 
@@ -51,7 +49,6 @@ class ProblemList extends React.Component {
     }
 
     render() {
-        //const { error, isLoaded, items } = this.state;
         if (this.state.error) {
             return <div>Error: {this.state.error.message}</div>;
         } else if (!this.state.isLoaded) {
@@ -62,20 +59,19 @@ class ProblemList extends React.Component {
                     <fieldset>
                         <legend>Mesh files</legend>
                         <label>File name:<br/>
-                            <select name="problem_list" size="1">
+                            <select name="problem_list" size="1" >
                                 {
-                                    this.state.files.map((file, i) => (
-                                        <option key={i}>
-                                            {file}
-                                        </option>
-                                    ))
+                                    this.state.files.map((file, i) => (<option key={i}>{file}</option>))
                                 }
                             </select>
                         </label>
                     </fieldset>
                     <input type="button" onClick=
-                        {async () => {
-                        }} value="Download" disabled={this.state.index ? null : 'disabled'}/>
+                        {
+                            async () => {
+
+                            }
+                        } value="Download"/>
                 </form>
             );
         }
