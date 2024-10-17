@@ -63,7 +63,7 @@ class ProblemList extends React.Component {
                     <label>File name:<br/>
                         <select name="problem_list" size="1" onChange={(event) => {
                             this.setState({value: event.target.value});
-                            alert(event.target.value);
+                            //alert(event.target.value);
                         }}>
                             {
                                 // this.state.fileList.map((file, i) => (<option key={i}>{file}</option>))
