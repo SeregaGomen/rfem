@@ -4,23 +4,6 @@ export class LoadProblemForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-        };
-    }
-
-    render() {
-        return (
-            <div>
-                <h1>Open Problem</h1>
-                <ProblemList />
-            </div>
-        )
-    }
-}
-
-class ProblemList extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
             error: null,
             isLoaded: false,
             files: [],
@@ -32,18 +15,12 @@ class ProblemList extends React.Component {
             .then(res => res.json())
             .then(
                 (result) => {
-                    this.setState({
-                        isLoaded: true,
-                        files: result
-                    });
+                    this.setState({isLoaded: true, files: result});
                 },
                 // Примечание: важно обрабатывать ошибки именно здесь, а не в блоке catch(),
                 // чтобы не перехватывать исключения из ошибок в самих компонентах.
                 (error) => {
-                    this.setState({
-                        isLoaded: true,
-                        error
-                    });
+                    this.setState({isLoaded: true, error});
                 }
             )
     }
@@ -55,25 +32,53 @@ class ProblemList extends React.Component {
             return <div>Downloading...</div>;
         } else {
             return (
-                <form>
-                    <fieldset>
-                        <legend>Mesh files</legend>
-                        <label>File name:<br/>
-                            <select name="problem_list" size="1" >
-                                {
-                                    this.state.files.map((file, i) => (<option key={i}>{file}</option>))
-                                }
-                            </select>
-                        </label>
-                    </fieldset>
-                    <input type="button" onClick=
-                        {
-                            async () => {
-
-                            }
-                        } value="Download"/>
-                </form>
+            <div>
+                <h1>Open Problem</h1>
+                <ProblemList fileList={this.state.files}/>
+            </div>
             );
         }
+    }
+}
+
+class ProblemList extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            fileList: this.props.fileList,
+            value: null
+        };
+    }
+
+
+    render() {
+        let list = [<option value="" style={{display: 'none'}}></option>];
+        for (let i = 0; i < this.state.fileList.length; i++) {
+            list.push(<option key={i}>{this.state.fileList[i]}</option>);
+        }
+        return (
+            <form>
+                <fieldset>
+                    <legend>Mesh files</legend>
+                    <label>File name:<br/>
+                        <select name="problem_list" size="1" onChange={(event) => {
+                            this.setState({value: event.target.value});
+                            alert(event.target.value);
+                        }}>
+                            {
+                                // this.state.fileList.map((file, i) => (<option key={i}>{file}</option>))
+                                list
+                            }
+                        </select>
+                    </label>
+                </fieldset>
+                <input type="button" onClick=
+                    {
+                        async () => {
+
+                        }
+                    } value="Download" disabled={this.state.value ? null : 'disabled'}/>
+            </form>
+        );
     }
 }
