@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 
 export class LoadProblemForm extends React.Component {
     constructor(props) {
@@ -75,7 +76,22 @@ class ProblemList extends React.Component {
                 <input type="button" onClick=
                     {
                         async () => {
+                            const formData = new FormData();
+                            formData.append('problemName', this.state.value);
 
+                            axios.post('http://localhost:8001/load_problem', formData, {
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                            })
+                                .then((response) => {
+                                    //console.log("Success:", response.data);
+                                    alert("Success: " + response.data);
+                                })
+                                .catch((error) => {
+                                    //console.error("Error:", error);
+                                    alert("Error: " + error);
+                                });
                         }
                     } value="Download" disabled={this.state.value ? null : 'disabled'}/>
             </form>
