@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import {useNavigate} from "react-router";
 
 export class LoadProblemForm extends React.Component {
     constructor(props) {
@@ -87,6 +88,16 @@ class ProblemList extends React.Component {
                                 .then((response) => {
                                     console.log("Success:", response.data);
                                     //alert("Success: " + response.data);
+
+
+
+
+                                    let data = response.data;
+                                    alert(data.Mesh);
+                                    //this.props.history.push("/problem");
+                                    //this.props.navigate('/problem');
+
+
                                 })
                                 .catch((error) => {
                                     console.error("Error:", error);
