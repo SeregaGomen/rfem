@@ -47,7 +47,7 @@ class ProblemList extends React.Component {
         super(props);
         this.state = {
             fileList: this.props.fileList,
-            value: null
+            fileName: null
         };
     }
 
@@ -63,7 +63,7 @@ class ProblemList extends React.Component {
                     <legend>Mesh files</legend>
                     <label>File name:<br/>
                         <select name="problem_list" size="1" onChange={(event) => {
-                            this.setState({value: event.target.value});
+                            this.setState({fileName: event.target.value});
                             //alert(event.target.value);
                         }}>
                             {
@@ -75,25 +75,27 @@ class ProblemList extends React.Component {
                 </fieldset>
                 <input type="button" onClick=
                     {
-                        async () => {
+                         async () => {
                             const formData = new FormData();
-                            formData.append('problemName', this.state.value);
+                            formData.append('problemName', this.state.fileName);
 
-                            axios.post('http://localhost:8001/load_problem', formData, {
+                            axios.post('http://localhost:8001/load_problem', formData/*this.state.fileName*/, {
                                 headers: {
-                                    'Content-Type': 'application/json',
+                                    'Content-Type': 'text/plain',
                                 },
                             })
                                 .then((response) => {
                                     //console.log("Success:", response.data);
-                                    alert("Success: " + response.data);
+                                    //alert("Success: " + response.data);
                                 })
                                 .catch((error) => {
-                                    //console.error("Error:", error);
+                                    console.error("Error:", error);
                                     alert("Error: " + error);
                                 });
-                        }
-                    } value="Download" disabled={this.state.value ? null : 'disabled'}/>
+                         }
+
+
+                    } value="Download" disabled={this.state.fileName ? null : 'disabled'}/>
             </form>
         );
     }
