@@ -85,7 +85,7 @@ class ProblemList extends React.Component {
                                 },
                             })
                                 .then((response) => {
-                                    //console.log("Success:", response.data);
+                                    console.log("Success:", response.data);
                                     //alert("Success: " + response.data);
                                 })
                                 .catch((error) => {
