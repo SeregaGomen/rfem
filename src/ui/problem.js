@@ -1,5 +1,4 @@
 import React from "react";
-import {WebCPU} from 'webcpu';
 import axios from 'axios';
 import {Link} from "react-router-dom";
 
@@ -18,12 +17,11 @@ export function ProblemForm() {
     const [pointLoad] = React.useState([["", "", "0"]]);
     const [boundaryCondition] = React.useState([["", "", "0"]]);
 
-    let getNumCores = async () => {
-        let result = await WebCPU.detectCPU();
-        setNumThread(result.reportedCores);
-    }
 
-    getNumCores().then(() => {});
+    React.useEffect(() => {
+        const cores = navigator.hardwareConcurrency;
+        setNumThread(cores);
+    }, []);
 
 
     return (
