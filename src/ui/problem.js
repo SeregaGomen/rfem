@@ -7,17 +7,17 @@ export class ProblemForm extends React.Component {
         super(props);
         this.state = {
             mesh: null,
-            numThread: 1,
-            eps: 1.0E-6,
-            variables: [["eps", "0.001"]],
-            youngModulus: (props.data == null) ? [["", ""]] : this.props.data.youngModulus,
-            poissonRatio: [["", ""]],
-            thickness: [["", ""]],
-            volumeLoad: [["", "", "0"]],
-            surfaceLoad: [["", "", "0"]],
-            pressureLoad: [["", ""]],
-            pointLoad: [["", "", "0"]],
-            boundaryCondition: [["", "", "0"]],
+            numThread: (props.numThread == null) ? [["", ""]] : props.numThread,
+            eps: (props.eps == null) ? 1.0E-6 : props.eps,
+            variables: (props.variables == null) ? [["eps", "0.001"]] : props.variables,
+            youngModulus: (props.youngModulus == null) ? [["", ""]] : props.youngModulus,
+            poissonRatio: (props.poissonRatio == null) ? [["", ""]] : props.poissonRatio,
+            thickness: (props.thickness == null) ? [["", ""]] : props.thickness,
+            volumeLoad: (props.volumeLoad == null) ? [["", "", "0"]] : props.volumeLoad,
+            surfaceLoad: (props.surfaceLoad == null) ? [["", "", "0"]] : props.surfaceLoad,
+            pressureLoad: (props.pressureLoad == null) ? [["", ""]] : props.pressureLoad,
+            pointLoad: (props.pointLoad == null) ? [["", "", "0"]] : props.pointLoad,
+            boundaryCondition: (props.boundaryCondition == null) ? [["", "", "0"]] : props.boundaryCondition,
         };
     }
     componentDidMount() {

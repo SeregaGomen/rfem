@@ -72,9 +72,9 @@ class ProblemList extends React.Component {
             const pressureLoad =[];
             const boundaryCondition =[];
 
-            for (const variable of this.state.problemData.Variables) {
-                variables.push([variable.Name, variable.Value]);
-            }
+            // for (const variable of this.state.problemData.Variables) {
+            //     variables.push([variable.Name, variable.Value]);
+            // }
 
             for (const param of this.state.problemData.Params) {
                 switch (param.Type) {
