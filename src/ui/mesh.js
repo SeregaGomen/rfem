@@ -1,61 +1,67 @@
 import React from "react";
 import axios from "axios";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
-export function MeshForm() {
-    return (
-        <div>
-            <h1>Upload Mesh</h1>
-            <FileUploader />
-        </div>
-    );
+export class MeshForm extends React.Component {
+    render() {
+        return (
+            <div>
+                <FileUploader />
+            </div>
+        )
+    }
 }
 
-function FileUploader() {
-    const [file, setFile] = React.useState(null);
-    const [uploadStatus, setUploadStatus] = React.useState("");
-
-    return (
-        <form>
-            <fieldset>
-                <legend>Mesh files</legend>
-                <label>File name:<br/>
-                    <input type="file" onChange={(event) => {
-                        setFile(event.target.files[0]);
-                        setUploadStatus("");
-                    }}/><br/>
-                </label>
-            </fieldset>
-            <input type="button" onClick=
-                {async () => {
-                    if (!file) {
-                        alert("Please select a file first!");
-                        return;
-                    }
-
-                    // Создаем объект FormData и добавляем файл
-                    const formData = new FormData();
-                    formData.append('file', file);
-                    axios.post('http://localhost:8001/upload', formData, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                            // 'Access-Control-Allow-Origin': '*',
-                            // 'Access-Control-Allow-Headers': '*',
-                        },
-                    })
-                        .then(response => {
-                            setUploadStatus(response.data);
+class FileUploader extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            file: null,
+            uploadStatus: "",
+        };
+    }
+    render() {
+        return (
+            <form>
+                <h1>Upload Mesh</h1>
+                <fieldset>
+                    <legend>Mesh files</legend>
+                    <label>File name:<br/>
+                        <input type="file" onChange={(event) => {
+                            this.setState({file: event.target.files[0]});
+                            this.setState({uploadStatus: ""});
+                        }}/><br/>
+                    </label>
+                </fieldset>
+                <input type="button" onClick=
+                    {async () => {
+                        if (!this.state.file) {
+                            alert("Please select a file first!");
+                            return;
+                        }
+                        // Создаем объект FormData и добавляем файл
+                        const formData = new FormData();
+                        formData.append('file', this.state.file);
+                        axios.post('http://localhost:8001/upload', formData, {
+                            headers: {
+                                'Content-Type': 'multipart/form-data',
+                                // 'Access-Control-Allow-Origin': '*',
+                                // 'Access-Control-Allow-Headers': '*',
+                            },
                         })
-                        .catch(error => {
-                            setUploadStatus("Failed to upload file");
-                            console.error('Failed to upload file:', error);
-                            // alert('Error: ' + error.toString())
-                        });
-                }} value="Upload" disabled={file ? null : "disabled"}/>
-            {<p>{uploadStatus}</p>}
-            <br/>
-            <Link to="/">Home</Link>
-        </form>
-    );
+                            .then(response => {
+                                this.setState({uploadStatus: response.data});
+                            })
+                            .catch(error => {
+                                this.setState({uploadStatus: 'Failed to upload file'});
+                                //console.error('Failed to upload file:', error);
+                                alert('Error: ' + error.toString())
+                            });
+                    }} value="Upload" disabled={this.state.file ? null : 'disabled'}/>
+                {<p>{this.state.uploadStatus}</p>}
+                <br/>
+                <Link to="/">Home</Link>
+            </form>
+        );
+    }
 }
-
