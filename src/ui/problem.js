@@ -10,7 +10,7 @@ export class ProblemForm extends React.Component {
             numThread: 1,
             eps: 1.0E-6,
             variables: [["eps", "0.001"]],
-            youngModulus: [["", ""]],
+            youngModulus: (props.data == null) ? [["", ""]] : this.props.data.youngModulus,
             poissonRatio: [["", ""]],
             thickness: [["", ""]],
             volumeLoad: [["", "", "0"]],
@@ -26,7 +26,7 @@ export class ProblemForm extends React.Component {
     render() {
         return (
             <form>
-                <h1>New Problem</h1>
+                {(this.props.data == null) ? <h1>New Problem</h1> : <h1>Saved Problem</h1>}
                 <fieldset>
                     <legend>Mesh</legend>
                     <label>File name:<br/>

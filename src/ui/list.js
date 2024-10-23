@@ -59,7 +59,58 @@ class ProblemList extends React.Component {
         list.splice(0, 0, <option value="" style={{display: 'none'}}></option>);
 
         if (this.state.shouldRedirect) {
-            return <ProblemForm data={this.state.problemData} />
+            const mesh = this.state.problemData.Mesh;
+            const numThread = this.state.problemData.NumThread;
+            const eps = this.state.problemData.Eps;
+            const variables = this.state.problemData.Variables;
+            const youngModulus =[];
+            const poissonRatio =[];
+            const thickness =[];
+            const volumeLoad =[];
+            const pointLoad =[];
+            const surfaceLoad =[];
+            const pressureLoad =[];
+            const boundaryCondition =[];
+
+            for (const variable of this.state.problemData.Variables) {
+                variables.push([variable.Name, variable.Value]);
+            }
+
+            for (const param of this.state.problemData.Params) {
+                switch (param.Type) {
+                    case 0: // Boundary Condition
+                        boundaryCondition.push([param.Value, param.Predicate, param.Direct.toString()]);
+                        break;
+                    case 1: // Volume Load
+                        volumeLoad.push([param.Value, param.Predicate, param.Direct.toString()]);
+                        break;
+                    case 2: // Surface Load
+                        surfaceLoad.push([param.Value, param.Predicate, param.Direct.toString()]);
+                        break;
+                    case 3: // Point Load
+                        pointLoad.push([param.Value, param.Predicate, param.Direct.toString()]);
+                        break;
+                    case 4: // Pressure Load
+                        pressureLoad.push([param.Value, param.Predicate]);
+                        break;
+                    case 5: // Thickness
+                        thickness.push([param.Value, param.Predicate]);
+                        break;
+                    case 6: // Yong Modulus
+                        youngModulus.push([param.Value, param.Predicate]);
+                        break;
+                    case 7: // Poisson's Ratio
+                        poissonRatio.push([param.Value, param.Predicate]);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return <ProblemForm mesh={mesh} numThread={numThread} eps={eps} variables={variables}
+                                youngModulus={youngModulus} poissonRatio={poissonRatio}
+                                thickness={thickness} volumeLoad={volumeLoad} pointLoad={pointLoad}
+                                surfaceLoad={surfaceLoad} pressureLoad={pressureLoad}
+                                boundaryCondition={boundaryCondition}/>
         }
 
         return (
