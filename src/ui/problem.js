@@ -7,21 +7,23 @@ export class ProblemForm extends React.Component {
         super(props);
         this.state = {
             mesh: null,
-            numThread: (props.numThread == null) ? [["", ""]] : props.numThread,
-            eps: (props.eps == null) ? 1.0E-6 : props.eps,
-            variables: (props.variables == null) ? [["eps", "0.001"]] : props.variables,
-            youngModulus: (props.youngModulus == null) ? [["", ""]] : props.youngModulus,
-            poissonRatio: (props.poissonRatio == null) ? [["", ""]] : props.poissonRatio,
-            thickness: (props.thickness == null) ? [["", ""]] : props.thickness,
-            volumeLoad: (props.volumeLoad == null) ? [["", "", "0"]] : props.volumeLoad,
-            surfaceLoad: (props.surfaceLoad == null) ? [["", "", "0"]] : props.surfaceLoad,
-            pressureLoad: (props.pressureLoad == null) ? [["", ""]] : props.pressureLoad,
-            pointLoad: (props.pointLoad == null) ? [["", "", "0"]] : props.pointLoad,
-            boundaryCondition: (props.boundaryCondition == null) ? [["", "", "0"]] : props.boundaryCondition,
+            numThread: (props.data == null) ? 1 : props.data.NumThread,
+            eps: (props.data == null) ? 1.0E-6 : props.data.Eps,
+            variables: (props.data== null) ? [["eps", "0.001"]] : props.data.Variables,
+            youngModulus: (props.data == null) ? [["", ""]] : props.data.YoungModulus,
+            poissonRatio: (props.data == null) ? [["", ""]] : props.data.PoissonRatio,
+            thickness: (props.data == null) ? [["", ""]] : props.data.Thickness,
+            volumeLoad: (props.data == null) ? [["", "", "0"]] : props.data.VolumeLoad,
+            surfaceLoad: (props.data == null) ? [["", "", "0"]] : props.data.SurfaceLoad,
+            pressureLoad: (props.data == null) ? [["", ""]] : props.data.PressureLoad,
+            pointLoad: (props.data == null) ? [["", "", "0"]] : props.data.PointLoad,
+            boundaryCondition: (props.data == null) ? [["", "", "0"]] : props.data.BoundaryCondition,
         };
     }
     componentDidMount() {
-        this.setState({numThread: navigator.hardwareConcurrency})
+        if (this.props.data == null) {
+            this.setState({numThread: navigator.hardwareConcurrency})
+        }
     }
     render() {
         return (
@@ -170,7 +172,7 @@ class ParamTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            cols: this.props.data[0].length ? this.props.data[0].length : 0,
+            cols: this.props.data.length ? this.props.data[0].length ? this.props.data[0].length : 0 : 0,
             data: this.props.data,
             colType: this.props.colType,
         };

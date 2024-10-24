@@ -62,19 +62,19 @@ class ProblemList extends React.Component {
             const mesh = this.state.problemData.Mesh;
             const numThread = this.state.problemData.NumThread;
             const eps = this.state.problemData.Eps;
-            const variables = this.state.problemData.Variables;
-            const youngModulus =[];
-            const poissonRatio =[];
-            const thickness =[];
-            const volumeLoad =[];
-            const pointLoad =[];
-            const surfaceLoad =[];
-            const pressureLoad =[];
-            const boundaryCondition =[];
+            const variables = [];
+            const youngModulus = [];
+            const poissonRatio = [];
+            const thickness = [];
+            const volumeLoad = [];
+            const pointLoad = [];
+            const surfaceLoad = [];
+            const pressureLoad = [];
+            const boundaryCondition = [];
 
-            // for (const variable of this.state.problemData.Variables) {
-            //     variables.push([variable.Name, variable.Value]);
-            // }
+            for (const variable of this.state.problemData.Variables) {
+                variables.push(variable);
+            }
 
             for (const param of this.state.problemData.Params) {
                 switch (param.Type) {
@@ -106,11 +106,10 @@ class ProblemList extends React.Component {
                         break;
                 }
             }
-            return <ProblemForm mesh={mesh} numThread={numThread} eps={eps} variables={variables}
-                                youngModulus={youngModulus} poissonRatio={poissonRatio}
-                                thickness={thickness} volumeLoad={volumeLoad} pointLoad={pointLoad}
-                                surfaceLoad={surfaceLoad} pressureLoad={pressureLoad}
-                                boundaryCondition={boundaryCondition}/>
+            return <ProblemForm data = {{ Mesh: mesh, NumThread: numThread, Eps: eps, Variables: variables,
+                YoungModulus: youngModulus, PoissonRatio: poissonRatio, Thickness: thickness, VolumeLoad: volumeLoad,
+                PointLoad: pointLoad, SurfaceLoad: surfaceLoad, PressureLoad: pressureLoad,
+                BoundaryCondition: boundaryCondition }}/>
         }
 
         return (
