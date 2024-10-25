@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import {ProblemForm} from "./problem";
+import { ProblemForm } from "./problem";
 
 export class LoadProblemForm extends React.Component {
     constructor(props) {

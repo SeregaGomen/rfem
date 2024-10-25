@@ -18,6 +18,7 @@ export class ProblemForm extends React.Component {
             pressureLoad: (props.data == null) ? [["", ""]] : props.data.PressureLoad,
             pointLoad: (props.data == null) ? [["", "", "0"]] : props.data.PointLoad,
             boundaryCondition: (props.data == null) ? [["", "", "0"]] : props.data.BoundaryCondition,
+            meshFileName: (props.data == null) ? null : props.data.Mesh,
         };
     }
     componentDidMount() {
@@ -31,7 +32,7 @@ export class ProblemForm extends React.Component {
                 {(this.props.data == null) ? <h1>New Problem</h1> : <h1>Saved Problem</h1>}
                 <fieldset>
                     <legend>Mesh</legend>
-                    <label>File name:<br/>
+                    <label>File name: {this.state.meshFileName ? this.state.meshFileName : null}<br/>
                         <input type="file" name="mesh_file" id="get_files" key="mesh" onChange={(event) => {
                             this.setState({mesh: event.target.files[0]});
                         }}/>
