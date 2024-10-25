@@ -29,10 +29,10 @@ export class ProblemForm extends React.Component {
     render() {
         return (
             <form>
-                {(this.props.data == null) ? <h1>New Problem</h1> : <h1>Saved Problem</h1>}
+                {(this.props.data == null) ? <h1>New Problem</h1> : <h1>Saved Problem ({this.state.meshFileName.split('/').pop()})</h1>}
                 <fieldset>
                     <legend>Mesh</legend>
-                    <label>File name: {this.state.meshFileName ? this.state.meshFileName : null}<br/>
+                    <label>File name:<br/>
                         <input type="file" name="mesh_file" id="get_files" key="mesh" onChange={(event) => {
                             this.setState({mesh: event.target.files[0]});
                         }}/>
@@ -113,6 +113,7 @@ export class ProblemForm extends React.Component {
                     formData.append('pointLoad', this.state.pointLoad);
                     formData.append('pressureLoad', this.state.pressureLoad);
                     formData.append('boundaryCondition', this.state.boundaryCondition);
+                    formData.append('meshFileName', this.state.meshFileName);
                     axios.post('http://localhost:8001/problem', formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data',
