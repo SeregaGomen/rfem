@@ -19,7 +19,6 @@ export class ProblemForm extends React.Component {
             pointLoad: (props.data == null) ? [["", "", "0"]] : props.data.PointLoad,
             boundaryCondition: (props.data == null) ? [["", "", "0"]] : props.data.BoundaryCondition,
             meshFileName: (props.data == null) ? null : props.data.Mesh,
-            isMesh: false,
         };
     }
     componentDidMount() {
@@ -36,7 +35,6 @@ export class ProblemForm extends React.Component {
                     <label>File name:<br/>
                         <input type="file" name="mesh_file" id="get_files" key="mesh" onChange={(event) => {
                             this.setState({mesh: event.target.files[0]});
-                            this.setState({isMesh: true});
                         }}/>
                     </label>
                 </fieldset>
@@ -116,7 +114,6 @@ export class ProblemForm extends React.Component {
                     formData.append('pressureLoad', this.state.pressureLoad);
                     formData.append('boundaryCondition', this.state.boundaryCondition);
                     formData.append('meshFileName', this.state.meshFileName);
-                    formData.append('isMesh', this.state.isMesh);
                     axios.post('http://localhost:8001/problem', formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data',
