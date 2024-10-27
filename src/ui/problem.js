@@ -135,6 +135,7 @@ export class ProblemForm extends React.Component {
                             this.setState({calculating: false});
                         })
                         .catch(error => {
+                            this.setState({calculating: false});
                             console.error('Error loading file:', error);
                             alert('Error: ' + error.toString())
                         });
