@@ -19,6 +19,7 @@ export class ProblemForm extends React.Component {
             pointLoad: (props.data == null) ? [["", "", "0"]] : props.data.PointLoad,
             boundaryCondition: (props.data == null) ? [["", "", "0"]] : props.data.BoundaryCondition,
             meshFileName: (props.data == null) ? null : props.data.Mesh,
+            calculating: false,
         };
     }
     componentDidMount() {
@@ -27,6 +28,15 @@ export class ProblemForm extends React.Component {
         }
     }
     render() {
+        if (this.state.calculating) {
+            return (
+                <div>
+                    <label> Calculating...</label><br/>
+                    <div className="spinner"></div>
+                </div>
+
+            );
+        }
         return (
             <form>
                 {(this.props.data == null) ? <h1>New Problem</h1> : <h1>Saved Problem ({this.state.meshFileName.split('/').pop()})</h1>}
@@ -100,6 +110,7 @@ export class ProblemForm extends React.Component {
                     </label>
                 </fieldset>
                 <input type="button" onClick={async () => {
+                    this.setState({calculating: true});
                     const formData = new FormData();
                     formData.append('mesh', this.state.mesh);
                     formData.append('threads', this.state.numThread);
@@ -121,6 +132,7 @@ export class ProblemForm extends React.Component {
                     })
                         .then(response => {
                             console.log('File uploaded successfully:', response.data);
+                            this.setState({calculating: false});
                         })
                         .catch(error => {
                             console.error('Error loading file:', error);
