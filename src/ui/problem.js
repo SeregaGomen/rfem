@@ -19,7 +19,9 @@ export class ProblemForm extends React.Component {
             pointLoad: (props.data == null) ? [["", "", "0"]] : props.data.PointLoad,
             boundaryCondition: (props.data == null) ? [["", "", "0"]] : props.data.BoundaryCondition,
             meshFileName: (props.data == null) ? null : props.data.Mesh,
+            problemInfo: null,
             calculating: false,
+            isCalculated: false,
         };
     }
     componentDidMount() {
@@ -35,6 +37,13 @@ export class ProblemForm extends React.Component {
                     <div className="spinner"></div>
                 </div>
 
+            );
+        }
+        if (this.state.isCalculated) {
+            return (
+                <div>
+                    <CalculationProblemInfo problemInfo={this.state.problemInfo}/>
+                </div>
             );
         }
         return (
@@ -111,6 +120,7 @@ export class ProblemForm extends React.Component {
                 </fieldset>
                 <input type="button" onClick={async () => {
                     this.setState({calculating: true});
+                    this.setState({isCalculated: false});
                     const formData = new FormData();
                     formData.append('mesh', this.state.mesh);
                     formData.append('threads', this.state.numThread);
@@ -133,9 +143,12 @@ export class ProblemForm extends React.Component {
                         .then(response => {
                             console.log('File uploaded successfully:', response.data);
                             this.setState({calculating: false});
+                            this.setState({isCalculated: true});
+                            this.setState({problemInfo: response.data});
                         })
                         .catch(error => {
                             this.setState({calculating: false});
+                            this.setState({isCalculated: false});
                             console.error('Error loading file:', error);
                             alert('Error: ' + error.toString())
                         });
@@ -281,3 +294,29 @@ class ParamTable extends React.Component {
     }
 }
 
+class CalculationProblemInfo extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            // problemInfo: this.props.problemInfo,
+        };
+    }
+    render() {
+        let res = this.props.problemInfo.Res.map((row) => (<tr><td>{row.Name}</td><td>{row.Min.toFixed(6)}</td><td>{row.Max.toFixed(6)}</td></tr>));
+
+        return (
+            <div>
+                <h1>The problem has been solving {this.props.problemInfo.DateTime}</h1>
+                <h2>Results of calculation</h2>
+                Parameters of the stress-strain state:
+                <table>
+                    <tbody>
+                        <tr><td>Function</td><td>Min</td><td>Max</td></tr>
+                        {res}
+                    </tbody>
+                </table>
+
+            </div>
+        );
+    }
+}
