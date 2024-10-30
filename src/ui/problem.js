@@ -330,6 +330,50 @@ class CalculationProblemInfo extends React.Component {
                 <td style={{border: "1px solid black"}}>{row.Predicate}</td>
             </tr> : null)
         );
+        let vl = [];
+        this.props.problemInfo.Params.Params.forEach(function (row) {
+            if (row.Type === 1)  {
+                vl.push(<tr>
+                    <td style={{border: "1px solid black"}}>{row.Value}</td>
+                    <td style={{border: "1px solid black"}}>{row.Predicate}</td>
+                    <td style={{border: "1px solid black"}}>{row.Direct & 1 ? '+' : null}</td>
+                    <td style={{border: "1px solid black"}}>{row.Direct & 2 ? '+' : null}</td>
+                    <td style={{border: "1px solid black"}}>{row.Direct & 4 ? '+' : null}</td>
+                </tr>);
+            }});
+
+        let sl = [];
+        this.props.problemInfo.Params.Params.forEach(function (row) {
+            if (row.Type === 2)  {
+                sl.push(<tr>
+                    <td style={{border: "1px solid black"}}>{row.Value}</td>
+                    <td style={{border: "1px solid black"}}>{row.Predicate}</td>
+                    <td style={{border: "1px solid black"}}>{row.Direct & 1 ? '+' : null}</td>
+                    <td style={{border: "1px solid black"}}>{row.Direct & 2 ? '+' : null}</td>
+                    <td style={{border: "1px solid black"}}>{row.Direct & 4 ? '+' : null}</td>
+                </tr>);
+            }});
+
+        let pl = [];
+        this.props.problemInfo.Params.Params.forEach(function (row) {
+            if (row.Type === 3)  {
+                pl.push(<tr>
+                    <td style={{border: "1px solid black"}}>{row.Value}</td>
+                    <td style={{border: "1px solid black"}}>{row.Predicate}</td>
+                    <td style={{border: "1px solid black"}}>{row.Direct & 1 ? '+' : null}</td>
+                    <td style={{border: "1px solid black"}}>{row.Direct & 2 ? '+' : null}</td>
+                    <td style={{border: "1px solid black"}}>{row.Direct & 4 ? '+' : null}</td>
+                </tr>);
+            }});
+
+        let prl = [];
+        this.props.problemInfo.Params.Params.forEach(function (row) {
+            if (row.Type === 3)  {
+                prl.push(<tr>
+                    <td style={{border: "1px solid black"}}>{row.Value}</td>
+                    <td style={{border: "1px solid black"}}>{row.Predicate}</td>
+                </tr>);
+            }});
 
         return (
             <div>
@@ -381,7 +425,87 @@ class CalculationProblemInfo extends React.Component {
                     </tbody>
                 </table>
 
+                <h2>Loads</h2>
+
+                {vl.length ?
+                    <>
+                        Volume load:
+                        <table>
+                            <thead>
+                            <tr style={{border: "1px solid black"}}>
+                                <td style={{border: "1px solid black"}}>Value</td>
+                                <td style={{border: "1px solid black"}}>Predicate</td>
+                                <td style={{border: "1px solid black"}}>X</td>
+                                <td style={{border: "1px solid black"}}>Y</td>
+                                <td style={{border: "1px solid black"}}>Z</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {vl}
+                            </tbody>
+                        </table>
+                    </>
+                 : null}
+
+                {sl.length ?
+                    <>
+                        Surface load:
+                        <table>
+                            <thead>
+                            <tr style={{border: "1px solid black"}}>
+                                <td style={{border: "1px solid black"}}>Value</td>
+                                <td style={{border: "1px solid black"}}>Predicate</td>
+                                <td style={{border: "1px solid black"}}>X</td>
+                                <td style={{border: "1px solid black"}}>Y</td>
+                                <td style={{border: "1px solid black"}}>Z</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {sl}
+                            </tbody>
+                        </table>
+                    </>
+                    : null}
+
+                {pl.length ?
+                    <>
+                        Point load:
+                        <table>
+                            <thead>
+                            <tr style={{border: "1px solid black"}}>
+                                <td style={{border: "1px solid black"}}>Value</td>
+                                <td style={{border: "1px solid black"}}>Predicate</td>
+                                <td style={{border: "1px solid black"}}>X</td>
+                                <td style={{border: "1px solid black"}}>Y</td>
+                                <td style={{border: "1px solid black"}}>Z</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {pl}
+                            </tbody>
+                        </table>
+                    </>
+                    : null}
+
+                {prl.length ?
+                    <>
+                        Pressure load:
+                        <table>
+                            <thead>
+                            <tr style={{border: "1px solid black"}}>
+                                <td style={{border: "1px solid black"}}>Value</td>
+                                <td style={{border: "1px solid black"}}>Predicate</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {prl}
+                            </tbody>
+                        </table>
+                    </>
+                    : null}
+
+
             </div>
-    );
+        );
     }
 }
