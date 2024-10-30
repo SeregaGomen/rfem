@@ -302,16 +302,35 @@ class CalculationProblemInfo extends React.Component {
         };
     }
     render() {
-        let res = this.props.problemInfo.Res.map((row) => (<tr><td>{row.Name}</td><td>{row.Min.toFixed(6)}</td><td>{row.Max.toFixed(6)}</td></tr>));
+        let format = (value) => {
+            let res = value.toString();
+            if (Math.sign(value) !== -1) {
+                res = "+" + res;
+            }
+            return res;
+        }
+        let res = this.props.problemInfo.Res.map((row) => (
+            <tr>
+                <td style={{border: "1px solid black"}}>{row.Name}</td>
+                <td style={{border: "1px solid black"}}>{format(row.Min.toExponential(6))}</td>
+                <td style={{border: "1px solid black"}}>{format(row.Max.toExponential(6))}</td>
+            </tr>)
+        );
 
         return (
             <div>
                 <h1>The problem has been solving {this.props.problemInfo.DateTime}</h1>
                 <h2>Results of calculation</h2>
                 Parameters of the stress-strain state:
-                <table>
+                <table style={{border: "collapse"}}>
+                    <thead>
+                        <tr style={{border: "1px solid black"}}>
+                            <td style={{border: "1px solid black"}}>Function</td>
+                            <td style={{border: "1px solid black"}}>Min</td>
+                            <td style={{border: "1px solid black"}}>Max</td>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <tr><td>Function</td><td>Min</td><td>Max</td></tr>
                         {res}
                     </tbody>
                 </table>
