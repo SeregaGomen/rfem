@@ -316,6 +316,20 @@ class CalculationProblemInfo extends React.Component {
                 <td style={{border: "1px solid black"}}>{format(row.Max.toExponential(6))}</td>
             </tr>)
         );
+        let ym = this.props.problemInfo.Params.map((row) => (
+            row.Type === 6 ?
+            <tr>
+                <td style={{border: "1px solid black"}}>{row.Value}</td>
+                <td style={{border: "1px solid black"}}>{row.Predicate}</td>
+            </tr> : null)
+        );
+        let pr = this.props.problemInfo.Params.map((row) => (
+            row.Type === 7 ?
+            <tr>
+                <td style={{border: "1px solid black"}}>{row.Value}</td>
+                <td style={{border: "1px solid black"}}>{row.Predicate}</td>
+            </tr> : null)
+        );
 
         return (
             <div>
@@ -324,18 +338,50 @@ class CalculationProblemInfo extends React.Component {
                 Parameters of the stress-strain state:
                 <table style={{border: "collapse"}}>
                     <thead>
-                        <tr style={{border: "1px solid black"}}>
-                            <td style={{border: "1px solid black"}}>Function</td>
-                            <td style={{border: "1px solid black"}}>Min</td>
-                            <td style={{border: "1px solid black"}}>Max</td>
-                        </tr>
+                    <tr style={{border: "1px solid black"}}>
+                        <td style={{border: "1px solid black"}}>Function</td>
+                        <td style={{border: "1px solid black"}}>Min</td>
+                        <td style={{border: "1px solid black"}}>Max</td>
+                    </tr>
                     </thead>
                     <tbody>
-                        {res}
+                    {res}
+                    </tbody>
+                </table>
+
+                <h2>Mesh</h2>
+                File: {this.props.problemInfo.Mesh}<br/>
+                Type: {this.props.problemInfo.FeName}<br/>
+                Nodes: {this.props.problemInfo.NumVertex}<br/>
+                Finite elements: {this.props.problemInfo.NumFE}
+
+                <h2>Elasticity parameters</h2>
+                Young modulus:
+                <table>
+                    <thead>
+                    <tr style={{border: "1px solid black"}}>
+                        <td style={{border: "1px solid black"}}>Value</td>
+                        <td style={{border: "1px solid black"}}>Predicate</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {ym}
+                    </tbody>
+                </table><br/>
+                Poisson's ratio:
+                <table>
+                    <thead>
+                    <tr style={{border: "1px solid black"}}>
+                        <td style={{border: "1px solid black"}}>Value</td>
+                        <td style={{border: "1px solid black"}}>Predicate</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {pr}
                     </tbody>
                 </table>
 
             </div>
-        );
+    );
     }
 }
