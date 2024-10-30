@@ -316,14 +316,14 @@ class CalculationProblemInfo extends React.Component {
                 <td style={{border: "1px solid black"}}>{format(row.Max.toExponential(6))}</td>
             </tr>)
         );
-        let ym = this.props.problemInfo.Params.map((row) => (
+        let ym = this.props.problemInfo.Params.Params.map((row) => (
             row.Type === 6 ?
             <tr>
                 <td style={{border: "1px solid black"}}>{row.Value}</td>
                 <td style={{border: "1px solid black"}}>{row.Predicate}</td>
             </tr> : null)
         );
-        let pr = this.props.problemInfo.Params.map((row) => (
+        let pr = this.props.problemInfo.Params.Params.map((row) => (
             row.Type === 7 ?
             <tr>
                 <td style={{border: "1px solid black"}}>{row.Value}</td>
