@@ -312,83 +312,82 @@ class CalculationProblemInfo extends React.Component {
         let res = this.props.problemInfo.Res.map((item) => (
             <tr><td>{item.Name}</td><td>{format(item.Min)}</td><td>{format(item.Max)}</td></tr>)
         );
-        let variables = [];
-        let boundaryCondition = [];
-        let volumeLoad = [];
-        let surfaceLoad = [];
-        let pointLoad = [];
-        let pressureLoad = [];
-        let thickness = [];
-        let youngModulus = [];
-        let poissonRatio = [];
+        let variables = this.props.problemInfo.Variables ?
+            this.props.problemInfo.Variables.map((item) => (
+            <tr>
+                <td>{item[0]}</td>
+                <td>{item[1]}</td>
+            </tr>
+        )) : [];
+        let boundaryCondition = this.props.problemInfo.BoundaryCondition ?
+            this.props.problemInfo.BoundaryCondition.map((item) => (
+            <tr>
+                <td>{item.Value}</td>
+                <td>{item.Predicate}</td>
+                <td>{item.Direct & 1 ? '+' : null}</td>
+                <td>{item.Direct & 2 ? '+' : null}</td>
+                <td>{item.Direct & 4 ? '+' : null}</td>
+            </tr>
+        )) : [];
+        let volumeLoad = this.props.problemInfo.VolumeLoad ?
+            this.props.problemInfo.VolumeLoad.map((item) => (
+            <tr>
+                <td>{item.Value}</td>
+                <td>{item.Predicate}</td>
+                <td>{item.Direct & 1 ? '+' : null}</td>
+                <td>{item.Direct & 2 ? '+' : null}</td>
+                <td>{item.Direct & 4 ? '+' : null}</td>
+            </tr>
+        )) : [];
+        let surfaceLoad = this.props.problemInfo.SurfaceLoad ?
+            this.props.problemInfo.SurfaceLoad.map((item) => (
+            <tr>
+                <td>{item.Value}</td>
+                <td>{item.Predicate}</td>
+                <td>{item.Direct & 1 ? '+' : null}</td>
+                <td>{item.Direct & 2 ? '+' : null}</td>
+                <td>{item.Direct & 4 ? '+' : null}</td>
+            </tr>
+        )) : [];
+        let pointLoad = this.props.problemInfo.PointLoad ?
+            this.props.problemInfo.PointLoad.map((item) => (
+            <tr>
+                <td>{item.Value}</td>
+                <td>{item.Predicate}</td>
+                <td>{item.Direct & 1 ? '+' : null}</td>
+                <td>{item.Direct & 2 ? '+' : null}</td>
+                <td>{item.Direct & 4 ? '+' : null}</td>
+            </tr>
+        )) : [];
 
-
-        for (let [key, value] of this.props.problemInfo.Params.Variables) {
-            //console.log(key + " is " + value);
-            variables.push(<tr><td>{key}</td><td>{value}</td></tr>);
-        }
-
-
-        // this.props.problemInfo.Params.Variables.forEach(function (item) {
-        //     variables.push(<tr><td>{item.Name}</td><td>{item.Value}</td></tr>);
-        // });
-
-        this.props.problemInfo.Params.Params.forEach(function (item) {
-            switch (item.Type) {
-                case 0:
-                    boundaryCondition.push(<tr>
-                        <td>{item.Value}</td>
-                        <td>{item.Predicate}</td>
-                        <td>{item.Direct & 1 ? '+' : null}</td>
-                        <td>{item.Direct & 2 ? '+' : null}</td>
-                        <td>{item.Direct & 4 ? '+' : null}</td>
-                    </tr>);
-                    break;
-                case 1:
-                    volumeLoad.push(<tr>
-                        <td>{item.Value}</td>
-                        <td>{item.Predicate}</td>
-                        <td>{item.Direct & 1 ? '+' : null}</td>
-                        <td>{item.Direct & 2 ? '+' : null}</td>
-                        <td>{item.Direct & 4 ? '+' : null}</td>
-                    </tr>);
-                    break;
-                case 2:
-                    surfaceLoad.push(<tr>
-                        <td>{item.Value}</td>
-                        <td>{item.Predicate}</td>
-                        <td>{item.Direct & 1 ? '+' : null}</td>
-                        <td>{item.Direct & 2 ? '+' : null}</td>
-                        <td>{item.Direct & 4 ? '+' : null}</td>
-                    </tr>);
-                    break;
-                case 3:
-                    pointLoad.push(<tr>
-                        <td>{item.Value}</td>
-                        <td>{item.Predicate}</td>
-                        <td>{item.Direct & 1 ? '+' : null}</td>
-                        <td>{item.Direct & 2 ? '+' : null}</td>
-                        <td>{item.Direct & 4 ? '+' : null}</td>
-                    </tr>);
-                    break;
-                case 4:
-                    pressureLoad.push(<tr><td>{item.Value}</td><td>{item.Predicate}</td></tr>);
-                    break;
-                case 5:
-                    thickness.push(<tr><td>{item.Value}</td><td>{item.Predicate}</td></tr>);
-                    break;
-                case 6:
-                    youngModulus.push(<tr><td>{item.Value}</td><td>{item.Predicate}</td></tr>);
-                    break;
-                case 7:
-                    poissonRatio.push(<tr><td>{item.Value}</td><td>{item.Predicate}</td></tr>);
-                    break;
-
-                default:
-                    break;
-            }
-        });
-
+        let pressureLoad = this.props.problemInfo.PressureLoad ?
+            this.props.problemInfo.PressureLoad.map((item) => (
+            <tr>
+                <td>{item.Value}</td>
+                <td>{item.Predicate}</td>
+            </tr>
+        )) : [];
+        let thickness = this.props.problemInfo.Thickness ?
+            this.props.problemInfo.Thickness.map((item) => (
+            <tr>
+                <td>{item.Value}</td>
+                <td>{item.Predicate}</td>
+            </tr>
+        )) : [];
+        let youngModulus = this.props.problemInfo.YoungModulus ?
+            this.props.problemInfo.YoungModulus.map((item) => (
+            <tr>
+                <td>{item.Value}</td>
+                <td>{item.Predicate}</td>
+            </tr>
+        )) : [];
+        let poissonRatio = this.props.problemInfo.PoissonRatio ?
+            this.props.problemInfo.PoissonRatio.map((item) => (
+            <tr>
+                <td>{item.Value}</td>
+                <td>{item.Predicate}</td>
+            </tr>
+        )) : [];
 
         return (
             <div>
@@ -412,14 +411,24 @@ class CalculationProblemInfo extends React.Component {
                 Nodes: {this.props.problemInfo.NumVertex}<br/>
                 Finite elements: {this.props.problemInfo.NumFE}
 
+                <h2>Base settings</h2>
+                Threads: {this.props.problemInfo.NumThread}<br/>
+                Tolerance: {this.props.problemInfo.Eps}<br/>
+
                 {
                     variables.length ?
                         <div>
                             <h2>Variables</h2>
                             <table className="resultBox">
-                                <thead><tr><td>Name</td><td>Value</td></tr></thead>
+                                <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Value</td>
+                                </tr>
+                                </thead>
                                 <tbody>{variables}</tbody>
-                            </table><br/>
+                            </table>
+                            <br/>
                         </div> : null
                 }
 
