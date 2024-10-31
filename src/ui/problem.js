@@ -295,12 +295,6 @@ class ParamTable extends React.Component {
 }
 
 class CalculationProblemInfo extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            // problemInfo: this.props.problemInfo,
-        };
-    }
     render() {
         let format = (value) => {
             let res = value.toExponential(6).toString();
@@ -407,7 +401,7 @@ class CalculationProblemInfo extends React.Component {
 
                 <h2>Mesh</h2>
                 File: {this.props.problemInfo.Mesh}<br/>
-                Type: {this.props.problemInfo.FeName}<br/>
+                Type: {this.props.problemInfo.NameFE}<br/>
                 Nodes: {this.props.problemInfo.NumVertex}<br/>
                 Finite elements: {this.props.problemInfo.NumFE}
 
@@ -559,7 +553,9 @@ class CalculationProblemInfo extends React.Component {
                     <tbody>{boundaryCondition}</tbody>
                 </table>
                 <br/>
-
+                <input type="button" value="Download results" onClick={() => {
+                }}/>
+                <br/>
             </div>
         );
     }
