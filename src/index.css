@@ -22,6 +22,16 @@ table, th {
   border: 3px solid #245488;
 }
 
+.resultBox {
+  table {
+    border-collapse: collapse;
+    border: 3px solid #245488;
+  }
+  th, td {
+    border: 1px solid black;
+  }
+}
+
 .spinner {
   margin-top: 10px;
   border: 4px solid rgba(0, 0, 0, 0.1);

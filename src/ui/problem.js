@@ -303,42 +303,38 @@ class CalculationProblemInfo extends React.Component {
     }
     render() {
         let format = (value) => {
-            let res = value.toString();
+            let res = value.toExponential(6).toString();
             if (Math.sign(value) !== -1) {
                 res = "+" + res;
             }
             return res;
         }
         let res = this.props.problemInfo.Res.map((row) => (
-            <tr>
-                <td style={{border: "1px solid black"}}>{row.Name}</td>
-                <td style={{border: "1px solid black"}}>{format(row.Min.toExponential(6))}</td>
-                <td style={{border: "1px solid black"}}>{format(row.Max.toExponential(6))}</td>
-            </tr>)
+            <tr><td>{row.Name}</td><td>{format(row.Min)}</td><td>{format(row.Max)}</td></tr>)
         );
         let ym = this.props.problemInfo.Params.Params.map((row) => (
             row.Type === 6 ?
             <tr>
-                <td style={{border: "1px solid black"}}>{row.Value}</td>
-                <td style={{border: "1px solid black"}}>{row.Predicate}</td>
+                <td>{row.Value}</td>
+                <td>{row.Predicate}</td>
             </tr> : null)
         );
         let pr = this.props.problemInfo.Params.Params.map((row) => (
             row.Type === 7 ?
             <tr>
-                <td style={{border: "1px solid black"}}>{row.Value}</td>
-                <td style={{border: "1px solid black"}}>{row.Predicate}</td>
+                <td>{row.Value}</td>
+                <td>{row.Predicate}</td>
             </tr> : null)
         );
         let vl = [];
         this.props.problemInfo.Params.Params.forEach(function (row) {
             if (row.Type === 1)  {
                 vl.push(<tr>
-                    <td style={{border: "1px solid black"}}>{row.Value}</td>
-                    <td style={{border: "1px solid black"}}>{row.Predicate}</td>
-                    <td style={{border: "1px solid black"}}>{row.Direct & 1 ? '+' : null}</td>
-                    <td style={{border: "1px solid black"}}>{row.Direct & 2 ? '+' : null}</td>
-                    <td style={{border: "1px solid black"}}>{row.Direct & 4 ? '+' : null}</td>
+                    <td>{row.Value}</td>
+                    <td>{row.Predicate}</td>
+                    <td>{row.Direct & 1 ? '+' : null}</td>
+                    <td>{row.Direct & 2 ? '+' : null}</td>
+                    <td>{row.Direct & 4 ? '+' : null}</td>
                 </tr>);
             }});
 
@@ -346,11 +342,11 @@ class CalculationProblemInfo extends React.Component {
         this.props.problemInfo.Params.Params.forEach(function (row) {
             if (row.Type === 2)  {
                 sl.push(<tr>
-                    <td style={{border: "1px solid black"}}>{row.Value}</td>
-                    <td style={{border: "1px solid black"}}>{row.Predicate}</td>
-                    <td style={{border: "1px solid black"}}>{row.Direct & 1 ? '+' : null}</td>
-                    <td style={{border: "1px solid black"}}>{row.Direct & 2 ? '+' : null}</td>
-                    <td style={{border: "1px solid black"}}>{row.Direct & 4 ? '+' : null}</td>
+                    <td>{row.Value}</td>
+                    <td>{row.Predicate}</td>
+                    <td>{row.Direct & 1 ? '+' : null}</td>
+                    <td>{row.Direct & 2 ? '+' : null}</td>
+                    <td>{row.Direct & 4 ? '+' : null}</td>
                 </tr>);
             }});
 
@@ -358,21 +354,18 @@ class CalculationProblemInfo extends React.Component {
         this.props.problemInfo.Params.Params.forEach(function (row) {
             if (row.Type === 3)  {
                 pl.push(<tr>
-                    <td style={{border: "1px solid black"}}>{row.Value}</td>
-                    <td style={{border: "1px solid black"}}>{row.Predicate}</td>
-                    <td style={{border: "1px solid black"}}>{row.Direct & 1 ? '+' : null}</td>
-                    <td style={{border: "1px solid black"}}>{row.Direct & 2 ? '+' : null}</td>
-                    <td style={{border: "1px solid black"}}>{row.Direct & 4 ? '+' : null}</td>
+                    <td>{row.Value}</td>
+                    <td>{row.Predicate}</td>
+                    <td>{row.Direct & 1 ? '+' : null}</td>
+                    <td>{row.Direct & 2 ? '+' : null}</td>
+                    <td>{row.Direct & 4 ? '+' : null}</td>
                 </tr>);
             }});
 
         let prl = [];
         this.props.problemInfo.Params.Params.forEach(function (row) {
             if (row.Type === 3)  {
-                prl.push(<tr>
-                    <td style={{border: "1px solid black"}}>{row.Value}</td>
-                    <td style={{border: "1px solid black"}}>{row.Predicate}</td>
-                </tr>);
+                prl.push(<tr><td>{row.Value}</td><td>{row.Predicate}</td></tr>);
             }});
 
         return (
@@ -380,17 +373,9 @@ class CalculationProblemInfo extends React.Component {
                 <h1>The problem has been solving {this.props.problemInfo.DateTime}</h1>
                 <h2>Results of calculation</h2>
                 Parameters of the stress-strain state:
-                <table style={{border: "collapse"}}>
-                    <thead>
-                    <tr style={{border: "1px solid black"}}>
-                        <td style={{border: "1px solid black"}}>Function</td>
-                        <td style={{border: "1px solid black"}}>Min</td>
-                        <td style={{border: "1px solid black"}}>Max</td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {res}
-                    </tbody>
+                <table className="resultBox">
+                    <thead><tr><td>Function</td><td>Min</td><td>Max</td></tr></thead>
+                    <tbody>{res}</tbody>
                 </table>
 
                 <h2>Mesh</h2>
@@ -401,108 +386,60 @@ class CalculationProblemInfo extends React.Component {
 
                 <h2>Elasticity parameters</h2>
                 Young modulus:
-                <table>
-                    <thead>
-                    <tr style={{border: "1px solid black"}}>
-                        <td style={{border: "1px solid black"}}>Value</td>
-                        <td style={{border: "1px solid black"}}>Predicate</td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {ym}
-                    </tbody>
+                <table className="resultBox">
+                    <thead><tr><td>Value</td><td>Predicate</td></tr></thead>
+                    <tbody>{ym}</tbody>
                 </table><br/>
                 Poisson's ratio:
-                <table>
-                    <thead>
-                    <tr style={{border: "1px solid black"}}>
-                        <td style={{border: "1px solid black"}}>Value</td>
-                        <td style={{border: "1px solid black"}}>Predicate</td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {pr}
-                    </tbody>
+                <table className="resultBox">
+                    <thead><tr><td>Value</td><td>Predicate</td></tr></thead>
+                    <tbody>{pr}</tbody>
                 </table>
 
                 <h2>Loads</h2>
-
-                {vl.length ?
-                    <>
+                {
+                    vl.length ?
+                    <div>
                         Volume load:
-                        <table>
-                            <thead>
-                            <tr style={{border: "1px solid black"}}>
-                                <td style={{border: "1px solid black"}}>Value</td>
-                                <td style={{border: "1px solid black"}}>Predicate</td>
-                                <td style={{border: "1px solid black"}}>X</td>
-                                <td style={{border: "1px solid black"}}>Y</td>
-                                <td style={{border: "1px solid black"}}>Z</td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {vl}
-                            </tbody>
+                        <table className="resultBox">
+                            <thead><tr><td>Value</td><td>Predicate</td><td>X</td><td>Y</td><td>Z</td></tr></thead>
+                            <tbody>{vl}</tbody>
                         </table>
-                    </>
-                 : null}
+                    </div> : null
+                }
 
-                {sl.length ?
-                    <>
+                {
+                    sl.length ?
+                    <div>
                         Surface load:
-                        <table>
-                            <thead>
-                            <tr style={{border: "1px solid black"}}>
-                                <td style={{border: "1px solid black"}}>Value</td>
-                                <td style={{border: "1px solid black"}}>Predicate</td>
-                                <td style={{border: "1px solid black"}}>X</td>
-                                <td style={{border: "1px solid black"}}>Y</td>
-                                <td style={{border: "1px solid black"}}>Z</td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {sl}
-                            </tbody>
+                        <table className="resultBox">
+                            <thead><tr><td>Value</td><td>Predicate</td><td>X</td><td>Y</td><td>Z</td></tr></thead>
+                            <tbody>{sl}</tbody>
                         </table>
-                    </>
-                    : null}
+                    </div> : null
+                }
 
-                {pl.length ?
-                    <>
+                {
+                    pl.length ?
+                    <div>
                         Point load:
-                        <table>
-                            <thead>
-                            <tr style={{border: "1px solid black"}}>
-                                <td style={{border: "1px solid black"}}>Value</td>
-                                <td style={{border: "1px solid black"}}>Predicate</td>
-                                <td style={{border: "1px solid black"}}>X</td>
-                                <td style={{border: "1px solid black"}}>Y</td>
-                                <td style={{border: "1px solid black"}}>Z</td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {pl}
-                            </tbody>
+                        <table className="resultBox">
+                            <thead><tr><td>Value</td><td>Predicate</td><td>X</td><td>Y</td><td>Z</td></tr></thead>
+                            <tbody>{pl}</tbody>
                         </table>
-                    </>
-                    : null}
+                    </div> : null
+                }
 
-                {prl.length ?
-                    <>
+                {
+                    prl.length ?
+                    <div>
                         Pressure load:
-                        <table>
-                            <thead>
-                            <tr style={{border: "1px solid black"}}>
-                                <td style={{border: "1px solid black"}}>Value</td>
-                                <td style={{border: "1px solid black"}}>Predicate</td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {prl}
-                            </tbody>
+                        <table className="resultBox">
+                            <thead><tr><td>Value</td><td>Predicate</td></tr></thead>
+                            <tbody>{prl}</tbody>
                         </table>
-                    </>
-                    : null}
+                    </div> : null
+                }
 
 
             </div>
