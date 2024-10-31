@@ -309,64 +309,86 @@ class CalculationProblemInfo extends React.Component {
             }
             return res;
         }
-        let res = this.props.problemInfo.Res.map((row) => (
-            <tr><td>{row.Name}</td><td>{format(row.Min)}</td><td>{format(row.Max)}</td></tr>)
+        let res = this.props.problemInfo.Res.map((item) => (
+            <tr><td>{item.Name}</td><td>{format(item.Min)}</td><td>{format(item.Max)}</td></tr>)
         );
-        let ym = this.props.problemInfo.Params.Params.map((row) => (
-            row.Type === 6 ?
-            <tr>
-                <td>{row.Value}</td>
-                <td>{row.Predicate}</td>
-            </tr> : null)
-        );
-        let pr = this.props.problemInfo.Params.Params.map((row) => (
-            row.Type === 7 ?
-            <tr>
-                <td>{row.Value}</td>
-                <td>{row.Predicate}</td>
-            </tr> : null)
-        );
-        let vl = [];
-        this.props.problemInfo.Params.Params.forEach(function (row) {
-            if (row.Type === 1)  {
-                vl.push(<tr>
-                    <td>{row.Value}</td>
-                    <td>{row.Predicate}</td>
-                    <td>{row.Direct & 1 ? '+' : null}</td>
-                    <td>{row.Direct & 2 ? '+' : null}</td>
-                    <td>{row.Direct & 4 ? '+' : null}</td>
-                </tr>);
-            }});
+        let variables = [];
+        let boundaryCondition = [];
+        let volumeLoad = [];
+        let surfaceLoad = [];
+        let pointLoad = [];
+        let pressureLoad = [];
+        let thickness = [];
+        let youngModulus = [];
+        let poissonRatio = [];
 
-        let sl = [];
-        this.props.problemInfo.Params.Params.forEach(function (row) {
-            if (row.Type === 2)  {
-                sl.push(<tr>
-                    <td>{row.Value}</td>
-                    <td>{row.Predicate}</td>
-                    <td>{row.Direct & 1 ? '+' : null}</td>
-                    <td>{row.Direct & 2 ? '+' : null}</td>
-                    <td>{row.Direct & 4 ? '+' : null}</td>
-                </tr>);
-            }});
 
-        let pl = [];
-        this.props.problemInfo.Params.Params.forEach(function (row) {
-            if (row.Type === 3)  {
-                pl.push(<tr>
-                    <td>{row.Value}</td>
-                    <td>{row.Predicate}</td>
-                    <td>{row.Direct & 1 ? '+' : null}</td>
-                    <td>{row.Direct & 2 ? '+' : null}</td>
-                    <td>{row.Direct & 4 ? '+' : null}</td>
-                </tr>);
-            }});
+        for (let [key, value] of this.props.problemInfo.Params.Variables) {
+            //console.log(key + " is " + value);
+            variables.push(<tr><td>{key}</td><td>{value}</td></tr>);
+        }
 
-        let prl = [];
-        this.props.problemInfo.Params.Params.forEach(function (row) {
-            if (row.Type === 3)  {
-                prl.push(<tr><td>{row.Value}</td><td>{row.Predicate}</td></tr>);
-            }});
+
+        // this.props.problemInfo.Params.Variables.forEach(function (item) {
+        //     variables.push(<tr><td>{item.Name}</td><td>{item.Value}</td></tr>);
+        // });
+
+        this.props.problemInfo.Params.Params.forEach(function (item) {
+            switch (item.Type) {
+                case 0:
+                    boundaryCondition.push(<tr>
+                        <td>{item.Value}</td>
+                        <td>{item.Predicate}</td>
+                        <td>{item.Direct & 1 ? '+' : null}</td>
+                        <td>{item.Direct & 2 ? '+' : null}</td>
+                        <td>{item.Direct & 4 ? '+' : null}</td>
+                    </tr>);
+                    break;
+                case 1:
+                    volumeLoad.push(<tr>
+                        <td>{item.Value}</td>
+                        <td>{item.Predicate}</td>
+                        <td>{item.Direct & 1 ? '+' : null}</td>
+                        <td>{item.Direct & 2 ? '+' : null}</td>
+                        <td>{item.Direct & 4 ? '+' : null}</td>
+                    </tr>);
+                    break;
+                case 2:
+                    surfaceLoad.push(<tr>
+                        <td>{item.Value}</td>
+                        <td>{item.Predicate}</td>
+                        <td>{item.Direct & 1 ? '+' : null}</td>
+                        <td>{item.Direct & 2 ? '+' : null}</td>
+                        <td>{item.Direct & 4 ? '+' : null}</td>
+                    </tr>);
+                    break;
+                case 3:
+                    pointLoad.push(<tr>
+                        <td>{item.Value}</td>
+                        <td>{item.Predicate}</td>
+                        <td>{item.Direct & 1 ? '+' : null}</td>
+                        <td>{item.Direct & 2 ? '+' : null}</td>
+                        <td>{item.Direct & 4 ? '+' : null}</td>
+                    </tr>);
+                    break;
+                case 4:
+                    pressureLoad.push(<tr><td>{item.Value}</td><td>{item.Predicate}</td></tr>);
+                    break;
+                case 5:
+                    thickness.push(<tr><td>{item.Value}</td><td>{item.Predicate}</td></tr>);
+                    break;
+                case 6:
+                    youngModulus.push(<tr><td>{item.Value}</td><td>{item.Predicate}</td></tr>);
+                    break;
+                case 7:
+                    poissonRatio.push(<tr><td>{item.Value}</td><td>{item.Predicate}</td></tr>);
+                    break;
+
+                default:
+                    break;
+            }
+        });
+
 
         return (
             <div>
@@ -374,7 +396,13 @@ class CalculationProblemInfo extends React.Component {
                 <h2>Results of calculation</h2>
                 Parameters of the stress-strain state:
                 <table className="resultBox">
-                    <thead><tr><td>Function</td><td>Min</td><td>Max</td></tr></thead>
+                    <thead>
+                    <tr>
+                        <td>Function</td>
+                        <td>Min</td>
+                        <td>Max</td>
+                    </tr>
+                    </thead>
                     <tbody>{res}</tbody>
                 </table>
 
@@ -384,63 +412,144 @@ class CalculationProblemInfo extends React.Component {
                 Nodes: {this.props.problemInfo.NumVertex}<br/>
                 Finite elements: {this.props.problemInfo.NumFE}
 
+                {
+                    variables.length ?
+                        <div>
+                            <h2>Variables</h2>
+                            <table className="resultBox">
+                                <thead><tr><td>Name</td><td>Value</td></tr></thead>
+                                <tbody>{variables}</tbody>
+                            </table><br/>
+                        </div> : null
+                }
+
                 <h2>Elasticity parameters</h2>
                 Young modulus:
                 <table className="resultBox">
-                    <thead><tr><td>Value</td><td>Predicate</td></tr></thead>
-                    <tbody>{ym}</tbody>
+                    <thead>
+                    <tr>
+                        <td>Value</td>
+                        <td>Predicate</td>
+                    </tr>
+                    </thead>
+                    <tbody>{youngModulus}</tbody>
                 </table><br/>
                 Poisson's ratio:
                 <table className="resultBox">
-                    <thead><tr><td>Value</td><td>Predicate</td></tr></thead>
-                    <tbody>{pr}</tbody>
+                    <thead>
+                    <tr>
+                        <td>Value</td>
+                        <td>Predicate</td>
+                    </tr>
+                    </thead>
+                    <tbody>{poissonRatio}</tbody>
                 </table>
+
+                {
+                    thickness.length ?
+                        <div>
+                            <h2>Thickness</h2>
+                            <table className="resultBox">
+                                <thead>
+                                <tr>
+                                    <td>Value</td>
+                                    <td>Predicate</td>
+                                </tr>
+                                </thead>
+                                <tbody>{thickness}</tbody>
+                            </table>
+                        </div> : null
+                }
+
 
                 <h2>Loads</h2>
                 {
-                    vl.length ?
-                    <div>
-                        Volume load:
-                        <table className="resultBox">
-                            <thead><tr><td>Value</td><td>Predicate</td><td>X</td><td>Y</td><td>Z</td></tr></thead>
-                            <tbody>{vl}</tbody>
-                        </table>
-                    </div> : null
+                    volumeLoad.length ?
+                        <div>
+                            Volume load:
+                            <table className="resultBox">
+                                <thead>
+                                <tr>
+                                    <td>Value</td>
+                                    <td>Predicate</td>
+                                    <td>X</td>
+                                    <td>Y</td>
+                                    <td>Z</td>
+                                </tr>
+                                </thead>
+                                <tbody>{volumeLoad}</tbody>
+                            </table>
+                        </div> : null
                 }
 
                 {
-                    sl.length ?
-                    <div>
-                        Surface load:
-                        <table className="resultBox">
-                            <thead><tr><td>Value</td><td>Predicate</td><td>X</td><td>Y</td><td>Z</td></tr></thead>
-                            <tbody>{sl}</tbody>
-                        </table>
-                    </div> : null
+                    surfaceLoad.length ?
+                        <div>
+                            Surface load:
+                            <table className="resultBox">
+                                <thead>
+                                <tr>
+                                    <td>Value</td>
+                                    <td>Predicate</td>
+                                    <td>X</td>
+                                    <td>Y</td>
+                                    <td>Z</td>
+                                </tr>
+                                </thead>
+                                <tbody>{surfaceLoad}</tbody>
+                            </table>
+                        </div> : null
                 }
 
                 {
-                    pl.length ?
-                    <div>
-                        Point load:
-                        <table className="resultBox">
-                            <thead><tr><td>Value</td><td>Predicate</td><td>X</td><td>Y</td><td>Z</td></tr></thead>
-                            <tbody>{pl}</tbody>
-                        </table>
-                    </div> : null
+                    pointLoad.length ?
+                        <div>
+                            Point load:
+                            <table className="resultBox">
+                                <thead>
+                                <tr>
+                                    <td>Value</td>
+                                    <td>Predicate</td>
+                                    <td>X</td>
+                                    <td>Y</td>
+                                    <td>Z</td>
+                                </tr>
+                                </thead>
+                                <tbody>{pointLoad}</tbody>
+                            </table>
+                        </div> : null
                 }
 
                 {
-                    prl.length ?
-                    <div>
-                        Pressure load:
-                        <table className="resultBox">
-                            <thead><tr><td>Value</td><td>Predicate</td></tr></thead>
-                            <tbody>{prl}</tbody>
-                        </table>
-                    </div> : null
+                    pressureLoad.length ?
+                        <div>
+                            Pressure load:
+                            <table className="resultBox">
+                                <thead>
+                                <tr>
+                                    <td>Value</td>
+                                    <td>Predicate</td>
+                                </tr>
+                                </thead>
+                                <tbody>{pressureLoad}</tbody>
+                            </table>
+                        </div> : null
                 }
 
+                <h2>Boundary condition</h2>
+                <table className="resultBox">
+                    <thead>
+                    <tr>
+                        <td>Value</td>
+                        <td>Predicate</td>
+                        <td>X</td>
+                        <td>Y</td>
+                        <td>Z</td>
+                    </tr>
+                    </thead>
+                    <tbody>{boundaryCondition}</tbody>
+                </table>
+                <br/>
 
             </div>
         );
