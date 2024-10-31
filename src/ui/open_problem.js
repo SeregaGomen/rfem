@@ -152,7 +152,7 @@ class ProblemList extends React.Component {
                                 });
                         }
                     } value="Download" disabled={this.state.fileName ? null : 'disabled'}/>
-                <br/>
+                <br/><br/>
                 <Link to="/">Home</Link>
             </form>
         );

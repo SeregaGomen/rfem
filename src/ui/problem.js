@@ -21,7 +21,7 @@ export class ProblemForm extends React.Component {
             meshFileName: (props.data == null) ? null : props.data.Mesh,
             problemInfo: null,
             calculating: false,
-            isCalculated: false,
+            //isCalculated: false,
         };
     }
     componentDidMount() {
@@ -39,7 +39,7 @@ export class ProblemForm extends React.Component {
 
             );
         }
-        if (this.state.isCalculated) {
+        if (this.state.problemInfo) {
             return (
                 <div>
                     <CalculationProblemInfo problemInfo={this.state.problemInfo}/>
@@ -120,7 +120,7 @@ export class ProblemForm extends React.Component {
                 </fieldset>
                 <input type="button" onClick={async () => {
                     this.setState({calculating: true});
-                    this.setState({isCalculated: false});
+                    this.setState({problemInfo: null});
                     const formData = new FormData();
                     formData.append('mesh', this.state.mesh);
                     formData.append('threads', this.state.numThread);
@@ -143,12 +143,12 @@ export class ProblemForm extends React.Component {
                         .then(response => {
                             console.log('File uploaded successfully:', response.data);
                             this.setState({calculating: false});
-                            this.setState({isCalculated: true});
+                            //this.setState({isCalculated: true});
                             this.setState({problemInfo: response.data});
                         })
                         .catch(error => {
                             this.setState({calculating: false});
-                            this.setState({isCalculated: false});
+                            this.setState({problemInfo: null});
                             console.error('Error loading file:', error);
                             alert('Error: ' + error.toString())
                         });
