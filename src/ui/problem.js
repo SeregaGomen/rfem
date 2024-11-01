@@ -553,7 +553,31 @@ class CalculationProblemInfo extends React.Component {
                     <tbody>{boundaryCondition}</tbody>
                 </table>
                 <br/>
-                <input type="button" value="Download results" onClick={() => {
+                <input type="button" value="Download results" onClick={async () => {
+
+
+                    const fileUrl = 'http://localhost:8001/load_results?file='+this.props.problemInfo.Results;
+                    //const fileUrl = 'http://localhost:8001/load_results?file=rail.res';
+
+                    try {
+                        const response = await fetch(fileUrl);
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        const blob = await response.blob();
+                        const url = window.URL.createObjectURL(blob);
+
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.setAttribute('download', 'file.pdf'); // Замените на нужное имя файла
+                        document.body.appendChild(link);
+                        link.click();
+                        link.parentNode.removeChild(link); // Удаляем ссылку после клика
+                    } catch (error) {
+                        console.error('Error downloading the file:', error);
+                    }
+
+
                 }}/>
                 <br/>
             </div>
