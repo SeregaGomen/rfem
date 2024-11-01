@@ -555,28 +555,25 @@ class CalculationProblemInfo extends React.Component {
                 <br/>
                 <input type="button" value="Download results" onClick={async () => {
 
-
                     const fileUrl = 'http://localhost:8001/load_results?file='+this.props.problemInfo.Results;
-                    //const fileUrl = 'http://localhost:8001/load_results?file=rail.res';
 
                     try {
-                        const response = await fetch(fileUrl);
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        const blob = await response.blob();
-                        const url = window.URL.createObjectURL(blob);
+                        const response = await axios.get(fileUrl, {
+                            responseType: 'blob', // Указываем, что ожидаем blob (файл)
+                        });
 
+                        // Создаем ссылку для скачивания файла
+                        const url = window.URL.createObjectURL(new Blob([response.data]));
                         const link = document.createElement('a');
                         link.href = url;
-                        link.setAttribute('download', 'file.pdf'); // Замените на нужное имя файла
+                        link.setAttribute('download', this.props.problemInfo.Results);
                         document.body.appendChild(link);
                         link.click();
-                        link.parentNode.removeChild(link); // Удаляем ссылку после клика
+                        link.remove(); // Удаляем ссылку из документа
                     } catch (error) {
-                        console.error('Error downloading the file:', error);
+                        //console.error('Ошибка при загрузке файла:', error);
+                        alert('Error downloading the file: ' + error);
                     }
-
 
                 }}/>
                 <br/>
