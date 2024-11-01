@@ -294,6 +294,24 @@ class ParamTable extends React.Component {
     }
 }
 
+/**
+ * @param props
+ * @param props.problemInfo
+ * @param props.problemInfo.Res
+ * @param props.problemInfo.Res.Min
+ * @param props.problemInfo.Res.Max
+ * @param props.problemInfo.BoundaryCondition
+ * @param props.problemInfo.BoundaryCondition.Value
+ * @param props.problemInfo.BoundaryCondition.Predicate
+ * @param props.problemInfo.BoundaryCondition.Direct
+ * @param props.problemInfo.DateTime
+ * @param props.problemInfo.Mesh
+ * @param props.problemInfo.NameFE
+ * @param props.problemInfo.NumFE
+ * @param props.problemInfo.NumVertex
+ * @param props.problemInfo.Results
+ *
+ */
 class CalculationProblemInfo extends React.Component {
     render() {
         let format = (value) => {
@@ -554,9 +572,7 @@ class CalculationProblemInfo extends React.Component {
                 </table>
                 <br/>
                 <input type="button" value="Download results" onClick={async () => {
-
                     const fileUrl = 'http://localhost:8001/load_results?file='+this.props.problemInfo.Results;
-
                     try {
                         const response = await axios.get(fileUrl, {
                             responseType: 'blob', // Указываем, что ожидаем blob (файл)
@@ -574,7 +590,6 @@ class CalculationProblemInfo extends React.Component {
                         //console.error('Ошибка при загрузке файла:', error);
                         alert('Error downloading the file: ' + error);
                     }
-
                 }}/>
                 <br/>
             </div>
