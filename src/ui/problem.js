@@ -314,6 +314,9 @@ class ParamTable extends React.Component {
  */
 class CalculationProblemInfo extends React.Component {
     render() {
+        let direct = (value, dir) => {
+            return value & dir ? '+' : null;
+        }
         let format = (value) => {
             let res = value.toExponential(6).toString();
             if (Math.sign(value) !== -1) {
@@ -336,9 +339,9 @@ class CalculationProblemInfo extends React.Component {
             <tr>
                 <td>{item.Value}</td>
                 <td>{item.Predicate}</td>
-                <td>{item.Direct & 1 ? '+' : null}</td>
-                <td>{item.Direct & 2 ? '+' : null}</td>
-                <td>{item.Direct & 4 ? '+' : null}</td>
+                <td>{direct(item.Direct, 1)}</td>
+                <td>{direct(item.Direct, 2)}</td>
+                <td>{direct(item.Direct, 4)}</td>
             </tr>
         )) : [];
         let volumeLoad = this.props.problemInfo.VolumeLoad ?
@@ -346,9 +349,9 @@ class CalculationProblemInfo extends React.Component {
             <tr>
                 <td>{item.Value}</td>
                 <td>{item.Predicate}</td>
-                <td>{item.Direct & 1 ? '+' : null}</td>
-                <td>{item.Direct & 2 ? '+' : null}</td>
-                <td>{item.Direct & 4 ? '+' : null}</td>
+                <td>{direct(item.Direct, 1)}</td>
+                <td>{direct(item.Direct, 2)}</td>
+                <td>{direct(item.Direct, 4)}</td>
             </tr>
         )) : [];
         let surfaceLoad = this.props.problemInfo.SurfaceLoad ?
@@ -356,25 +359,25 @@ class CalculationProblemInfo extends React.Component {
             <tr>
                 <td>{item.Value}</td>
                 <td>{item.Predicate}</td>
-                <td>{item.Direct & 1 ? '+' : null}</td>
-                <td>{item.Direct & 2 ? '+' : null}</td>
-                <td>{item.Direct & 4 ? '+' : null}</td>
+                <td>{direct(item.Direct, 1)}</td>
+                <td>{direct(item.Direct, 2)}</td>
+                <td>{direct(item.Direct, 4)}</td>
             </tr>
         )) : [];
         let pointLoad = this.props.problemInfo.PointLoad ?
             this.props.problemInfo.PointLoad.map((item) => (
-            <tr>
-                <td>{item.Value}</td>
-                <td>{item.Predicate}</td>
-                <td>{item.Direct & 1 ? '+' : null}</td>
-                <td>{item.Direct & 2 ? '+' : null}</td>
-                <td>{item.Direct & 4 ? '+' : null}</td>
-            </tr>
-        )) : [];
+                <tr>
+                    <td>{item.Value}</td>
+                    <td>{item.Predicate}</td>
+                    <td>{direct(item.Direct, 1)}</td>
+                    <td>{direct(item.Direct, 2)}</td>
+                    <td>{direct(item.Direct, 4)}</td>
+                </tr>
+            )) : [];
 
         let pressureLoad = this.props.problemInfo.PressureLoad ?
             this.props.problemInfo.PressureLoad.map((item) => (
-            <tr>
+                <tr>
                 <td>{item.Value}</td>
                 <td>{item.Predicate}</td>
             </tr>
