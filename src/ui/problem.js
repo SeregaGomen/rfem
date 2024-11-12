@@ -573,9 +573,12 @@ class CalculationProblemInfo extends React.Component {
                     </thead>
                     <tbody>{boundaryCondition}</tbody>
                 </table>
+                <h2>Lead time</h2>
+                {this.props.problemInfo.Duration}
+
                 <br/>
                 <input type="button" value="Download results" onClick={async () => {
-                    const fileUrl = 'http://localhost:8001/load_results?file='+this.props.problemInfo.Results;
+                    const fileUrl = 'http://localhost:8001/load_results?file=' + this.props.problemInfo.Results;
                     try {
                         const response = await axios.get(fileUrl, {
                             responseType: 'blob', // Указываем, что ожидаем blob (файл)
