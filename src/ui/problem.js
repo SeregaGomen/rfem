@@ -310,6 +310,7 @@ class ParamTable extends React.Component {
  * @param props.problemInfo.NumFE
  * @param props.problemInfo.NumVertex
  * @param props.problemInfo.Results
+ * @param props.problemInfo.LeadTime
  *
  */
 class CalculationProblemInfo extends React.Component {
@@ -574,7 +575,7 @@ class CalculationProblemInfo extends React.Component {
                     <tbody>{boundaryCondition}</tbody>
                 </table>
                 <h2>Lead time</h2>
-                {this.props.problemInfo.Duration}
+                {this.props.problemInfo.LeadTime}
 
                 <br/>
                 <input type="button" value="Download results" onClick={async () => {
