@@ -414,8 +414,8 @@ class CalculationProblemInfo extends React.Component {
                         this.props.problemInfo.LeadTime.toFixed(2) + " sec"
                         :
                         new Date(1970, 0, 0, 0, 0,
-                        +this.props.problemInfo.LeadTime || 0).
-                        toLocaleTimeString(new Intl.DateTimeFormat().resolvedOptions().locale))
+                        +this.props.problemInfo.LeadTime || 0)
+                            .toLocaleTimeString(new Intl.DateTimeFormat().resolvedOptions().locale))
                 }
                 <br/>
                 Parameters of the stress-strain state:
