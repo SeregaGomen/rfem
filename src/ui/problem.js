@@ -409,6 +409,15 @@ class CalculationProblemInfo extends React.Component {
             <div>
                 <h1>The problem has been solving {this.props.problemInfo.DateTime}</h1>
                 <h2>Results of calculation</h2>
+
+                {
+                    "Lead time: " + (this.props.problemInfo.LeadTime < 60 ?
+                        this.props.problemInfo.LeadTime.toFixed(2) + " sec"
+                        :
+                        new Date(1970, 0, 0, 0, 0,
+                        +this.props.problemInfo.LeadTime || 0).toLocaleTimeString("ua"))
+                }
+                <br/>
                 Parameters of the stress-strain state:
                 <table className="resultBox">
                     <thead>
@@ -574,8 +583,6 @@ class CalculationProblemInfo extends React.Component {
                     </thead>
                     <tbody>{boundaryCondition}</tbody>
                 </table>
-                <h2>Lead time</h2>
-                {this.props.problemInfo.LeadTime}
 
                 <br/>
                 <input type="button" value="Download results" onClick={async () => {
