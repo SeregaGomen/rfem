@@ -409,13 +409,13 @@ class CalculationProblemInfo extends React.Component {
             <div>
                 <h1>The problem has been solving {this.props.problemInfo.DateTime}</h1>
                 <h2>Results of calculation</h2>
-
                 {
                     "Lead time: " + (this.props.problemInfo.LeadTime < 60 ?
                         this.props.problemInfo.LeadTime.toFixed(2) + " sec"
                         :
                         new Date(1970, 0, 0, 0, 0,
-                        +this.props.problemInfo.LeadTime || 0).toLocaleTimeString("ua"))
+                        +this.props.problemInfo.LeadTime || 0).
+                        toLocaleTimeString(new Intl.DateTimeFormat().resolvedOptions().locale))
                 }
                 <br/>
                 Parameters of the stress-strain state:
