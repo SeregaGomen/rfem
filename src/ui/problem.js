@@ -276,19 +276,19 @@ function CalculationProblemInfo(props)  {
         }
         return res;
     }
-    let res = props.problemInfo.Res.map((item) => (
-        <tr><td>{item.Name}</td><td>{format(item.Min)}</td><td>{format(item.Max)}</td></tr>)
+    let res = props.problemInfo.Res.map((item, i) => (
+        <tr key={i}><td>{item.Name}</td><td>{format(item.Min)}</td><td>{format(item.Max)}</td></tr>)
     );
     let variables = props.problemInfo.Variables ?
-        props.problemInfo.Variables.map((item) => (
-            <tr>
+        props.problemInfo.Variables.map((item, i) => (
+            <tr key={i}>
                 <td>{item[0]}</td>
                 <td>{item[1]}</td>
             </tr>
         )) : [];
     let boundaryCondition = props.problemInfo.BoundaryCondition ?
-        props.problemInfo.BoundaryCondition.map((item) => (
-            <tr>
+        props.problemInfo.BoundaryCondition.map((item, i) => (
+            <tr key={i}>
                 <td>{item.Value}</td>
                 <td>{item.Predicate}</td>
                 <td>{direct(item.Direct, 1)}</td>
@@ -297,8 +297,8 @@ function CalculationProblemInfo(props)  {
             </tr>
         )) : [];
     let volumeLoad = props.problemInfo.VolumeLoad ?
-        props.problemInfo.VolumeLoad.map((item) => (
-            <tr>
+        props.problemInfo.VolumeLoad.map((item, i) => (
+            <tr key={i}>
                 <td>{item.Value}</td>
                 <td>{item.Predicate}</td>
                 <td>{direct(item.Direct, 1)}</td>
@@ -307,8 +307,8 @@ function CalculationProblemInfo(props)  {
             </tr>
         )) : [];
     let surfaceLoad = props.problemInfo.SurfaceLoad ?
-        props.problemInfo.SurfaceLoad.map((item) => (
-            <tr>
+        props.problemInfo.SurfaceLoad.map((item, i) => (
+            <tr key={i}>
                 <td>{item.Value}</td>
                 <td>{item.Predicate}</td>
                 <td>{direct(item.Direct, 1)}</td>
@@ -317,8 +317,8 @@ function CalculationProblemInfo(props)  {
             </tr>
         )) : [];
     let pointLoad = props.problemInfo.PointLoad ?
-        props.problemInfo.PointLoad.map((item) => (
-            <tr>
+        props.problemInfo.PointLoad.map((item, i) => (
+            <tr key={i}>
                 <td>{item.Value}</td>
                 <td>{item.Predicate}</td>
                 <td>{direct(item.Direct, 1)}</td>
@@ -328,29 +328,29 @@ function CalculationProblemInfo(props)  {
         )) : [];
 
     let pressureLoad = props.problemInfo.PressureLoad ?
-        props.problemInfo.PressureLoad.map((item) => (
-            <tr>
+        props.problemInfo.PressureLoad.map((item, i) => (
+            <tr key={i}>
                 <td>{item.Value}</td>
                 <td>{item.Predicate}</td>
             </tr>
         )) : [];
     let thickness = props.problemInfo.Thickness ?
-        props.problemInfo.Thickness.map((item) => (
-            <tr>
+        props.problemInfo.Thickness.map((item, i) => (
+            <tr key={i}>
                 <td>{item.Value}</td>
                 <td>{item.Predicate}</td>
             </tr>
         )) : [];
     let youngModulus = props.problemInfo.YoungModulus ?
-        props.problemInfo.YoungModulus.map((item) => (
-            <tr>
+        props.problemInfo.YoungModulus.map((item, i) => (
+            <tr key={i}>
                 <td>{item.Value}</td>
                 <td>{item.Predicate}</td>
             </tr>
         )) : [];
     let poissonRatio = props.problemInfo.PoissonRatio ?
-        props.problemInfo.PoissonRatio.map((item) => (
-            <tr>
+        props.problemInfo.PoissonRatio.map((item, i) => (
+            <tr key={i}>
                 <td>{item.Value}</td>
                 <td>{item.Predicate}</td>
             </tr>
