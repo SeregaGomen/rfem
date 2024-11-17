@@ -201,7 +201,7 @@ function ParamTable(props)  {
                 )
             }
         }
-        rows.push(<tr>{row}</tr>);
+        rows.push(<tr key={i}>{row}</tr>);
     }
     return (
         <table>
