@@ -100,6 +100,9 @@ function ProblemList(props)  {
             BoundaryCondition: boundaryCondition }}/>
     }
     return (
+
+        // https://reactcommunity.org/react-modal/examples/global_overrides/
+
         // <Modal className="modal" isOpen={isDialogOpen} ariaHideApp={false}>
         <Modal isOpen={isDialogOpen} ariaHideApp={false}>
             <h1>Open Problem</h1>
