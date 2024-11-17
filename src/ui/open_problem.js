@@ -39,11 +39,13 @@ function ProblemList(props)  {
     const [fileName, setFileName] = React.useState(null);
     const [shouldRedirect, setShouldRedirect] = React.useState(false);
     const [problemData, setProblemData] = React.useState(null);
-    const [isDialogOpen] = React.useState(true);
+    const [isDialogOpen, setIsDialogOpen] = React.useState(false);
     const list = props.fileList.map((file, i) => (<option key={i}>{file}</option>));
     const navigate = useNavigate();
 
-    list.splice(0, 0, <option value="" style={{display: 'none'}}></option>);
+    useEffect(() => { setIsDialogOpen(true);  }, []);
+
+    list.splice(0, 0, <option key={"blank"} value="" style={{display: 'none'}}></option>);
     if (shouldRedirect) {
         const mesh = problemData.Mesh;
         const numThread = problemData.NumThread;
@@ -98,7 +100,8 @@ function ProblemList(props)  {
             BoundaryCondition: boundaryCondition }}/>
     }
     return (
-        <Modal isOpen={isDialogOpen}>
+        // <Modal className="modal" isOpen={isDialogOpen} ariaHideApp={false}>
+        <Modal isOpen={isDialogOpen} ariaHideApp={false}>
             <h1>Open Problem</h1>
             <fieldset>
                 <legend>Saved problem files</legend>
@@ -106,7 +109,7 @@ function ProblemList(props)  {
                     <select name="problem_list" size="1" onChange={(event) => {
                         setFileName(event.target.value);
                         //alert(event.target.value);
-                    }}>{list}
+                        }}>{list}
                     </select>
                 </label>
             </fieldset>
