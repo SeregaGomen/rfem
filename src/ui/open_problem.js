@@ -1,161 +1,138 @@
-import React from "react";
+import React, {useEffect} from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import Modal from "react-modal";
 import { ProblemForm } from "./problem";
+import { useNavigate } from 'react-router-dom';
 
-export class LoadProblemForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            error: null,
-            isLoaded: false,
-            files: [],
-        };
-    }
-
-    componentDidMount() {
+export function LoadProblemForm() {
+    const [error, setError] = React.useState(null);
+    const [isLoaded, setIsLoaded] = React.useState(false);
+    const [files, setFiles] = React.useState([]);
+    useEffect(() => {
         fetch("http://localhost:8001/problem_list")
             .then(res => res.json())
             .then(
                 (result) => {
-                    this.setState({isLoaded: true, files: result});
+                    setIsLoaded(true);
+                    setFiles(result);
                 },
-                // Примечание: важно обрабатывать ошибки именно здесь, а не в блоке catch(),
-                // чтобы не перехватывать исключения из ошибок в самих компонентах.
                 (error) => {
-                    this.setState({isLoaded: true, error});
+                    setError(error);
+                    setIsLoaded(true);
                 }
             )
-    }
-
-    render() {
-        if (this.state.error) {
-            return <div>Error: {this.state.error.message}</div>;
-        } else if (!this.state.isLoaded) {
-            return <div>Downloading...</div>;
-        } else {
-            return (
-                <div>
-                    <ProblemList fileList={this.state.files}/>
-                </div>
-            );
-        }
-    }
-}
-
-class ProblemList extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            fileList: this.props.fileList,
-            fileName: null,
-            shouldRedirect: false,
-            problemData: null,
-        };
-    }
-
-    render() {
-        let list = this.state.fileList.map((file, i) => (<option key={i}>{file}</option>));
-        list.splice(0, 0, <option value="" style={{display: 'none'}}></option>);
-
-        if (this.state.shouldRedirect) {
-            const mesh = this.state.problemData.Mesh;
-            const numThread = this.state.problemData.NumThread;
-            const eps = this.state.problemData.Eps;
-            const variables = [];
-            const youngModulus = [];
-            const poissonRatio = [];
-            const thickness = [];
-            const volumeLoad = [];
-            const pointLoad = [];
-            const surfaceLoad = [];
-            const pressureLoad = [];
-            const boundaryCondition = [];
-
-            for (const variable of this.state.problemData.Variables) {
-                variables.push(variable);
-            }
-
-            for (const param of this.state.problemData.Params) {
-                switch (param.Type) {
-                    case 0: // Boundary Condition
-                        boundaryCondition.push([param.Value, param.Predicate, param.Direct.toString()]);
-                        break;
-                    case 1: // Volume Load
-                        volumeLoad.push([param.Value, param.Predicate, param.Direct.toString()]);
-                        break;
-                    case 2: // Surface Load
-                        surfaceLoad.push([param.Value, param.Predicate, param.Direct.toString()]);
-                        break;
-                    case 3: // Point Load
-                        pointLoad.push([param.Value, param.Predicate, param.Direct.toString()]);
-                        break;
-                    case 4: // Pressure Load
-                        pressureLoad.push([param.Value, param.Predicate]);
-                        break;
-                    case 5: // Thickness
-                        thickness.push([param.Value, param.Predicate]);
-                        break;
-                    case 6: // Yong Modulus
-                        youngModulus.push([param.Value, param.Predicate]);
-                        break;
-                    case 7: // Poisson's Ratio
-                        poissonRatio.push([param.Value, param.Predicate]);
-                        break;
-                    default:
-                        break;
-                }
-            }
-            return <ProblemForm data = {{ Mesh: mesh, NumThread: numThread, Eps: eps, Variables: variables,
-                YoungModulus: youngModulus, PoissonRatio: poissonRatio, Thickness: thickness, VolumeLoad: volumeLoad,
-                PointLoad: pointLoad, SurfaceLoad: surfaceLoad, PressureLoad: pressureLoad,
-                BoundaryCondition: boundaryCondition }}/>
-        }
-
+    }, []);
+    if (error) {
+        return <div>Error: {error.message}</div>;
+    } else if (!isLoaded) {
+        return <div>Downloading...</div>;
+    } else {
         return (
-            <form>
-                <h1>Open Problem</h1>
-                <fieldset>
-                    <legend>Mesh files</legend>
-                    <label>File name:<br/>
-                        <select name="problem_list" size="1" onChange={(event) => {
-                            this.setState({fileName: event.target.value});
-                            //alert(event.target.value);
-                        }}>{list}
-                        </select>
-                    </label>
-                </fieldset>
-                <input type="button" onClick=
-                    {
-                        async () => {
-                            const formData = new FormData();
-                            formData.append('problemName', this.state.fileName);
-                            axios.post('http://localhost:8001/load_problem', formData/*this.state.fileName*/, {
-                                headers: {
-                                    'Content-Type': 'text/plain',
-                                },
-                            })
-                                .then((response) => {
-                                    // console.log("Success:", response.data);
-                                    //let data = response.data;
-                                    //alert(data.Mesh);
-
-                                    //this.props.history.push("/problem");
-                                    //this.props.navigate('/problem');
-
-                                    this.setState({shouldRedirect: true});
-                                    this.setState({problemData: response.data});
-                                })
-                                .catch((error) => {
-                                    //console.error("Error:", error);
-                                    alert("Error: " + error);
-                                });
-                        }
-                    } value="Download" disabled={this.state.fileName ? null : 'disabled'}/>
-                <br/><br/>
-                <Link to="/">Home</Link>
-            </form>
+            <div>
+                <ProblemList fileList={files}/>
+            </div>
         );
     }
 }
 
+function ProblemList(props)  {
+    const [fileName, setFileName] = React.useState(null);
+    const [shouldRedirect, setShouldRedirect] = React.useState(false);
+    const [problemData, setProblemData] = React.useState(null);
+    const [isDialogOpen] = React.useState(true);
+    const list = props.fileList.map((file, i) => (<option key={i}>{file}</option>));
+    const navigate = useNavigate();
+
+    list.splice(0, 0, <option value="" style={{display: 'none'}}></option>);
+    if (shouldRedirect) {
+        const mesh = problemData.Mesh;
+        const numThread = problemData.NumThread;
+        const eps = problemData.Eps;
+        const variables = [];
+        const youngModulus = [];
+        const poissonRatio = [];
+        const thickness = [];
+        const volumeLoad = [];
+        const pointLoad = [];
+        const surfaceLoad = [];
+        const pressureLoad = [];
+        const boundaryCondition = [];
+
+        for (const variable of problemData.Variables) {
+            variables.push(variable);
+        }
+
+        for (const param of problemData.Params) {
+            switch (param.Type) {
+                case 0: // Boundary Condition
+                    boundaryCondition.push([param.Value, param.Predicate, param.Direct.toString()]);
+                    break;
+                case 1: // Volume Load
+                    volumeLoad.push([param.Value, param.Predicate, param.Direct.toString()]);
+                    break;
+                case 2: // Surface Load
+                    surfaceLoad.push([param.Value, param.Predicate, param.Direct.toString()]);
+                    break;
+                case 3: // Point Load
+                    pointLoad.push([param.Value, param.Predicate, param.Direct.toString()]);
+                    break;
+                case 4: // Pressure Load
+                    pressureLoad.push([param.Value, param.Predicate]);
+                    break;
+                case 5: // Thickness
+                    thickness.push([param.Value, param.Predicate]);
+                    break;
+                case 6: // Yong Modulus
+                    youngModulus.push([param.Value, param.Predicate]);
+                    break;
+                case 7: // Poisson's Ratio
+                    poissonRatio.push([param.Value, param.Predicate]);
+                    break;
+                default:
+                    break;
+            }
+        }
+        return <ProblemForm data = {{ Mesh: mesh, NumThread: numThread, Eps: eps, Variables: variables,
+            YoungModulus: youngModulus, PoissonRatio: poissonRatio, Thickness: thickness, VolumeLoad: volumeLoad,
+            PointLoad: pointLoad, SurfaceLoad: surfaceLoad, PressureLoad: pressureLoad,
+            BoundaryCondition: boundaryCondition }}/>
+    }
+    return (
+        <Modal isOpen={isDialogOpen}>
+            <h1>Open Problem</h1>
+            <fieldset>
+                <legend>Saved problem files</legend>
+                <label>File name:<br/>
+                    <select name="problem_list" size="1" onChange={(event) => {
+                        setFileName(event.target.value);
+                        //alert(event.target.value);
+                    }}>{list}
+                    </select>
+                </label>
+            </fieldset>
+            <input type="button" onClick=
+                {
+                    async () => {
+                        const formData = new FormData();
+                        formData.append('problemName', fileName);
+                        axios.post('http://localhost:8001/load_problem', formData, {
+                            headers: {
+                                'Content-Type': 'text/plain',
+                            },
+                        })
+                            .then((response) => {
+                                setShouldRedirect(true);
+                                setProblemData(response.data);
+                            })
+                            .catch((error) => {
+                                alert("Error: " + error);
+                            });
+                    }
+                } value="Ok" disabled={fileName ? null : 'disabled'}/>
+
+            <input type="button" onClick={()=>{
+                navigate("/");
+            }} value="Cancel" />
+        </Modal>
+    );
+}
