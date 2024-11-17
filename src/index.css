@@ -51,3 +51,82 @@ table, th {
 /*label {*/
 /*  font-weight: bold;*/
 /*}*/
+
+body {
+  background-color: #aaa;
+  font-family: serif;
+  margin: 0;
+}
+
+canvas {
+  background-color: #fff;
+  border: 1px solid black;
+  width: 80vw;
+  height: 80vh;
+  display: block;
+}
+
+.container {
+  position: relative;
+  width: 400px;
+  height: 300px;
+
+  /*
+  display: flex;
+  flex-direction: row;
+  */
+}
+
+.resultBox {
+  display: grid;
+}
+
+.visualizationBox {
+  display: grid;
+}
+
+.transformationSceneBox {
+  display: grid;
+}
+
+.translationSceneBox {
+  display: grid;
+}
+
+.scaleSceneBox {
+  display: grid;
+}
+
+.transformationObjectBox {
+  display: grid;
+}
+
+.rotationBox {
+  display: grid;
+}
+
+.parametersBox {
+  position: absolute;
+  /*position: page;*/
+  top: 0;
+  left: 81vw;
+  /*width: 50%;*/
+  width: 300px;
+}
+
+.legend {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 10;
+  overflow: hidden;
+  font-family: monospace;
+}
+
+#text {
+  background-color: transparent;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+}

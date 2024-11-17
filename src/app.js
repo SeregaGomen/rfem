@@ -1,9 +1,10 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { MainForm } from "./ui/main"
-import { MeshForm } from "./ui/mesh"
 import { ProblemForm } from "./ui/problem"
 import { LoadProblemForm } from "./ui/open_problem";
+import {ViewResultsForm} from "./ui/view_results";
+// import { MeshForm } from "./ui/mesh"
 import './app.css';
 
 
@@ -13,9 +14,10 @@ export function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<MainForm/>} />
-                    <Route exact path="/mesh" element={<MeshForm/>}/>
-                    <Route exact path="/problem" element={<ProblemForm/>}/>
-                    <Route exact path="/list" element={<LoadProblemForm/>}/>
+                    {/*<Route exact path="/mesh" element={<MeshForm/>}/>*/}
+                    <Route exact path="/new-problem" element={<ProblemForm/>}/>
+                    <Route exact path="/open-problem" element={<LoadProblemForm/>}/>
+                    <Route exact path="/view-results" element={<ViewResultsForm/>}/>
                 </Routes>
             </BrowserRouter>
         </div>
