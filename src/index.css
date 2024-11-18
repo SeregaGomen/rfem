@@ -79,9 +79,9 @@ table, th {
   */
 }
 
-/*.resultBox {*/
-/*  display: grid;*/
-/*}*/
+.viewBox {
+  display: grid;
+}
 
 .visualizationBox {
   display: grid;

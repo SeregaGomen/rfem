@@ -165,7 +165,7 @@ class RotateBox extends React.Component {
     }
 }
 
-class ResultBox extends React.Component {
+class ViewBox extends React.Component {
     updateFunction = (event) => {
         this.props.updateFunIndex({funIndex: Number(event.target.value)});
     }
@@ -178,8 +178,8 @@ class ResultBox extends React.Component {
     render() {
         return (
             this.props.mesh && this.props.mesh.func.length ?
-                <fieldset className="resultBox">
-                    <legend>Result</legend>
+                <fieldset className="viewBox">
+                    <legend>View</legend>
                     <ListBox name={"Function"} label={"Function:"} mesh={this.props.mesh} index={0} width={"70px"}
                              value={this.props.funIndex} updateData={this.updateFunction}/>
                     <Slider min={32} max={256} step={32} value={this.props.numColors} enabled={true} caption={"Colors:"}
@@ -409,7 +409,7 @@ export function ViewResultsForm() {
                 <Canvas id={"gl"}/>
                 <Canvas id={"text"}/>
                 <div className="parametersBox">
-                    <ResultBox funIndex={funIndex} numColors={numColors}
+                    <ViewBox funIndex={funIndex} numColors={numColors}
                                isLegend={isLegend} mesh={mesh}
                                updateFunIndex={updateFunIndex} updateNumColors={updateNumColors}
                                updateIsLegend={updateIsLegend}/>
