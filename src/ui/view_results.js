@@ -91,7 +91,7 @@ class Slider extends React.Component {
 class Canvas extends React.Component {
     render() {
         return (
-            <canvas id={this.props.id}>
+            <canvas className="canvasBox" id={this.props.id}>
                 Please use a browser that supports "canvas"
             </canvas>
         )
