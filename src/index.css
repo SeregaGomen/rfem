@@ -79,33 +79,34 @@ table, th {
   */
 }
 
-.viewBox {
+.viewBox, .visualizationBox, .transformationSceneBox, .translationSceneBox, .scaleSceneBox, .transformationObjectBox,
+.rotationBox  {
   display: grid;
 }
 
-.visualizationBox {
-  display: grid;
-}
+/*.visualizationBox {*/
+/*  display: grid;*/
+/*}*/
 
-.transformationSceneBox {
-  display: grid;
-}
+/*.transformationSceneBox {*/
+/*  display: grid;*/
+/*}*/
 
-.translationSceneBox {
-  display: grid;
-}
+/*.translationSceneBox {*/
+/*  display: grid;*/
+/*}*/
 
-.scaleSceneBox {
-  display: grid;
-}
+/*.scaleSceneBox {*/
+/*  display: grid;*/
+/*}*/
 
-.transformationObjectBox {
-  display: grid;
-}
+/*.transformationObjectBox {*/
+/*  display: grid;*/
+/*}*/
 
-.rotationBox {
-  display: grid;
-}
+/*.rotationBox {*/
+/*  display: grid;*/
+/*}*/
 
 .parametersBox {
   position: absolute;
