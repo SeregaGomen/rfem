@@ -84,30 +84,6 @@ table, th {
   display: grid;
 }
 
-/*.visualizationBox {*/
-/*  display: grid;*/
-/*}*/
-
-/*.transformationSceneBox {*/
-/*  display: grid;*/
-/*}*/
-
-/*.translationSceneBox {*/
-/*  display: grid;*/
-/*}*/
-
-/*.scaleSceneBox {*/
-/*  display: grid;*/
-/*}*/
-
-/*.transformationObjectBox {*/
-/*  display: grid;*/
-/*}*/
-
-/*.rotationBox {*/
-/*  display: grid;*/
-/*}*/
-
 .parametersBox {
   position: absolute;
   /*position: page;*/

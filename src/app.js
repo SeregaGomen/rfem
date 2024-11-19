@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { MainForm } from "./ui/main"
 import { ProblemForm } from "./ui/problem"
-import { LoadProblemForm } from "./ui/open_problem";
+import { LoadProblemForm } from "./ui/problem_open";
 import {ViewResultsForm} from "./ui/view_results";
 // import { MeshForm } from "./ui/mesh"
 import './app.css';
