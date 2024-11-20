@@ -226,6 +226,12 @@ class RenderMesh {
     renderImage() {
         // Get a WebGL context
         let canvas = document.querySelector("canvas");
+        if (!canvas) {
+            alert("Failed to get the canvas");
+            //console.log("Failed to get the rendering context for WebGL");
+            return;
+        }
+
         this.gl = canvas.getContext("webgl");
         if (!this.gl) {
             alert("Failed to get the rendering context for WebGL");

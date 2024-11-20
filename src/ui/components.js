@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { loadFile } from "../file/file";
 
 export function RadioButton(props) {
@@ -71,6 +71,7 @@ export function Slider(props) {
 }
 
 export function Canvas(props) {
+    useEffect(() => { props.updateData() }, [props]);
     return (
         <canvas className="canvasBox" id={props.id}>
             Please use a browser that supports "canvas"

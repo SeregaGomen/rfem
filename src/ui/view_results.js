@@ -11,6 +11,7 @@ import {
     ScaleSceneBox,
     TransformationObjectBox
 } from "./components";
+import Modal from "react-modal";
 
 export function ViewResultsForm() {
     const [mesh, setMesh] = React.useState(null);
@@ -27,6 +28,7 @@ export function ViewResultsForm() {
     const [transformation, setTransformation] = React.useState({
         index: [0, 1, 2], ratio: 0.0,
     });
+    const [isDialogOpen, setIsDialogOpen] = React.useState(true);
 
     let clear = () => {
         setMesh(null);
@@ -45,9 +47,10 @@ export function ViewResultsForm() {
         setIsMesh(true);
         setIsSurface(true);
         setTransformation({index: [0, 1, 2], ratio: 0.0});
-        if (value.mesh) {
-            renderMesh.setMesh(value.mesh);
-        }
+        setIsDialogOpen(false)
+        // if (value.mesh) {
+        //     renderMesh.setMesh(value.mesh);
+        // }
     }
     let updateFunIndex = (value) => {
         setFunIndex(value.funIndex);
@@ -115,32 +118,48 @@ export function ViewResultsForm() {
         renderMesh.setTransformationRatio(value);
     }
 
+    // if (isDialogOpen) {
+    //     return (
+    //         <Modal isOpen={isDialogOpen} ariaHideApp={false}>
+    //             <LoadButton updateData={updateFile} clear={clear}/>
+    //
+    //         </Modal>
+    //     );
+    // }
+
     return (
         <form>
-            <LoadButton updateData={updateFile} clear={clear}/>
-            <div className="container">
-                <Canvas id={"gl"}/>
-                <Canvas id={"text"}/>
-                <div className="parametersBox">
-                    <ViewBox funIndex={funIndex} numColors={numColors}
-                               isLegend={isLegend} mesh={mesh}
-                               updateFunIndex={updateFunIndex} updateNumColors={updateNumColors}
-                               updateIsLegend={updateIsLegend}/>
-                    <RotateBox rotation={rotation} isAutoRotation={isAutoRotation}
-                               updateRotation={updateRotation} updateIsAutoRotation={updateIsAutoRotation}
-                               mesh={mesh}/>
-                    <VisualizationBox mesh={mesh} isAxes={isAxes} isMesh={isMesh}
-                                      isSurface={isSurface} updateIsAxes={updateIsAxes}
-                                      updateRadio={updateRadio}/>
-                    <TranslationSceneBox mesh={mesh} translate={translate}
-                                         updateTranslate={updateTranslate}/>
-                    <ScaleSceneBox mesh={mesh} scale={scale} updateScale={updateScale}/>
-                    <TransformationObjectBox funIndex={funIndex} mesh={mesh}
-                                             transformation={transformation}
-                                             updateTransformationIndex={updateTransformationIndex}
-                                             updateTransformationRatio={updateTransformationRatio}/>
-                </div>
-            </div>
+            {/*<LoadButton updateData={updateFile} clear={clear}/>*/}
+            {!isDialogOpen ?
+                <div className="container">
+                    <Canvas id={"gl"} updateData={() => {
+                        renderMesh.setMesh(mesh);
+                    }}/>
+                    <Canvas id={"text"} updateData={()=>{}}/>
+                    <div className="parametersBox">
+                        <ViewBox funIndex={funIndex} numColors={numColors}
+                                   isLegend={isLegend} mesh={mesh}
+                                   updateFunIndex={updateFunIndex} updateNumColors={updateNumColors}
+                                   updateIsLegend={updateIsLegend}/>
+                        <RotateBox rotation={rotation} isAutoRotation={isAutoRotation}
+                                   updateRotation={updateRotation} updateIsAutoRotation={updateIsAutoRotation}
+                                   mesh={mesh}/>
+                        <VisualizationBox mesh={mesh} isAxes={isAxes} isMesh={isMesh}
+                                          isSurface={isSurface} updateIsAxes={updateIsAxes}
+                                          updateRadio={updateRadio}/>
+                        <TranslationSceneBox mesh={mesh} translate={translate}
+                                             updateTranslate={updateTranslate}/>
+                        <ScaleSceneBox mesh={mesh} scale={scale} updateScale={updateScale}/>
+                        <TransformationObjectBox funIndex={funIndex} mesh={mesh}
+                                                 transformation={transformation}
+                                                 updateTransformationIndex={updateTransformationIndex}
+                                                 updateTransformationRatio={updateTransformationRatio}/>
+                    </div>
+                </div> : null
+            }
+            <Modal isOpen={isDialogOpen} ariaHideApp={true}>
+                <LoadButton updateData={updateFile} clear={clear}/>
+            </Modal>
         </form>
     );
 }
