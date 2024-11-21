@@ -162,7 +162,7 @@ export function ViewResultsForm() {
                     <Link to="/">Home</Link>
                 </div> : null
             }
-            <Modal isOpen={isDialogOpen} ariaHideApp={true}>
+            <Modal isOpen={isDialogOpen} ariaHideApp={false} >
                 <h1>Open Results</h1>
                 <fieldset>
                     <legend>Saved results files</legend>

@@ -39,7 +39,7 @@ function ProblemList(props)  {
     const [fileName, setFileName] = React.useState(null);
     const [shouldRedirect, setShouldRedirect] = React.useState(false);
     const [problemData, setProblemData] = React.useState(null);
-    const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+    const [isDialogOpen, setIsDialogOpen] = React.useState(true);
     const list = props.fileList.map((file, i) => (<option key={i}>{file}</option>));
     const navigate = useNavigate();
 
