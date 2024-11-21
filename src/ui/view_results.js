@@ -12,6 +12,7 @@ import {
     TransformationObjectBox
 } from "./components";
 import Modal from "react-modal";
+import {Link} from "react-router-dom";
 
 export function ViewResultsForm() {
     const [mesh, setMesh] = React.useState(null);
@@ -135,12 +136,13 @@ export function ViewResultsForm() {
                     <Canvas id={"gl"} updateData={() => {
                         renderMesh.setMesh(mesh);
                     }}/>
-                    <Canvas id={"text"} updateData={()=>{}}/>
+                    <Canvas id={"text"} updateData={() => {
+                    }}/>
                     <div className="parametersBox">
                         <ViewBox funIndex={funIndex} numColors={numColors}
-                                   isLegend={isLegend} mesh={mesh}
-                                   updateFunIndex={updateFunIndex} updateNumColors={updateNumColors}
-                                   updateIsLegend={updateIsLegend}/>
+                                 isLegend={isLegend} mesh={mesh}
+                                 updateFunIndex={updateFunIndex} updateNumColors={updateNumColors}
+                                 updateIsLegend={updateIsLegend}/>
                         <RotateBox rotation={rotation} isAutoRotation={isAutoRotation}
                                    updateRotation={updateRotation} updateIsAutoRotation={updateIsAutoRotation}
                                    mesh={mesh}/>
@@ -155,10 +157,19 @@ export function ViewResultsForm() {
                                                  updateTransformationIndex={updateTransformationIndex}
                                                  updateTransformationRatio={updateTransformationRatio}/>
                     </div>
+                    <br/>
+                    <br/>
+                    <Link to="/">Home</Link>
                 </div> : null
             }
             <Modal isOpen={isDialogOpen} ariaHideApp={true}>
-                <LoadButton updateData={updateFile} clear={clear}/>
+                <h1>Open Results</h1>
+                <fieldset>
+                    <legend>Saved results files</legend>
+                    <label>File name:<br/>
+                        <LoadButton updateData={updateFile} clear={clear}/>
+                    </label>
+                </fieldset>
             </Modal>
         </form>
     );
