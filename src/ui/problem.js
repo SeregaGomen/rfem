@@ -3,6 +3,9 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { ParamTable } from "./components";
 import { CalculationProblemInfo } from "./problem_info";
+import { Canvas } from "./components";
+import {loadFile} from "../file/file";
+import { renderMesh } from "../draw/draw";
 
 export function ProblemForm(props)  {
     const [mesh, setMesh] = React.useState(null);
@@ -20,6 +23,7 @@ export function ProblemForm(props)  {
     const [meshFileName] = React.useState((props.data == null) ? null : props.data.Mesh);
     const [problemInfo, setProblemInfo] = React.useState(null);
     const [calculating, setCalculating] = React.useState(false);
+    const [isMeshVisible, setIsMeshVisible] = React.useState(false);
 
     useEffect(() => {
         if (props.data == null) {
@@ -51,7 +55,23 @@ export function ProblemForm(props)  {
                 <label>File name:<br/>
                     <input type="file" name="mesh_file" id="get_files" key="mesh" onChange={(event) => {
                         setMesh(event.target.files[0]);
+                        setIsMeshVisible(true);
+
+                        loadFile(event.target.files[0]).then((value) => {
+                            renderMesh.setMesh(value.mesh);
+                        }).catch(() => {
+                            alert("Failed to load file!")
+                        });
                     }}/>
+
+                    { isMeshVisible ?
+                        <div style={{ position: 'sticky'}}>
+                            <Canvas id={"gl"} updateData={() => {
+                            }}/>
+                            <Canvas id={"text"} updateData={() => {
+                            }}/>
+                        </div> : null
+                    }
                 </label>
             </fieldset>
             <fieldset>
