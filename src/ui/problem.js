@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { ParamTable } from "./components";
+import {CheckBox, ParamTable} from "./components";
 import { CalculationProblemInfo } from "./problem_info";
 import { Canvas } from "./components";
 import {loadFile} from "../file/file";
@@ -54,24 +54,27 @@ export function ProblemForm(props)  {
                 <legend>Mesh</legend>
                 <label>File name:<br/>
                     <input type="file" name="mesh_file" id="get_files" key="mesh" onChange={(event) => {
-                        setMesh(event.target.files[0]);
-                        setIsMeshVisible(true);
+                        //setMesh(event.target.files[0]);
+                        //setIsMeshVisible(true);
 
                         loadFile(event.target.files[0]).then((value) => {
+                            setMesh(event.target.files[0]);
                             renderMesh.setMesh(value.mesh);
                         }).catch(() => {
                             alert("Failed to load file!")
                         });
                     }}/>
+                    <CheckBox isChecked={isMeshVisible} caption={"View"}
+                              updateData={() => {
+                                  setIsMeshVisible(!isMeshVisible);
+                              }}/>
 
-                    { isMeshVisible ?
-                        <div style={{ position: 'sticky'}}>
-                            <Canvas id={"gl"} updateData={() => {
-                            }}/>
-                            <Canvas id={"text"} updateData={() => {
-                            }}/>
-                        </div> : null
-                    }
+                    <div style={{ position: 'sticky', display: isMeshVisible ? 'block' : 'none'}}>
+                        <Canvas id={"gl"} updateData={() => {
+                        }}/>
+                        <Canvas id={"text"} updateData={() => {
+                        }}/>
+                    </div>
                 </label>
             </fieldset>
             <fieldset>
