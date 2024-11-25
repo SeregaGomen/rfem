@@ -49,9 +49,9 @@ export function ViewResultsForm() {
         setIsSurface(true);
         setTransformation({index: [0, 1, 2], ratio: 0.0});
         setIsDialogOpen(false)
-        // if (value.mesh) {
-        //     renderMesh.setMesh(value.mesh);
-        // }
+        if (value.mesh) {
+            renderMesh.setMesh(value.mesh);
+        }
     }
     let updateFunIndex = (value) => {
         setFunIndex(value.funIndex);
@@ -134,7 +134,7 @@ export function ViewResultsForm() {
             {!isDialogOpen ?
                 <div className="container">
                     <Canvas id={"gl"} updateData={() => {
-                        renderMesh.setMesh(mesh);
+                        //renderMesh.setMesh(mesh);
                     }}/>
                     <Canvas id={"text"} updateData={() => {
                     }}/>
