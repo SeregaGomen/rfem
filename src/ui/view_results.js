@@ -12,7 +12,7 @@ import {
     TransformationObjectBox
 } from "./components";
 import Modal from "react-modal";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export function ViewResultsForm() {
     const [mesh, setMesh] = React.useState(null);
@@ -119,49 +119,35 @@ export function ViewResultsForm() {
         renderMesh.setTransformationRatio(value);
     }
 
-    // if (isDialogOpen) {
-    //     return (
-    //         <Modal isOpen={isDialogOpen} ariaHideApp={false}>
-    //             <LoadButton updateData={updateFile} clear={clear}/>
-    //
-    //         </Modal>
-    //     );
-    // }
-
     return (
         <form>
             {/*<LoadButton updateData={updateFile} clear={clear}/>*/}
-            {!isDialogOpen ?
-                <div className="container">
-                    <Canvas id={"gl"} updateData={() => {
-                        //renderMesh.setMesh(mesh);
-                    }}/>
-                    <Canvas id={"text"} updateData={() => {
-                    }}/>
-                    <div className="parametersBox">
-                        <ViewBox funIndex={funIndex} numColors={numColors}
-                                 isLegend={isLegend} mesh={mesh}
-                                 updateFunIndex={updateFunIndex} updateNumColors={updateNumColors}
-                                 updateIsLegend={updateIsLegend}/>
-                        <RotateBox rotation={rotation} isAutoRotation={isAutoRotation}
-                                   updateRotation={updateRotation} updateIsAutoRotation={updateIsAutoRotation}
-                                   mesh={mesh}/>
-                        <VisualizationBox mesh={mesh} isAxes={isAxes} isMesh={isMesh}
-                                          isSurface={isSurface} updateIsAxes={updateIsAxes}
-                                          updateRadio={updateRadio}/>
-                        <TranslationSceneBox mesh={mesh} translate={translate}
-                                             updateTranslate={updateTranslate}/>
-                        <ScaleSceneBox mesh={mesh} scale={scale} updateScale={updateScale}/>
-                        <TransformationObjectBox funIndex={funIndex} mesh={mesh}
-                                                 transformation={transformation}
-                                                 updateTransformationIndex={updateTransformationIndex}
-                                                 updateTransformationRatio={updateTransformationRatio}/>
-                    </div>
-                    <br/>
-                    <br/>
-                    <Link to="/">Home</Link>
-                </div> : null
-            }
+            <div className="container" style={{ position: 'sticky', display: !isDialogOpen ? 'block' : 'none'}}>
+                <Canvas id={"gl"}/>
+                <Canvas id={"text"}/>
+                <div className="parametersBox">
+                    <ViewBox funIndex={funIndex} numColors={numColors}
+                             isLegend={isLegend} mesh={mesh}
+                             updateFunIndex={updateFunIndex} updateNumColors={updateNumColors}
+                             updateIsLegend={updateIsLegend}/>
+                    <RotateBox rotation={rotation} isAutoRotation={isAutoRotation}
+                               updateRotation={updateRotation} updateIsAutoRotation={updateIsAutoRotation}
+                               mesh={mesh}/>
+                    <VisualizationBox mesh={mesh} isAxes={isAxes} isMesh={isMesh}
+                                      isSurface={isSurface} updateIsAxes={updateIsAxes}
+                                      updateRadio={updateRadio}/>
+                    <TranslationSceneBox mesh={mesh} translate={translate}
+                                         updateTranslate={updateTranslate}/>
+                    <ScaleSceneBox mesh={mesh} scale={scale} updateScale={updateScale}/>
+                    <TransformationObjectBox funIndex={funIndex} mesh={mesh}
+                                             transformation={transformation}
+                                             updateTransformationIndex={updateTransformationIndex}
+                                             updateTransformationRatio={updateTransformationRatio}/>
+                </div>
+                <br/>
+                <br/>
+                <Link to="/">Home</Link>
+            </div>
             <Modal isOpen={isDialogOpen} ariaHideApp={false} >
                 <h1>Open Results</h1>
                 <fieldset>

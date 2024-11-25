@@ -71,7 +71,6 @@ export function Slider(props) {
 }
 
 export function Canvas(props) {
-    useEffect(() => { props.updateData() }, [props]);
     return (
         <canvas className="canvasBox" id={props.id}>
             Please use a browser that supports "canvas"
