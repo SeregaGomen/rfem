@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import { loadFile } from "../file/file";
 
 export function RadioButton(props) {

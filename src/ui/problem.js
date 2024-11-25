@@ -70,10 +70,8 @@ export function ProblemForm(props)  {
                               }}/>
 
                     <div style={{ position: 'sticky', display: isMeshVisible ? 'block' : 'none'}}>
-                        <Canvas id={"gl"} updateData={() => {
-                        }}/>
-                        <Canvas id={"text"} updateData={() => {
-                        }}/>
+                        <Canvas id={"gl"}/>
+                        <Canvas id={"text"}/>
                     </div>
                 </label>
             </fieldset>
