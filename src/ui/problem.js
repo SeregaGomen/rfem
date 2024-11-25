@@ -64,7 +64,7 @@ export function ProblemForm(props)  {
                             alert("Failed to load file!")
                         });
                     }}/>
-                    <CheckBox isChecked={isMeshVisible} caption={"View"}
+                    <CheckBox isChecked={isMeshVisible} caption={"View"} disabled={mesh === null}
                               updateData={() => {
                                   setIsMeshVisible(!isMeshVisible);
                               }}/>

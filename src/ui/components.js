@@ -23,6 +23,7 @@ export function CheckBox(props) {
         <label>
             <input type="checkbox"
                    checked={props.isChecked}
+                   disabled={props.disabled !== null ? props.disabled : null}
                    onChange={() => {
                        setIsChecked(!isChecked);
                        props.updateData(!isChecked);
