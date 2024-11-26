@@ -1,10 +1,10 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import {CheckBox, ParamTable} from "./components";
+import { CheckBox, ParamTable } from "./components";
 import { CalculationProblemInfo } from "./problem_info";
 import { Canvas } from "./components";
-import {loadFile} from "../file/file";
+import { loadFile } from "../file/file";
 import { renderMesh } from "../draw/draw";
 
 export function ProblemForm(props)  {
@@ -57,12 +57,18 @@ export function ProblemForm(props)  {
                         //setMesh(event.target.files[0]);
                         //setIsMeshVisible(true);
 
-                        loadFile(event.target.files[0]).then((value) => {
-                            setMesh(event.target.files[0]);
-                            renderMesh.setMesh(value.mesh);
-                        }).catch(() => {
-                            alert("Failed to load file!")
-                        });
+                        if (event.target.files.length === 0) {
+                            setIsMeshVisible(false);
+                            setMesh(null);
+                        } else {
+                            loadFile(event.target.files[0]).then((value) => {
+                                setMesh(event.target.files[0]);
+                                renderMesh.setMesh(value.mesh);
+                            }).catch(() => {
+                                alert("Failed to load file!")
+                            });
+                        }
+
                     }}/>
                     <CheckBox isChecked={isMeshVisible} caption={"View"} disabled={mesh === null}
                               updateData={() => {
