@@ -28,6 +28,8 @@ export function ProblemForm(props)  {
     useEffect(() => {
         if (props.data == null) {
             setNumThread(navigator.hardwareConcurrency);
+        } else {
+
         }
     }, [props]);
     if (calculating) {

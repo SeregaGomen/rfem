@@ -1,6 +1,8 @@
 import React from "react";
+import Modal from "react-modal";
 import { renderMesh } from "../draw/draw";
 import { degToRad, radToDeg } from "../draw/utils";
+import { Link } from "react-router-dom";
 import {
     Canvas,
     LoadButton,
@@ -11,8 +13,6 @@ import {
     ScaleSceneBox,
     TransformationObjectBox
 } from "./components";
-import Modal from "react-modal";
-import { Link } from "react-router-dom";
 
 export function ViewResultsForm() {
     const [mesh, setMesh] = React.useState(null);
