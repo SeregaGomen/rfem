@@ -46,13 +46,6 @@ export function ProblemForm(props)  {
             </div>
         );
     }
-
-    // let isCbEnabled = mesh !== null;
-    //
-    // if (props.data !== undefined) {
-    //     isCbEnabled = true;
-    // }
-
     return (
         <form>
             {(props.data == null) ? <h1>New Problem</h1> : <h1>Saved Problem ({meshFileName.split('/').pop()})</h1>}
@@ -60,9 +53,6 @@ export function ProblemForm(props)  {
                 <legend>Mesh</legend>
                 <label>File name:<br/>
                     <input type="file" name="mesh_file" id="get_files" key="mesh" onChange={(event) => {
-                        //setMesh(event.target.files[0]);
-                        //setIsMeshVisible(true);
-
                         if (event.target.files.length === 0) {
                             setIsMeshVisible(false);
                             setMesh(null);
@@ -74,7 +64,6 @@ export function ProblemForm(props)  {
                                 alert("Failed to load file!")
                             });
                         }
-
                     }}/>
                     <CheckBox isChecked={isMeshVisible} caption={"View"} disabled={mesh === null && props.data === undefined}
                               updateData={async () => {
