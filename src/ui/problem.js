@@ -80,7 +80,49 @@ export function ProblemForm(props)  {
                               updateData={async () => {
                                   setIsMeshVisible(!isMeshVisible);
                                   if (props.data !== undefined) {
-                                      showMeshFromServer(props.data.Mesh).then(()=>{});
+                                      const formData = new FormData();
+                                      formData.append('meshName', props.data.Mesh);
+                                      axios.post('http://localhost:8001/load_mesh', formData, {
+                                          headers: {
+                                              'Content-Type': 'text/plain',
+                                          },
+                                      })
+                                          .then((response) => {
+                                              let msh = {};
+                                              switch (response.data.FeType) {
+                                                  case 1:
+                                                      msh.feType = "fe2d3";
+                                                      break;
+                                                  case 2:
+                                                      msh.feType = "fe2d4";
+                                                      break;
+                                                  case 3:
+                                                      msh.feType = "fe3d4";
+                                                      break;
+                                                  case 4:
+                                                      msh.feType = "fe3d8";
+                                                      break;
+                                                  case 5:
+                                                      msh.feType = "fe3d3s";
+                                                      break;
+                                                  case 6:
+                                                      msh.feType = "fe3d4s";
+                                                      break;
+                                                  default:
+                                                      alert("Wrong mesh format!");
+                                                      return;
+                                              }
+                                              msh.feType = "fe3d4";
+                                              msh.x = response.data.X;
+                                              msh.fe = response.data.FE;
+                                              msh.be = response.data.BE;
+                                              msh.func = [];
+
+                                              renderMesh.setMesh(msh);
+                                          })
+                                          .catch((error) => {
+                                              alert("Error: " + error);
+                                          });
                                   }
                               }}/>
 
@@ -190,50 +232,4 @@ export function ProblemForm(props)  {
             <Link to="/">Home</Link>
         </form>
     )
-}
-
-async function showMeshFromServer(meshName) {
-    const formData = new FormData();
-    formData.append('meshName', meshName);
-    axios.post('http://localhost:8001/load_mesh', formData, {
-        headers: {
-            'Content-Type': 'text/plain',
-        },
-    })
-        .then((response) => {
-            let msh = {};
-            switch (response.data.FeType) {
-                case 1:
-                    msh.feType = "fe2d3";
-                    break;
-                case 2:
-                    msh.feType = "fe2d4";
-                    break;
-                case 3:
-                    msh.feType = "fe3d4";
-                    break;
-                case 4:
-                    msh.feType = "fe3d8";
-                    break;
-                case 5:
-                    msh.feType = "fe3d3s";
-                    break;
-                case 6:
-                    msh.feType = "fe3d4s";
-                    break;
-                default:
-                    alert("Wrong mesh format!");
-                    return;
-            }
-            msh.feType = "fe3d4";
-            msh.x = response.data.X;
-            msh.fe = response.data.FE;
-            msh.be = response.data.BE;
-            msh.func = [];
-
-            renderMesh.setMesh(msh);
-        })
-        .catch((error) => {
-            alert("Error: " + error);
-        });
 }
