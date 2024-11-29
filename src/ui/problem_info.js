@@ -289,7 +289,7 @@ export function CalculationProblemInfo(props)  {
 
             <br/>
             <input type="button" value="Download results" onClick={async () => {
-                const fileUrl = 'http://localhost:8001/load_file?file=' + props.problemInfo.Results;
+                const fileUrl = 'http://localhost:8001/load_file?file=result/' + props.problemInfo.Results;
                 try {
                     const response = await axios.get(fileUrl, {
                         responseType: 'blob', // Указываем, что ожидаем blob (файл)
