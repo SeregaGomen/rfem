@@ -348,3 +348,22 @@ export function ParamTable(props)  {
         </table>
     );
 }
+
+export function ProgressBar(props) {
+    return (
+        <div>
+            <h1>Progress: {props.percent_complete}%</h1>
+            <p>Status: {props.status}</p>
+            <div style={{width: '100%', backgroundColor: '#ccc', borderRadius: '5px', margin: '20px 0',}}>
+                <div
+                    style={{
+                        width: `${props.percent_complete}%`,
+                        height: '30px',
+                        backgroundColor: 'green',
+                        borderRadius: '5px',
+                    }}
+                />
+            </div>
+        </div>
+    );
+}

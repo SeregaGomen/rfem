@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { CheckBox, ParamTable } from "./components";
+import {CheckBox, ParamTable, ProgressBar} from "./components";
 import { CalculationProblemInfo } from "./problem_info";
 import { Canvas } from "./components";
 import { loadFile } from "../file/file";
@@ -48,28 +48,7 @@ export function ProblemForm(props)  {
             //     <label> Calculating...</label><br/>
             //     <div className="spinner"></div>
             // </div>
-            <div>
-                <h1>Progress: {progress.percent_complete}%</h1>
-                <p>Status: {progress.status}</p>
-                <div
-                    style={{
-                        width: '100%',
-                        backgroundColor: '#ccc',
-                        borderRadius: '5px',
-                        margin: '20px 0',
-                    }}
-                >
-                    <div
-                        style={{
-                            width: `${progress.percent_complete}%`,
-                            height: '30px',
-                            backgroundColor: 'green',
-                            borderRadius: '5px',
-                        }}
-                    />
-                </div>
-            </div>
-
+            <ProgressBar percent_complete={progress.percent_complete} status={progress.status} />
         );
     }
     if (problemInfo) {
