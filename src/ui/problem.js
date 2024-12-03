@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { CheckBox, ParamTable } from "./components";
@@ -25,16 +25,49 @@ export function ProblemForm(props)  {
     const [calculating, setCalculating] = React.useState(false);
     const [isMeshVisible, setIsMeshVisible] = React.useState(false);
 
+    const [progress, setProgress] = useState({ status: 'in_progress', percent_complete: 0 });
+
     useEffect(() => {
         if (props.data == null) {
             setNumThread(navigator.hardwareConcurrency);
         }
+
+        const interval = setInterval(() => {
+            fetch('http://localhost:8001/progress')
+                .then(response => response.json())
+                .then(data => setProgress(data))
+                .catch(error => console.error('Error fetching data:', error));
+        }, 1000);
+
+        return () => clearInterval(interval);
+
     }, [props]);
     if (calculating) {
         return (
+            // <div>
+            //     <label> Calculating...</label><br/>
+            //     <div className="spinner"></div>
+            // </div>
             <div>
-                <label> Calculating...</label><br/>
-                <div className="spinner"></div>
+                <h1>Progress: {progress.percent_complete}%</h1>
+                <p>Status: {progress.status}</p>
+                <div
+                    style={{
+                        width: '100%',
+                        backgroundColor: '#ccc',
+                        borderRadius: '5px',
+                        margin: '20px 0',
+                    }}
+                >
+                    <div
+                        style={{
+                            width: `${progress.percent_complete}%`,
+                            height: '30px',
+                            backgroundColor: 'green',
+                            borderRadius: '5px',
+                        }}
+                    />
+                </div>
             </div>
 
         );
