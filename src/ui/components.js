@@ -1,5 +1,6 @@
 import React from "react";
 import { loadFile } from "../file/file";
+import ProgressBar from "@ramonak/react-progress-bar";
 
 export function RadioButton(props) {
     return (
@@ -349,21 +350,31 @@ export function ParamTable(props)  {
     );
 }
 
-export function ProgressBar(props) {
+// export function ProgressBar(props) {
+//     return (
+//         <div>
+//             <h1>Progress: {props.percent_complete}%</h1>
+//             <p>Status: {props.status}</p>
+//             <div style={{width: '100%', backgroundColor: '#ccc', borderRadius: '5px', margin: '20px 0',}}>
+//                 <div
+//                     style={{
+//                         width: `${props.percent_complete}%`,
+//                         height: '30px',
+//                         backgroundColor: 'green',
+//                         borderRadius: '5px',
+//                     }}
+//                 />
+//             </div>
+//         </div>
+//     );
+// }
+
+// https://www.npmjs.com/package/@ramonak/react-progress-bar
+export function Progress(props) {
     return (
         <div>
-            <h1>Progress: {props.percent_complete}%</h1>
-            <p>Status: {props.status}</p>
-            <div style={{width: '100%', backgroundColor: '#ccc', borderRadius: '5px', margin: '20px 0',}}>
-                <div
-                    style={{
-                        width: `${props.percent_complete}%`,
-                        height: '30px',
-                        backgroundColor: 'green',
-                        borderRadius: '5px',
-                    }}
-                />
-            </div>
+            <h1>{props.status}</h1>
+            <ProgressBar completed={props.percent_complete}/>
         </div>
     );
 }
