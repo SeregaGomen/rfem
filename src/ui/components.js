@@ -357,11 +357,31 @@ export function Progress(props) {
     return <DeterminateProgressBar status={props.status} completed={props.completed}/>;
 }
 
+// function DeterminateProgressBar(props) {
+//     return (
+//         <div>
+//             <h1>{props.status}</h1>
+//             <p>Progress: {props.completed}%</p>
+//             <div style={{width: '100%', backgroundColor: '#ccc', borderRadius: '5px', margin: '20px 0',}}>
+//                 <div
+//                     style={{
+//                         width: `${props.completed}%`,
+//                         height: '30px',
+//                         backgroundColor: 'green',
+//                         borderRadius: '5px',
+//                     }}
+//                 />
+//             </div>
+//         </div>
+//     );
+// }
+
+// https://dev.to/ramonak/react-how-to-create-a-custom-progress-bar-component-in-5-minutes-2lcl
 function DeterminateProgressBar(props) {
     return (
         <div>
             <h1>{props.status}</h1>
-            <p>Progress: {props.completed}%</p>
+            {/*<p>Progress: {props.completed}%</p>*/}
             <div style={{width: '100%', backgroundColor: '#ccc', borderRadius: '5px', margin: '20px 0',}}>
                 <div
                     style={{
@@ -369,8 +389,17 @@ function DeterminateProgressBar(props) {
                         height: '30px',
                         backgroundColor: 'green',
                         borderRadius: '5px',
+                        textAlign: 'right'
                     }}
-                />
+                >
+                    <span style={{
+                        padding: 5,
+                        color: 'white',
+                        fontWeight: 'bold'
+                    }}>
+                        {`${props.completed}%`}
+                    </span>
+                </div>
             </div>
         </div>
     );
