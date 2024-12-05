@@ -48,7 +48,7 @@ export function ProblemForm(props)  {
             //     <label> Calculating...</label><br/>
             //     <div className="spinner"></div>
             // </div>
-            <Progress percent_complete={progress.percent_complete} status={progress.status} />
+            <Progress completed={progress.completed} status={progress.status} indeterminate={progress.indeterminate}/>
         );
     }
     if (problemInfo) {

@@ -1,6 +1,6 @@
 import React from "react";
 import { loadFile } from "../file/file";
-import ProgressBar from "@ramonak/react-progress-bar";
+//import ProgressBar from "@ramonak/react-progress-bar";
 
 export function RadioButton(props) {
     return (
@@ -350,31 +350,65 @@ export function ParamTable(props)  {
     );
 }
 
-// export function ProgressBar(props) {
-//     return (
-//         <div>
-//             <h1>Progress: {props.percent_complete}%</h1>
-//             <p>Status: {props.status}</p>
-//             <div style={{width: '100%', backgroundColor: '#ccc', borderRadius: '5px', margin: '20px 0',}}>
-//                 <div
-//                     style={{
-//                         width: `${props.percent_complete}%`,
-//                         height: '30px',
-//                         backgroundColor: 'green',
-//                         borderRadius: '5px',
-//                     }}
-//                 />
-//             </div>
-//         </div>
-//     );
-// }
-
-// https://www.npmjs.com/package/@ramonak/react-progress-bar
 export function Progress(props) {
+    if (props.indeterminate) {
+        return <IndeterminateProgressBar status={props.status}/>;
+    }
+    return <DeterminateProgressBar status={props.status} completed={props.completed}/>;
+}
+
+function DeterminateProgressBar(props) {
     return (
         <div>
             <h1>{props.status}</h1>
-            <ProgressBar completed={props.percent_complete}/>
+            <p>Progress: {props.completed}%</p>
+            <div style={{width: '100%', backgroundColor: '#ccc', borderRadius: '5px', margin: '20px 0',}}>
+                <div
+                    style={{
+                        width: `${props.completed}%`,
+                        height: '30px',
+                        backgroundColor: 'green',
+                        borderRadius: '5px',
+                    }}
+                />
+            </div>
         </div>
     );
 }
+
+function IndeterminateProgressBar(props) {
+    return (
+        <div>
+            <h1>{props.status}</h1>
+            <div style={{width: '100%', backgroundColor: '#ccc', borderRadius: '5px', overflow: 'hidden'}}>
+                <div
+                    style={{
+                        width: '100%',
+                        height: '30px',
+                        backgroundColor: 'green',
+                        borderRadius: '5px',
+                        animation: 'indeterminate 1.5s infinite',
+                    }}
+                />
+                <style>
+                    {
+                        `@keyframes indeterminate {
+                        0% { transform: translateX(-100%); }
+                        100% { transform: translateX(100%); }
+                        }`
+                    }
+                </style>
+            </div>
+        </div>
+    );
+}
+
+// // https://www.npmjs.com/package/@ramonak/react-progress-bar
+// export function Progress(props) {
+//     return (
+//         <div>
+//             <h1>{props.status}</h1>
+//             <ProgressBar completed={props.percent_complete}/>
+//         </div>
+//     );
+// }
