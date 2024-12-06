@@ -1,8 +1,8 @@
 import React from "react";
 import Modal from "react-modal";
-import { renderMesh } from "../draw/draw";
-import { degToRad, radToDeg } from "../draw/utils";
-import { Link } from "react-router-dom";
+import {renderMesh} from "../draw/draw";
+import {degToRad, radToDeg} from "../draw/utils";
+import {Link} from "react-router-dom";
 import {
     Canvas,
     LoadButton,

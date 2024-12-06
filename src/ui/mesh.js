@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 
 export function MeshForm() {
     const [file, setFile] = React.useState(null);
@@ -26,7 +26,7 @@ export function MeshForm() {
                     // Создаем объект FormData и добавляем файл
                     const formData = new FormData();
                     formData.append("file", file);
-                    axios.post("http://localhost:8001/upload", formData, {
+                    axios.post(window.serverURL + "/upload", formData, {
                         headers: {
                             "Content-Type": "multipart/form-data",
                         },

@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { CheckBox, ParamTable, Progress } from "./components";
-import { CalculationProblemInfo } from "./problem_info";
-import { Canvas } from "./components";
-import { loadFile } from "../file/file";
-import { renderMesh } from "../draw/draw";
+import {Link} from "react-router-dom";
+import {CheckBox, ParamTable, Progress} from "./components";
+import {CalculationProblemInfo} from "./problem_info";
+import {Canvas} from "./components";
+import {loadFile} from "../file/file";
+import {renderMesh} from "../draw/draw";
 
 export function ProblemForm(props)  {
     const [mesh, setMesh] = React.useState(null);
@@ -33,7 +33,7 @@ export function ProblemForm(props)  {
         }
 
         const interval = setInterval(() => {
-            fetch('http://localhost:8001/progress')
+            fetch(window.serverURL + "/progress")
                 .then(response => response.json())
                 .then(data => setProgress(data))
                 .catch(error => console.error('Error fetching data:', error));
@@ -83,7 +83,7 @@ export function ProblemForm(props)  {
                                   if (props.data !== undefined) {
                                       const formData = new FormData();
                                       formData.append('meshName', props.data.Mesh);
-                                      axios.post('http://localhost:8001/load_mesh', formData, {
+                                      axios.post(window.serverURL + "/load_mesh", formData, {
                                           headers: {
                                               'Content-Type': 'text/plain',
                                           },
@@ -211,7 +211,7 @@ export function ProblemForm(props)  {
                 formData.append('pressureLoad', pressureLoad);
                 formData.append('boundaryCondition', boundaryCondition);
                 formData.append('meshFileName', meshFileName);
-                axios.post('http://localhost:8001/problem', formData, {
+                axios.post(window.serverURL + "/problem", formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },

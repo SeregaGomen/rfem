@@ -1,5 +1,5 @@
 import React from "react";
-import { loadFile } from "../file/file";
+import {loadFile} from "../file/file";
 //import ProgressBar from "@ramonak/react-progress-bar";
 
 export function RadioButton(props) {

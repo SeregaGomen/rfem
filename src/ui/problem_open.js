@@ -1,15 +1,15 @@
 import React, {useEffect} from "react";
 import axios from "axios";
 import Modal from "react-modal";
-import { ProblemForm } from "./problem";
-import { useNavigate } from 'react-router-dom';
+import {ProblemForm} from "./problem";
+import {useNavigate} from 'react-router-dom';
 
 export function LoadProblemForm() {
     const [error, setError] = React.useState(null);
     const [isLoaded, setIsLoaded] = React.useState(false);
     const [files, setFiles] = React.useState([]);
     useEffect(() => {
-        fetch("http://localhost:8001/problem_list")
+        fetch(window.serverURL + "/problem_list")
             .then(res => res.json())
             .then(
                 (result) => {
@@ -121,7 +121,7 @@ function ProblemList(props)  {
                     async () => {
                         const formData = new FormData();
                         formData.append('problemName', fileName);
-                        axios.post('http://localhost:8001/load_problem', formData, {
+                        axios.post(window.serverURL + "/load_problem", formData, {
                             headers: {
                                 'Content-Type': 'text/plain',
                             },
