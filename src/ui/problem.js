@@ -113,7 +113,6 @@ export function ProblemForm(props)  {
                                                       alert("Wrong mesh format!");
                                                       return;
                                               }
-                                              msh.feType = "fe3d4";
                                               msh.x = response.data.X;
                                               msh.fe = response.data.FE;
                                               msh.be = response.data.BE;
