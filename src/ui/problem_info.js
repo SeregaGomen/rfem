@@ -22,6 +22,16 @@ import {Link} from "react-router-dom";
  *
  */
 export function CalculationProblemInfo(props)  {
+    if (props.problemInfo.Error.length) {
+        return (
+            <div>
+                <h1>The problem has been solving {props.problemInfo.DateTime}</h1>
+                <h2>{props.problemInfo.Error}</h2>
+            </div>
+        );
+    }
+
+
     let direct = (value, dir) => {
         return value & dir ? '+' : null;
     }
