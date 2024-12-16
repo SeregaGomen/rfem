@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef, useState} from "react";
 import {loadFile} from "../file/file";
 //import ProgressBar from "@ramonak/react-progress-bar";
 
@@ -264,12 +264,31 @@ export function ScaleSceneBox(props) {
 }
 
 export function ParamTable(props)  {
+    const [columnWidths, setColumnWidths] = useState([150, 150, 150]); // начальная ширина столбцов
+    const resizingIndex = useRef(null);
+    const startX = useRef(null);
+
     const [cols] = React.useState(props.data.length ? props.data[0].length ? props.data[0].length : 0 : 0);
     const rows = [];
     const headers = [];
-    for (const title of props.headers) {
-        headers.push(<th key={title} rowSpan="2">{title}</th>);
-    }
+
+    props.headers.map((title, index) => (
+        headers.push(<th key={title} rowSpan="2" style={{ width: `${columnWidths[index]}px` }}>
+            {title}
+            <div
+                className="resize-handle"
+                onMouseDown={(e) => handleMouseDown(index, e)}
+            ></div>
+        </th>)
+    ));
+
+    // for (const title of props.headers) {
+    //     headers.push(<th key={title} rowSpan="2"><div
+    //         className="resize-handle"
+    //         onMouseDown={(e) => handleMouseDown(0, e)}
+    //     ></div>
+    //         {title}</th>);
+    // }
     if (props.direct === "on") {
         headers.push(<th key="Direction" colSpan="4">Direction</th>);
     }
@@ -311,40 +330,69 @@ export function ParamTable(props)  {
         }
         rows.push(<tr key={i}>{row}</tr>);
     }
+
+    const handleMouseDown = (index, event) => {
+        resizingIndex.current = index;
+        startX.current = event.clientX;
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
+    };
+
+    const handleMouseMove = (event) => {
+        if (resizingIndex.current === null) return;
+
+        const delta = event.clientX - startX.current;
+        startX.current = event.clientX;
+
+        setColumnWidths((prevWidths) => {
+            const newWidths = [...prevWidths];
+            newWidths[resizingIndex.current] = Math.max(newWidths[resizingIndex.current] + delta, 50); // Минимальная ширина 50px
+            return newWidths;
+        });
+    };
+
+    const handleMouseUp = () => {
+        resizingIndex.current = null;
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+    };
+
     return (
-        <table>
+        <table className="resizable-table">
             <thead>
-            <tr>{headers}</tr>
-            {props.direct === "on" ? <tr>
-                <th key="X">X</th>
-                <th key="Y">Y</th>
-                <th key="Z">Z</th>
-            </tr> : null}
+                <tr>{headers}</tr>
+                    {
+                        props.direct === "on" ? <tr>
+                            <th key="X">X</th>
+                            <th key="Y">Y</th>
+                            <th key="Z">Z</th>
+                            </tr> : null
+                    }
             </thead>
             <tbody>{rows}
-            <tr>
-                <td>
+                <tr>
+                    <td>
                     <input type="button" value="add" onClick={() => {
-                        let row = [];
-                        for (let j = 0; j < cols; j++) {
-                            if (props.direct === "on" && j === cols - 1) {
-                                continue;
-                            }
-                            row.push("");
-                        }
-                        if (props.direct === "on") {
-                            row.push(0);
-                        }
-                        let table = [...props.data, row];
-                        props.updateData(table);
-                    }}/>
-                    <input type="button" value="del" disabled={!props.data.length} onClick={() => {
-                        let table = [...props.data];
-                        table.splice(table.length - 1, 1);
-                        props.updateData(table);
-                    }}/>
-                </td>
-            </tr>
+                                    let row = [];
+                                    for (let j = 0; j < cols; j++) {
+                                        if (props.direct === "on" && j === cols - 1) {
+                                            continue;
+                                        }
+                                        row.push("");
+                                    }
+                                    if (props.direct === "on") {
+                                        row.push(0);
+                                    }
+                                    let table = [...props.data, row];
+                                    props.updateData(table);
+                                }}/>
+                                <input type="button" value="del" disabled={!props.data.length} onClick={() => {
+                                    let table = [...props.data];
+                                    table.splice(table.length - 1, 1);
+                                    props.updateData(table);
+                                }}/>
+                            </td>
+                        </tr>
             </tbody>
         </table>
     );

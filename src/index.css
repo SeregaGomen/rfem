@@ -109,3 +109,30 @@ table, th {
   top: 0;
   z-index: 10;
 }
+
+.resizable-table {
+  border-collapse: collapse;
+  /*width: 100%;*/
+}
+
+.resizable-table th,
+.resizable-table td {
+  /*border: 1px solid #ddd;*/
+  position: relative;
+  text-align: left;
+  /*padding: 8px;*/
+}
+
+.resize-handle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 5px;
+  cursor: col-resize;
+  background-color: transparent;
+}
+
+.resize-handle:hover {
+  background-color: #ccc;
+}
