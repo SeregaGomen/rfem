@@ -264,7 +264,8 @@ export function ScaleSceneBox(props) {
 }
 
 export function ParamTable(props)  {
-    const [columnWidths, setColumnWidths] = useState([150, 150, 150]); // начальная ширина столбцов
+    const [columnWidths, setColumnWidths] = useState(props.headers.map(() => 150)); // начальная ширина столбцов
+    //const [columnWidths, setColumnWidths] = useState([150, 150, 150]); // начальная ширина столбцов
     const resizingIndex = useRef(null);
     const startX = useRef(null);
 
