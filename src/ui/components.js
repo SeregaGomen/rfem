@@ -268,7 +268,7 @@ export function ParamTable(props)  {
     const resizingIndex = useRef(null);
     const startX = useRef(null);
 
-    const [cols] = React.useState(props.data.length ? props.data[0].length ? props.data[0].length : 0 : 0);
+    const cols = props.headers.length;
     const rows = [];
     const headers = [];
 
@@ -375,9 +375,9 @@ export function ParamTable(props)  {
                     <input type="button" value="add" onClick={() => {
                                     let row = [];
                                     for (let j = 0; j < cols; j++) {
-                                        if (props.direct === "on" && j === cols - 1) {
-                                            continue;
-                                        }
+                                        // if (props.direct === "on" && j === cols - 1) {
+                                        //     continue;
+                                        // }
                                         row.push("");
                                     }
                                     if (props.direct === "on") {
