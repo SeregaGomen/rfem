@@ -300,7 +300,7 @@ export function ParamTable(props)  {
             }
             row.push(<td key={i.toString() + "_" + j.toString()}>
                 <input id={i.toString() + "_" + j.toString()} type={props.colType[j] === "str" ?
-                    "text" : "number"} step="any" defaultValue={props.data[i][j]} style={{ width: columnWidths[j] }}
+                    "text" : "number"} step="any" defaultValue={props.data[i][j]} style={{ width: columnWidths[j] - 5 }}
                        onChange={(event) => {
                            let row = Number(event.target.id.substring(0, event.target.id.search("_")));
                            let col = Number(event.target.id.substring(event.target.id.search("_") + 1, event.target.id.length));
