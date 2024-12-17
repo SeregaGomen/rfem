@@ -26,7 +26,9 @@ export function CalculationProblemInfo(props)  {
         return (
             <div>
                 <h1>The problem has been solving {props.problemInfo.DateTime}</h1>
-                <h2>Error: {props.problemInfo.Error}</h2>
+                <div style={{color: "red"}}>
+                    <h2>Error: {props.problemInfo.Error}</h2>
+                </div>
             </div>
         );
     }
