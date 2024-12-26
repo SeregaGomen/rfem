@@ -3,7 +3,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import {MainForm} from "./ui/main"
 import {ProblemForm} from "./ui/problem"
 import {LoadProblemForm} from "./ui/problem_open";
-import {ViewResultsForm} from "./ui/view_results";
+import {OpenResultsFileForm} from "./ui/view_results";
 import './app.css';
 
 window.serverURL = "http://localhost:8001";
@@ -24,7 +24,7 @@ export function App() {
                     {/*<Route exact path="/mesh" element={<MeshForm/>}/>*/}
                     <Route exact path="/new-problem" element={<ProblemForm/>}/>
                     <Route exact path="/open-problem" element={<LoadProblemForm/>}/>
-                    <Route exact path="/view-results" element={<ViewResultsForm/>}/>
+                    <Route exact path="/view-results" element={<OpenResultsFileForm/>}/>
                 </Routes>
             </BrowserRouter>
         </div>

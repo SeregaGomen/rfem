@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Modal from "react-modal";
 import {renderMesh} from "../draw/draw";
 import {degToRad, radToDeg} from "../draw/utils";
@@ -14,8 +14,40 @@ import {
     TransformationObjectBox
 } from "./components";
 
-export function ViewResultsForm() {
+export function OpenResultsFileForm() {
     const [mesh, setMesh] = React.useState(null);
+    const [isDialogOpen, setIsDialogOpen] = React.useState(true);
+    let clear = () => {
+        setMesh(null);
+        return (<ViewResultsForm mesh={null}/>);
+    }
+    let updateFile = (value) => {
+        setMesh(value.mesh);
+        setIsDialogOpen(false)
+    }
+    if (!isDialogOpen) {
+        return (
+            <ViewResultsForm mesh={mesh}/>
+        );
+    }
+
+    return (
+        <form>
+            <Modal isOpen={isDialogOpen} ariaHideApp={false}>
+                <h1>Open Results</h1>
+                <fieldset>
+                    <legend>Saved results files</legend>
+                    <label>File name:<br/>
+                        <LoadButton updateData={updateFile} clear={clear}/>
+                    </label>
+                </fieldset>
+            </Modal>
+        </form>
+    );
+}
+
+
+export function ViewResultsForm(props) {
     const [isLegend, setIsLegend] = React.useState(true);
     const [isAutoRotation, setIsAutoRotation] = React.useState(true);
     const [isAxes, setIsAxes] = React.useState(true);
@@ -29,30 +61,27 @@ export function ViewResultsForm() {
     const [transformation, setTransformation] = React.useState({
         index: [0, 1, 2], ratio: 0.0,
     });
-    const [isDialogOpen, setIsDialogOpen] = React.useState(true);
 
-    let clear = () => {
-        setMesh(null);
-        renderMesh.setMesh(null);
-    }
-    let updateFile = (value) => {
-        setMesh(value.mesh);
-        setFunIndex(value.mesh.func.length === 0 ? -1 : 0);
-        setIsLegend(true);
-        setIsAutoRotation(true);
-        setIsAxes(true);
-        setNumColors(32);
-        setRotation([0.0, 0.0, 0.0]);
-        setTranslate([0.0, 0.0, 0.0]);
-        setScale(1.0);
-        setIsMesh(true);
-        setIsSurface(true);
-        setTransformation({index: [0, 1, 2], ratio: 0.0});
-        setIsDialogOpen(false)
-        if (value.mesh) {
-            renderMesh.setMesh(value.mesh);
+    useEffect(() => {
+        if (props.mesh) {
+            setFunIndex(props.mesh.func.length === 0 ? -1 : 0);
+            setIsLegend(true);
+            setIsAutoRotation(true);
+            setIsAxes(true);
+            setNumColors(32);
+            setRotation([0.0, 0.0, 0.0]);
+            setTranslate([0.0, 0.0, 0.0]);
+            setScale(1.0);
+            setIsMesh(true);
+            setIsSurface(true);
+            setTransformation({index: [0, 1, 2], ratio: 0.0});
+            if (props.mesh) {
+                renderMesh.setMesh(props.mesh);
+            }
+        } else {
+            renderMesh.setMesh(null);
         }
-    }
+    }, [props]);
     let updateFunIndex = (value) => {
         setFunIndex(value.funIndex);
         renderMesh.setFunIndex(value.funIndex);
@@ -66,7 +95,7 @@ export function ViewResultsForm() {
         renderMesh.setIsLegend(value.isLegend);
     }
     let updateRotation = (value) => {
-        setIsLegend(value);
+        setRotation(value);
         renderMesh.setRotation([degToRad(value[0]), degToRad(value[1]), degToRad(value[2])]);
     }
     let updateIsAutoRotation = (value) => {
@@ -122,30 +151,30 @@ export function ViewResultsForm() {
     return (
         <form>
             {/*<LoadButton updateData={updateFile} clear={clear}/>*/}
-            <div className="container" style={{ position: 'sticky', display: !isDialogOpen ? 'block' : 'none'}}>
+            <div className="container" style={{ position: 'sticky', display: 'block'}}>
                 <Canvas id={"gl"}/>
                 <Canvas id={"text"}/>
                 {
-                    mesh ?
+                    props.mesh ?
                         <div className="parametersBox">
                         {
                             funIndex !== -1 ?
                                 <ViewBox funIndex={funIndex} numColors={numColors} isLegend={isLegend}
-                                         funList={mesh.func} updateFunIndex={updateFunIndex}
+                                         funList={props.mesh.func} updateFunIndex={updateFunIndex}
                                          updateNumColors={updateNumColors}
                                          updateIsLegend={updateIsLegend}/>
                             : null
                         }
                             <RotateBox rotation={rotation} isAutoRotation={isAutoRotation}
                                        updateRotation={updateRotation} updateIsAutoRotation={updateIsAutoRotation}/>
-                            <VisualizationBox mesh={mesh} isAxes={isAxes} isMesh={isMesh} isSurface={isSurface}
+                            <VisualizationBox mesh={props.mesh} isAxes={isAxes} isMesh={isMesh} isSurface={isSurface}
                                               updateIsAxes={updateIsAxes} updateRadio={updateRadio}/>
                             <TranslationSceneBox translate={translate} updateTranslate={updateTranslate}/>
                             <ScaleSceneBox scale={scale} updateScale={updateScale}/>
                             {
                                 funIndex !== -1 ?
-                                    <TransformationObjectBox funIndex={funIndex} funList={mesh.func}
-                                                             transformation={transformation} feType={mesh.feType}
+                                    <TransformationObjectBox funIndex={funIndex} funList={props.mesh.func}
+                                                             transformation={transformation} feType={props.mesh.feType}
                                                              updateTransformationIndex={updateTransformationIndex}
                                                              updateTransformationRatio={updateTransformationRatio}/>
                                 : null
@@ -158,15 +187,6 @@ export function ViewResultsForm() {
                 <br/>
                 <Link to="/">Home</Link>
             </div>
-            <Modal isOpen={isDialogOpen} ariaHideApp={false}>
-                <h1>Open Results</h1>
-                <fieldset>
-                    <legend>Saved results files</legend>
-                    <label>File name:<br/>
-                        <LoadButton updateData={updateFile} clear={clear}/>
-                    </label>
-                </fieldset>
-            </Modal>
         </form>
     );
 }

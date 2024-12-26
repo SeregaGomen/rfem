@@ -422,25 +422,29 @@ function DeterminateProgressBar(props) {
         <div>
             <h1>{props.status}</h1>
             {/*<p>Progress: {props.completed}%</p>*/}
-            <div style={{width: '100%', backgroundColor: '#ccc', borderRadius: '5px', margin: '20px 0',}}>
-                <div
-                    style={{
-                        width: `${props.completed}%`,
-                        height: '30px',
-                        backgroundColor: 'green',
-                        borderRadius: '5px',
-                        textAlign: 'right'
-                    }}
-                >
-                    <span style={{
-                        padding: 5,
-                        color: 'white',
-                        fontWeight: 'bold'
-                    }}>
-                        {`${props.completed}%`}
-                    </span>
-                </div>
-            </div>
+            {
+                props.completed !== undefined ?
+                    <div style={{width: '100%', backgroundColor: '#ccc', borderRadius: '5px', margin: '20px 0',}}>
+                        <div
+                            style={{
+                                width: `${props.completed}%`,
+                                height: '30px',
+                                backgroundColor: 'green',
+                                borderRadius: '5px',
+                                textAlign: 'right'
+                            }}
+                        >
+                        <span style={{
+                            padding: 5,
+                            color: 'white',
+                            fontWeight: 'bold'
+                        }}>
+                            {`${props.completed}%`}
+                        </span>
+                        </div>
+                    </div>
+                : null
+            }
         </div>
     );
 }
