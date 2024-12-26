@@ -138,8 +138,8 @@ table, th {
 }
 
 progress {
-   width: 100%;
-   height: 30px;
+  width: 100%;
+  height: 30px;
 }
 
 progress::-webkit-progress-bar {
