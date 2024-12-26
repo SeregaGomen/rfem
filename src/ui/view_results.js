@@ -149,44 +149,41 @@ export function ViewResultsForm(props) {
     }
 
     return (
-        <form>
-            {/*<LoadButton updateData={updateFile} clear={clear}/>*/}
-            <div className="container" style={{ position: 'sticky', display: 'block'}}>
-                <Canvas id={"gl"}/>
-                <Canvas id={"text"}/>
-                {
-                    props.mesh ?
-                        <div className="parametersBox">
+        <div className="container" style={{ position: 'sticky', display: 'block'}}>
+            <Canvas id={"gl"}/>
+            <Canvas id={"text"}/>
+            {
+                props.mesh ?
+                    <div className="parametersBox">
+                    {
+                        funIndex !== -1 ?
+                            <ViewBox funIndex={funIndex} numColors={numColors} isLegend={isLegend}
+                                     funList={props.mesh.func} updateFunIndex={updateFunIndex}
+                                     updateNumColors={updateNumColors}
+                                     updateIsLegend={updateIsLegend}/>
+                        : null
+                    }
+                        <RotateBox rotation={rotation} isAutoRotation={isAutoRotation}
+                                   updateRotation={updateRotation} updateIsAutoRotation={updateIsAutoRotation}/>
+                        <VisualizationBox mesh={props.mesh} isAxes={isAxes} isMesh={isMesh} isSurface={isSurface}
+                                          updateIsAxes={updateIsAxes} updateRadio={updateRadio}/>
+                        <TranslationSceneBox translate={translate} updateTranslate={updateTranslate}/>
+                        <ScaleSceneBox scale={scale} updateScale={updateScale}/>
                         {
                             funIndex !== -1 ?
-                                <ViewBox funIndex={funIndex} numColors={numColors} isLegend={isLegend}
-                                         funList={props.mesh.func} updateFunIndex={updateFunIndex}
-                                         updateNumColors={updateNumColors}
-                                         updateIsLegend={updateIsLegend}/>
+                                <TransformationObjectBox funIndex={funIndex} funList={props.mesh.func}
+                                                         transformation={transformation} feType={props.mesh.feType}
+                                                         updateTransformationIndex={updateTransformationIndex}
+                                                         updateTransformationRatio={updateTransformationRatio}/>
                             : null
                         }
-                            <RotateBox rotation={rotation} isAutoRotation={isAutoRotation}
-                                       updateRotation={updateRotation} updateIsAutoRotation={updateIsAutoRotation}/>
-                            <VisualizationBox mesh={props.mesh} isAxes={isAxes} isMesh={isMesh} isSurface={isSurface}
-                                              updateIsAxes={updateIsAxes} updateRadio={updateRadio}/>
-                            <TranslationSceneBox translate={translate} updateTranslate={updateTranslate}/>
-                            <ScaleSceneBox scale={scale} updateScale={updateScale}/>
-                            {
-                                funIndex !== -1 ?
-                                    <TransformationObjectBox funIndex={funIndex} funList={props.mesh.func}
-                                                             transformation={transformation} feType={props.mesh.feType}
-                                                             updateTransformationIndex={updateTransformationIndex}
-                                                             updateTransformationRatio={updateTransformationRatio}/>
-                                : null
-                            }
 
-                        </div>
-                    : null
-                }
-                <br/>
-                <br/>
-                <Link to="/">Home</Link>
-            </div>
-        </form>
+                    </div>
+                : null
+            }
+            <br/>
+            <br/>
+            <Link to="/">Home</Link>
+        </div>
     );
 }

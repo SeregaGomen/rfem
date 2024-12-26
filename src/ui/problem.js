@@ -23,7 +23,7 @@ export function ProblemForm(props)  {
     const [problemInfo, setProblemInfo] = React.useState(null);
     const [calculating, setCalculating] = React.useState(false);
     const [isMeshVisible, setIsMeshVisible] = React.useState(false);
-
+    const [containerHeight, setContainerHeight] = useState(5);
     const [progress, setProgress] = useState({ status: "", percent_complete: 0 });
 
     useEffect(() => {
@@ -62,7 +62,7 @@ export function ProblemForm(props)  {
             {(props.data == null) ? <h1>New Problem</h1> : <h1>Saved Problem ({props.data.Mesh.split('/').pop()})</h1>}
             <fieldset>
                 <legend>Mesh</legend>
-                <div className={"container"} style={{height: 600}}>
+                <div style={{ height: `${containerHeight}vh`, transition: 'height 0.5s' }}>
                     <label>File name:<br/>
                         <input type="file" name="mesh_file" id="get_files" key="mesh" onChange={(event) => {
                             if (event.target.files.length === 0) {
@@ -83,6 +83,7 @@ export function ProblemForm(props)  {
                                   disabled={meshFile === null && props.data === undefined}
                                   updateData={async () => {
                                       setIsMeshVisible(!isMeshVisible);
+                                      setContainerHeight(!isMeshVisible ? 85 : 5); // Изменяем высоту в зависимости от состояния
                                       if (props.data !== undefined) {
                                           const formData = new FormData();
                                           formData.append('meshName', props.data.Mesh);
@@ -130,13 +131,10 @@ export function ProblemForm(props)  {
                                       }
                                   }}/>
 
-                        <div style={{position: 'sticky', display: isMeshVisible ? 'block' : 'none'}}>
-                            {/*<Canvas id={"gl"}/>*/}
-                            {/*<Canvas id={"text"}/>*/}
+                        <div style={{display: isMeshVisible ? 'block' : 'none'}}>
                             <ViewResultsForm mesh={mesh}/>
                         </div>
                     </label>
-
                 </div>
             </fieldset>
             <fieldset>
