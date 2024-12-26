@@ -132,7 +132,7 @@ export function ProblemForm(props)  {
                                   }}/>
 
                         <div style={{display: isMeshVisible ? 'block' : 'none'}}>
-                            <ViewResultsForm mesh={mesh}/>
+                            <ViewResultsForm mesh={mesh} isRef={false}/>
                         </div>
                     </label>
                 </div>

@@ -27,7 +27,7 @@ export function OpenResultsFileForm() {
     }
     if (!isDialogOpen) {
         return (
-            <ViewResultsForm mesh={mesh}/>
+            <ViewResultsForm mesh={mesh} isRef={true}/>
         );
     }
 
@@ -183,7 +183,9 @@ export function ViewResultsForm(props) {
             }
             <br/>
             <br/>
-            <Link to="/">Home</Link>
+            {
+                props.isRef ? <Link to="/">Home</Link> : null
+            }
         </div>
     );
 }
