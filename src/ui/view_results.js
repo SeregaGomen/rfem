@@ -19,7 +19,7 @@ export function ViewResultsForm() {
     const [isLegend, setIsLegend] = React.useState(true);
     const [isAutoRotation, setIsAutoRotation] = React.useState(true);
     const [isAxes, setIsAxes] = React.useState(true);
-    const [funIndex, setFunIndex] = React.useState(0);
+    const [funIndex, setFunIndex] = React.useState(-1);
     const [numColors, setNumColors] = React.useState(32);
     const [rotation, setRotation] = React.useState([0.0, 0.0, 0.0]);
     const [isMesh, setIsMesh] = React.useState(true);
@@ -37,7 +37,7 @@ export function ViewResultsForm() {
     }
     let updateFile = (value) => {
         setMesh(value.mesh);
-        setFunIndex(0);
+        setFunIndex(value.mesh.func.length === 0 ? -1 : 0);
         setIsLegend(true);
         setIsAutoRotation(true);
         setIsAxes(true);
@@ -125,30 +125,40 @@ export function ViewResultsForm() {
             <div className="container" style={{ position: 'sticky', display: !isDialogOpen ? 'block' : 'none'}}>
                 <Canvas id={"gl"}/>
                 <Canvas id={"text"}/>
-                <div className="parametersBox">
-                    <ViewBox funIndex={funIndex} numColors={numColors}
-                             isLegend={isLegend} mesh={mesh}
-                             updateFunIndex={updateFunIndex} updateNumColors={updateNumColors}
-                             updateIsLegend={updateIsLegend}/>
-                    <RotateBox rotation={rotation} isAutoRotation={isAutoRotation}
-                               updateRotation={updateRotation} updateIsAutoRotation={updateIsAutoRotation}
-                               mesh={mesh}/>
-                    <VisualizationBox mesh={mesh} isAxes={isAxes} isMesh={isMesh}
-                                      isSurface={isSurface} updateIsAxes={updateIsAxes}
-                                      updateRadio={updateRadio}/>
-                    <TranslationSceneBox mesh={mesh} translate={translate}
-                                         updateTranslate={updateTranslate}/>
-                    <ScaleSceneBox mesh={mesh} scale={scale} updateScale={updateScale}/>
-                    <TransformationObjectBox funIndex={funIndex} mesh={mesh}
-                                             transformation={transformation}
-                                             updateTransformationIndex={updateTransformationIndex}
-                                             updateTransformationRatio={updateTransformationRatio}/>
-                </div>
+                {
+                    mesh ?
+                        <div className="parametersBox">
+                        {
+                            funIndex !== -1 ?
+                                <ViewBox funIndex={funIndex} numColors={numColors} isLegend={isLegend}
+                                         funList={mesh.func} updateFunIndex={updateFunIndex}
+                                         updateNumColors={updateNumColors}
+                                         updateIsLegend={updateIsLegend}/>
+                            : null
+                        }
+                            <RotateBox rotation={rotation} isAutoRotation={isAutoRotation}
+                                       updateRotation={updateRotation} updateIsAutoRotation={updateIsAutoRotation}/>
+                            <VisualizationBox mesh={mesh} isAxes={isAxes} isMesh={isMesh} isSurface={isSurface}
+                                              updateIsAxes={updateIsAxes} updateRadio={updateRadio}/>
+                            <TranslationSceneBox translate={translate} updateTranslate={updateTranslate}/>
+                            <ScaleSceneBox scale={scale} updateScale={updateScale}/>
+                            {
+                                funIndex !== -1 ?
+                                    <TransformationObjectBox funIndex={funIndex} funList={mesh.func}
+                                                             transformation={transformation} feType={mesh.feType}
+                                                             updateTransformationIndex={updateTransformationIndex}
+                                                             updateTransformationRatio={updateTransformationRatio}/>
+                                : null
+                            }
+
+                        </div>
+                    : null
+                }
                 <br/>
                 <br/>
                 <Link to="/">Home</Link>
             </div>
-            <Modal isOpen={isDialogOpen} ariaHideApp={false} >
+            <Modal isOpen={isDialogOpen} ariaHideApp={false}>
                 <h1>Open Results</h1>
                 <fieldset>
                     <legend>Saved results files</legend>

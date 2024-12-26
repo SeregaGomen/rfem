@@ -44,9 +44,7 @@ export function ListBox(props) {
                 value={props.value}
                 onChange={props.updateData}>
                 {
-                    props.mesh ? props.mesh.func.map((v, i) => (
-                        <option key={i} value={i} selected={i===props.index}>{v.name}</option>
-                    )) : null
+                    props.items.map((v, i) => (<option key={i} value={i} selected={i===props.index}>{v.name}</option>))
                 }
             </select>
         </label>
@@ -103,41 +101,39 @@ export function LoadButton(props) {
 
 export function RotateBox(props){
     return (
-        props.mesh ?
-            <fieldset className="rotationBox">
-                <legend>Rotation</legend>
-                <CheckBox isChecked={props.isAutoRotation} caption={"Auto-rotation"}
-                          updateData={props.updateIsAutoRotation}/>
-                {
-                    !props.isAutoRotation ?
-                        <Slider min={0} max={360} step={1} value={props.rotation[0]} caption={"X:"}
-                                width={"20px"} updateData={(val) => {
-                                    props.updateRotation([val, props.rotation[1], props.rotation[2]])
-                                }}
-                        />
-                    : null
-                }
-                {
-                    !props.isAutoRotation ?
-                        <Slider min={0} max={360} step={1} value={props.rotation[1]} caption={"Y:"}
-                                width={"20px"} updateData={(val) => {
-                                    props.updateRotation([props.rotation[0], val, props.rotation[2]])
-                                }}
-                        />
-                    : null
-                }
-                {
-                    !props.isAutoRotation ?
-                        <Slider min={0} max={360} step={1} value={props.rotation[2]} caption={"Z:"}
-                                width={"20px"} updateData={(val) => {
-                                    props.updateRotation([props.rotation[0], props.rotation[1], val])
-                                }}
-                        />
-                    : null
-                }
-            </fieldset>
-        : null
-    )
+        <fieldset className="rotationBox">
+            <legend>Rotation</legend>
+            <CheckBox isChecked={props.isAutoRotation} caption={"Auto-rotation"}
+                      updateData={props.updateIsAutoRotation}/>
+            {
+                !props.isAutoRotation ?
+                    <Slider min={0} max={360} step={1} value={props.rotation[0]} caption={"X:"}
+                            width={"20px"} updateData={(val) => {
+                                props.updateRotation([val, props.rotation[1], props.rotation[2]])
+                            }}
+                    />
+                : null
+            }
+            {
+                !props.isAutoRotation ?
+                    <Slider min={0} max={360} step={1} value={props.rotation[1]} caption={"Y:"}
+                            width={"20px"} updateData={(val) => {
+                                props.updateRotation([props.rotation[0], val, props.rotation[2]])
+                            }}
+                    />
+                : null
+            }
+            {
+                !props.isAutoRotation ?
+                    <Slider min={0} max={360} step={1} value={props.rotation[2]} caption={"Z:"}
+                            width={"20px"} updateData={(val) => {
+                                props.updateRotation([props.rotation[0], props.rotation[1], val])
+                            }}
+                    />
+                : null
+            }
+        </fieldset>
+    );
 }
 
 export function ViewBox(props) {
@@ -151,17 +147,15 @@ export function ViewBox(props) {
         props.updateNumColors({numColors: Number(event)});
     }
     return (
-        props.mesh && props.mesh.func.length ?
-            <fieldset className="viewBox">
-                <legend>View</legend>
-                <ListBox name={"Function"} label={"Function:"} mesh={props.mesh} index={0} width={"70px"}
-                         value={props.funIndex} updateData={updateFunction}/>
-                <Slider min={32} max={256} step={32} value={props.numColors} enabled={true} caption={"Colors:"}
-                        updateData={updateNumColors}/>
-                <CheckBox isChecked={props.isLegend} caption={"Legend"} updateData={updateCheckbox}/>
-            </fieldset>
-        : null
-    )
+        <fieldset className="viewBox">
+            <legend>View</legend>
+            <ListBox name={"Function"} label={"Function:"} items={props.funList} index={0} width={"70px"}
+                     value={props.funIndex} updateData={updateFunction}/>
+            <Slider min={32} max={256} step={32} value={props.numColors} enabled={true} caption={"Colors:"}
+                    updateData={updateNumColors}/>
+            <CheckBox isChecked={props.isLegend} caption={"Legend"} updateData={updateCheckbox}/>
+        </fieldset>
+    );
 }
 
 export function VisualizationBox(props) {
@@ -175,21 +169,19 @@ export function VisualizationBox(props) {
         }
     }
     return (
-        props.mesh ?
-            <fieldset className="visualizationBox">
-                <legend>Visualization</legend>
-                <RadioButton name="ViewOption" value="Mesh and surface"
-                             checked={props.isSurface && props.isMesh}
-                             updateData={updateRadio}/>
-                <RadioButton name="ViewOption" value="Mesh" checked={!props.isSurface && props.isMesh}
-                             updateData={updateRadio}/>
-                <RadioButton name="ViewOption" value="Surface" checked={props.isSurface && !props.isMesh}
-                             updateData={updateRadio}/>
-                <CheckBox isChecked={props.isAxes} caption={"Coordinate axes"}
-                          updateData={props.updateIsAxes}/>
-            </fieldset>
-        : null
-    )
+        <fieldset className="visualizationBox">
+            <legend>Visualization</legend>
+            <RadioButton name="ViewOption" value="Mesh and surface"
+                         checked={props.isSurface && props.isMesh}
+                         updateData={updateRadio}/>
+            <RadioButton name="ViewOption" value="Mesh" checked={!props.isSurface && props.isMesh}
+                         updateData={updateRadio}/>
+            <RadioButton name="ViewOption" value="Surface" checked={props.isSurface && !props.isMesh}
+                         updateData={updateRadio}/>
+            <CheckBox isChecked={props.isAxes} caption={"Coordinate axes"}
+                      updateData={props.updateIsAxes}/>
+        </fieldset>
+    );
 }
 
 export function TranslationSceneBox(props) {
@@ -200,18 +192,16 @@ export function TranslationSceneBox(props) {
         props.updateTranslate([props.translate[0], Number(event), props.translate[2]])
     }
     return (
-        props.mesh ?
-            <fieldset className="TranslationSceneBox">
-                <legend>Translation scene</legend>
-                <Slider min={-1.00} max={1.00} step={0.25} value={props.translate[0]} enabled={true}
-                        caption={"X:"} width={"20px"}
-                        updateData={updateTranslateX}/>
-                <Slider min={-1.00} max={1.00} step={0.25} value={props.translate[1]} enabled={true}
-                        caption={"Y:"} width={"20px"}
-                        updateData={updateTranslateY}/>
-            </fieldset>
-        : null
-    )
+        <fieldset className="TranslationSceneBox">
+            <legend>Translation scene</legend>
+            <Slider min={-1.00} max={1.00} step={0.25} value={props.translate[0]} enabled={true}
+                    caption={"X:"} width={"20px"}
+                    updateData={updateTranslateX}/>
+            <Slider min={-1.00} max={1.00} step={0.25} value={props.translate[1]} enabled={true}
+                    caption={"Y:"} width={"20px"}
+                    updateData={updateTranslateY}/>
+        </fieldset>
+    );
 }
 
 export function TransformationObjectBox(props) {
@@ -231,36 +221,37 @@ export function TransformationObjectBox(props) {
         props.updateTransformationRatio(event)
     }
     return (
-        props.mesh && props.mesh.func.length ?
-            <fieldset className="transformationObjectBox">
-                <legend>Transformation object</legend>
-                <ListBox name="Function" label="X:" mesh={props.mesh} index={0} width="20px"
-                         value={props.transformation.index[0]} updateData={updateTransformationX}/>
-                <ListBox name="Function" label="Y:" mesh={props.mesh} index={1} width="20px"
-                         value={props.transformation.index[1]} updateData={updateTransformationY}/>
-                {
-                    props.mesh.feType.indexOf("fe2d") === -1 ?
-                        <ListBox name="Function" label="Z:" mesh={props.mesh} index={2} width="20px"
-                                 value={props.transformation.index[2]} updateData={updateTransformationZ}/>
-                        : null
-                }
-                <Slider min={0} max={0.5} step={0.1} value={props.transformation.ratio} enabled={true}
-                        caption="Ratio:" updateData={updateTransformationRatio}/>
-            </fieldset>
-        : null
-    )
+        <fieldset className="transformationObjectBox">
+            <legend>Transformation object</legend>
+            <ListBox name="Function" label="X:" items={props.funList} index={0} width="20px"
+                     value={props.transformation.index[0]} updateData={updateTransformationX}/>
+            {
+                props.feType.indexOf("fe2d") !== -1 || props.feType.indexOf("fe3d") !== -1 ?
+                    <ListBox name="Function" label="Y:" items={props.funList} index={1} width="20px"
+                             value={props.transformation.index[1]} updateData={updateTransformationY}/>
+                : null
+            }
+
+            {
+                props.feType.indexOf("fe3d") !== -1 ?
+                    <ListBox name="Function" label="Z:" items={props.funList} index={2} width="20px"
+                             value={props.transformation.index[2]} updateData={updateTransformationZ}/>
+                : null
+            }
+            <Slider min={0} max={0.5} step={0.1} value={props.transformation.ratio} enabled={true}
+                    caption="Ratio:" updateData={updateTransformationRatio}/>
+        </fieldset>
+    );
 }
 
 export function ScaleSceneBox(props) {
     return (
-        props.mesh ?
-            <fieldset className="scaleSceneBox">
-                <legend>Scale scene</legend>
-                <Slider min={0.5} max={5.0} step={0.5} value={props.scale} enabled={true} caption="Ratio:"
-                        updateData={props.updateScale}/>
-            </fieldset>
-        : null
-    )
+        <fieldset className="scaleSceneBox">
+            <legend>Scale scene</legend>
+            <Slider min={0.5} max={5.0} step={0.5} value={props.scale} enabled={true} caption="Ratio:"
+                    updateData={props.updateScale}/>
+        </fieldset>
+    );
 }
 
 export function ParamTable(props)  {
