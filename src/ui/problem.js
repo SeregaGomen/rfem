@@ -24,7 +24,7 @@ export function ProblemForm(props)  {
     const [calculating, setCalculating] = React.useState(false);
     const [isMeshVisible, setIsMeshVisible] = React.useState(false);
     const [containerHeight, setContainerHeight] = useState(5);
-    const [progress, setProgress] = useState({ status: "", percent_complete: 0 });
+    const [progress, setProgress] = useState({ status: "Preparing problem", percent_complete: 0 });
 
     useEffect(() => {
         if (props.data == null) {

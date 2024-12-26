@@ -391,97 +391,12 @@ export function ParamTable(props)  {
 }
 
 export function Progress(props) {
-    if (props.indeterminate) {
-        return <IndeterminateProgressBar status={props.status}/>;
-    }
-    return <DeterminateProgressBar status={props.status} completed={props.completed}/>;
-}
-
-// function DeterminateProgressBar(props) {
-//     return (
-//         <div>
-//             <h1>{props.status}</h1>
-//             <p>Progress: {props.completed}%</p>
-//             <div style={{width: '100%', backgroundColor: '#ccc', borderRadius: '5px', margin: '20px 0',}}>
-//                 <div
-//                     style={{
-//                         width: `${props.completed}%`,
-//                         height: '30px',
-//                         backgroundColor: 'green',
-//                         borderRadius: '5px',
-//                     }}
-//                 />
-//             </div>
-//         </div>
-//     );
-// }
-
-// https://dev.to/ramonak/react-how-to-create-a-custom-progress-bar-component-in-5-minutes-2lcl
-function DeterminateProgressBar(props) {
     return (
         <div>
             <h1>{props.status}</h1>
-            {/*<p>Progress: {props.completed}%</p>*/}
             {
-                props.completed !== undefined ?
-                    <div style={{width: '100%', backgroundColor: '#ccc', borderRadius: '5px', margin: '20px 0',}}>
-                        <div
-                            style={{
-                                width: `${props.completed}%`,
-                                height: '30px',
-                                backgroundColor: 'green',
-                                borderRadius: '5px',
-                                textAlign: 'right'
-                            }}
-                        >
-                        <span style={{
-                            padding: 5,
-                            color: 'white',
-                            fontWeight: 'bold'
-                        }}>
-                            {`${props.completed}%`}
-                        </span>
-                        </div>
-                    </div>
-                : null
+                props.indeterminate ? <progress/> : <progress value={props.completed} max={100}/>
             }
         </div>
     );
 }
-
-function IndeterminateProgressBar(props) {
-    return (
-        <div>
-            <h1>{props.status}</h1>
-            <div style={{width: '100%', backgroundColor: '#ccc', borderRadius: '5px', overflow: 'hidden'}}>
-                <div
-                    style={{
-                        width: '100%',
-                        height: '30px',
-                        backgroundColor: 'green',
-                        borderRadius: '5px',
-                        animation: 'indeterminate 1.5s infinite',
-                    }}
-                />
-                <style>
-                    {
-                        `@keyframes indeterminate {
-                        0% { transform: translateX(-100%); }
-                        100% { transform: translateX(100%); }
-                        }`
-                    }
-                </style>
-            </div>
-        </div>
-    );
-}
-
-// // https://www.npmjs.com/package/@ramonak/react-progress-bar
-// export function Progress(props) {
-//     return (
-//         <div>
-//             <h1>{props.status}</h1>
-//             <ProgressBar completed={props.percent_complete}/>
-//         </div>
-//     );
-// }

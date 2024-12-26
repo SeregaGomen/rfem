@@ -136,3 +136,22 @@ table, th {
 .resize-handle:hover {
   background-color: #ccc;
 }
+
+progress {
+   width: 100%;
+   height: 30px;
+}
+
+progress::-webkit-progress-bar {
+  background-color: #f3f3f3;
+}
+
+progress::-webkit-progress-value {
+  background-color: #4caf50;
+}
+
+progress::-moz-progress-bar {
+  background-color: #4caf50;
+}
+
+
