@@ -13,22 +13,28 @@ import {
     ScaleSceneBox,
     TransformationObjectBox
 } from "./components";
+import {loadFile} from "../file/file";
 
 export function OpenResultsFileForm() {
     const [mesh, setMesh] = React.useState(null);
     const [isDialogOpen, setIsDialogOpen] = React.useState(true);
-    let clear = () => {
-        setMesh(null);
-        return (<ViewResultsForm mesh={null}/>);
-    }
-    let updateFile = (value) => {
-        setMesh(value.mesh);
-        setIsDialogOpen(false)
-    }
     if (!isDialogOpen) {
         return (
             <ViewResultsForm mesh={mesh} isRef={true}/>
         );
+    }
+    let onChange = (event) => {
+        if (event.target.files.length === 0) {
+            //console.log("File is undefined!");
+            return;
+        }
+        loadFile(event.target.files[0]).then((value) => {
+            setMesh(value.mesh);
+            setIsDialogOpen(false)
+        }).catch(() => {
+            alert("Failed to load file!")
+        });
+
     }
 
     return (
@@ -38,7 +44,7 @@ export function OpenResultsFileForm() {
                 <fieldset>
                     <legend>Saved results files</legend>
                     <label>File name:<br/>
-                        <LoadButton updateData={updateFile} clear={clear}/>
+                        <LoadButton onChange={onChange} mask=".mesh, .msh, .vol, .qres, .res, .txt"/>
                     </label>
                 </fieldset>
             </Modal>

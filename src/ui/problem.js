@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
-import {CheckBox, ParamTable, Progress} from "./components";
+import {CheckBox, LoadButton, ParamTable, Progress} from "./components";
 import {CalculationProblemInfo} from "./problem_info";
 import {loadFile} from "../file/file";
 import {ViewResultsForm} from "./view_results";
@@ -64,7 +64,7 @@ export function ProblemForm(props)  {
                 <legend>Mesh</legend>
                 <div style={{ height: `${containerHeight}vh`, transition: 'height 0.5s' }}>
                     <label>File name:<br/>
-                        <input type="file" name="mesh_file" id="get_files" key="mesh" onChange={(event) => {
+                        <LoadButton onChange={(event) => {
                             if (event.target.files.length === 0) {
                                 setIsMeshVisible(false);
                                 setMeshFile(null);
@@ -73,12 +73,11 @@ export function ProblemForm(props)  {
                                 loadFile(event.target.files[0]).then((value) => {
                                     setMeshFile(event.target.files[0]);
                                     setMesh(value.mesh);
-                                    //renderMesh.setMesh(value.mesh);
                                 }).catch(() => {
                                     alert("Failed to load file!")
                                 });
                             }
-                        }}/>
+                        }} mask=".mesh, .msh, .vol"/>
                         <CheckBox isChecked={isMeshVisible} caption={"View"}
                                   disabled={meshFile === null && props.data === undefined}
                                   updateData={async () => {

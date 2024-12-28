@@ -1,5 +1,4 @@
 import React, {useRef, useState} from "react";
-import {loadFile} from "../file/file";
 
 export function RadioButton(props) {
     return (
@@ -78,22 +77,10 @@ export function Canvas(props) {
 }
 
 export function LoadButton(props) {
-    let updateFile = (value) => {
-        props.updateData(value);
-    }
     return (
         <input type="file"
-               accept=".mesh, .msh, .vol, .qres, .res, .txt"
-               onChange={(event) => {
-                   if (event.target.files.length === 0) {
-                       //console.log("File is undefined!");
-                       return;
-                   }
-                   props.clear();
-                   loadFile(event.target.files[0]).then(updateFile).catch(() => {
-                       alert("Failed to load file!")
-                   });
-               }}
+               accept={props.mask}
+               onChange={props.onChange}
         />
     );
 }
