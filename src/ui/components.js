@@ -1,6 +1,5 @@
 import React, {useRef, useState} from "react";
 import {loadFile} from "../file/file";
-//import ProgressBar from "@ramonak/react-progress-bar";
 
 export function RadioButton(props) {
     return (
@@ -75,7 +74,7 @@ export function Canvas(props) {
         <canvas className="canvasBox" id={props.id}>
             Please use a browser that supports "canvas"
         </canvas>
-    )
+    );
 }
 
 export function LoadButton(props) {
@@ -96,7 +95,7 @@ export function LoadButton(props) {
                    });
                }}
         />
-    )
+    );
 }
 
 export function RotateBox(props){
