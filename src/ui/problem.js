@@ -47,7 +47,19 @@ export function ProblemForm(props)  {
             //     <label> Calculating...</label><br/>
             //     <div className="spinner"></div>
             // </div>
-            <Progress completed={progress.completed} status={progress.status} indeterminate={progress.indeterminate}/>
+            <div>
+                <Progress completed={progress.completed} status={progress.status} indeterminate={progress.indeterminate}/>
+                <input type="button" value="Cancel" onClick={async (event) => {
+                    event.preventDefault();
+                    try {
+                        const response = await axios.post(window.serverURL + "/problem/cancel", {});
+                        //setCalculating(false);
+                        console.log('Cancel data sent successfully:', response.data);
+                    } catch (error) {
+                        console.error('Error sending cancel data:', error);
+                    }
+                }}/>
+            </div>
         );
     }
     if (problemInfo) {
