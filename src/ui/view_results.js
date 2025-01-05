@@ -18,19 +18,31 @@ import {loadFile} from "../file/file";
 export function OpenResultsFileForm() {
     const [mesh, setMesh] = React.useState(null);
     const [isDialogOpen, setIsDialogOpen] = React.useState(true);
-    if (!isDialogOpen) {
+    const [isLoading, setIsLoading] = React.useState(false);
+    if (!isDialogOpen && !isLoading) {
         return (
             <ViewResultsForm mesh={mesh} isRef={true}/>
         );
+    }
+    if (isLoading && !isDialogOpen) {
+        return (
+            <div>
+                <h1>Loading file</h1>
+                {
+                    <progress/>
+                }
+            </div>);
     }
     let onChange = (event) => {
         if (event.target.files.length === 0) {
             //console.log("File is undefined!");
             return;
         }
+        setIsLoading(true);
+        setIsDialogOpen(false)
         loadFile(event.target.files[0]).then((value) => {
             setMesh(value.mesh);
-            setIsDialogOpen(false)
+            setIsLoading(false);
         }).catch(() => {
             alert("Failed to load file!")
         });
