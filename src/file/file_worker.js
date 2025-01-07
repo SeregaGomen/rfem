@@ -6,6 +6,6 @@ onmessage = function(file) {
         postMessage({status: "success", mesh: value.mesh});
     }).catch(() => {
         //alert("Failed to load file!")
-        postMessage({status: "failure", data: null});
+        postMessage({status: "failure", mesh: null});
     });
 };
