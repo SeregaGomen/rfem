@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import Modal from "react-modal";
 import {renderMesh} from "../draw/draw";
 import {degToRad, radToDeg} from "../draw/utils";
@@ -13,12 +13,12 @@ import {
     ScaleSceneBox,
     TransformationObjectBox
 } from "./components";
-import {loadFile} from "../file/file";
 
 export function OpenResultsFileForm() {
     const [mesh, setMesh] = React.useState(null);
     const [isDialogOpen, setIsDialogOpen] = React.useState(true);
     const [isLoading, setIsLoading] = React.useState(false);
+
     if (!isDialogOpen && !isLoading) {
         return (
             <ViewResultsForm mesh={mesh} isRef={true}/>
@@ -40,12 +40,26 @@ export function OpenResultsFileForm() {
         }
         setIsLoading(true);
         setIsDialogOpen(false)
-        loadFile(event.target.files[0]).then((value) => {
-            setMesh(value.mesh);
+        // loadFile(event.target.files[0]).then((value) => {
+        //     setMesh(value.mesh);
+        //     setIsLoading(false);
+        // }).catch(() => {
+        //     alert("Failed to load file!")
+        // });
+
+        const worker = new Worker(new URL("../file/file_worker.js", import.meta.url));
+
+        worker.postMessage(event.target.files[0]);
+        worker.onmessage = function(event) {
+            if (event.data.status === "success") {
+                setMesh(event.data.mesh);
+            } else {
+                setIsDialogOpen(true);
+                alert("Failed to load file!");
+            }
             setIsLoading(false);
-        }).catch(() => {
-            alert("Failed to load file!")
-        });
+            worker.terminate();
+        };
 
     }
 
