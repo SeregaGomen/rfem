@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import Modal from "react-modal";
 import {renderMesh} from "../draw/draw";
 import {degToRad, radToDeg} from "../draw/utils";
@@ -13,6 +13,7 @@ import {
     ScaleSceneBox,
     TransformationObjectBox
 } from "./components";
+//import {loadFile} from "../file/file";
 
 export function OpenResultsFileForm() {
     const [mesh, setMesh] = React.useState(null);
@@ -40,6 +41,7 @@ export function OpenResultsFileForm() {
         }
         setIsLoading(true);
         setIsDialogOpen(false)
+
         // loadFile(event.target.files[0]).then((value) => {
         //     setMesh(value.mesh);
         //     setIsLoading(false);

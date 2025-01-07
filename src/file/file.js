@@ -2,9 +2,9 @@
 import {createMatrix} from "../draw/utils";
 
 export function loadMesh(fileData, mesh) {
-    let row = getRow(fileData).row;
+    let row = fileData.lines[fileData.position++];
     if (row === "Mesh") {
-        row = getRow(fileData).row;
+        row = fileData.lines[fileData.position++];
     }
     // Get FE type
     switch (row) {
@@ -37,10 +37,10 @@ export function loadMesh(fileData, mesh) {
             //alert("Wrong mesh format!");
             return false;
     }
-    let numVertex = Number(getRow(fileData).row);
+    let numVertex = Number(fileData.lines[fileData.position++]);
     // Get vertex coordinates
     for (let i = 0; i < numVertex; i++) {
-        let words = getRow(fileData).row.trim().split(' ');
+        let words = fileData.lines[fileData.position++].trim().split(' ');
         let x = [];
         for (let j = 0; j < words.length; j++) {
             if (words[j] !== "") {
@@ -50,10 +50,10 @@ export function loadMesh(fileData, mesh) {
         mesh.x.push(x);
     }
     // Get FE number
-    let numFE = Number(getRow(fileData).row);
+    let numFE = Number(fileData.lines[fileData.position++]);
     // Get FE indexes
     for (let i = 0; i < numFE; i++) {
-        let words = getRow(fileData).row.trim().split(' ');
+        let words = fileData.lines[fileData.position++].trim().split(' ');
         let fe = [];
         for (let j = 0; j < words.length; j++) {
             if (words[j] !== "") {
@@ -63,10 +63,10 @@ export function loadMesh(fileData, mesh) {
         mesh.fe.push(fe);
     }
     // Get BE number
-    let numBE = Number(getRow(fileData).row);
+    let numBE = Number(fileData.lines[fileData.position++]);
     // Get BE indexes
     for (let i = 0; i < numBE; i++) {
-        let words = getRow(fileData).row.trim().split(' ');
+        let words = fileData.lines[fileData.position++].trim().split(' ');
         let be = [];
         for (let j = 0; j < words.length; j++) {
             if (words[j] !== "") {
@@ -81,49 +81,47 @@ export function loadMesh(fileData, mesh) {
     return true
 }
 
-function getRow(file) {
-    let eof = false;
-    let offset = 2;
-    let index = file.data.indexOf("\r\n");
-    if (index === -1) {
-        index = file.data.indexOf("\n");
-        offset = 1;
-    }
-    let ret;
-    if (index !== -1) {
-        ret = file.data.slice(0, index);
-        file.data = file.data.slice(index + offset, file.data.length);
-        if (file.data.length === 0) {
-            eof = true;
-        }
-    } else {
-        ret = file.data.slice(0, file.data.length);
-        eof = true;
-    }
-    return {row: ret, eof: eof};
-}
+// function getRow(file) {
+//     let eof = false;
+//     let offset = 2;
+//     let index = file.data.indexOf("\r\n");
+//     if (index === -1) {
+//         index = file.data.indexOf("\n");
+//         offset = 1;
+//     }
+//     let ret;
+//     if (index !== -1) {
+//         ret = file.data.slice(0, index);
+//         file.data = file.data.slice(index + offset, file.data.length);
+//         if (file.data.length === 0) {
+//             eof = true;
+//         }
+//     } else {
+//         ret = file.data.slice(0, file.data.length);
+//         eof = true;
+//     }
+//     return {row: ret, eof: eof};
+// }
 
 // Load *.vol file (NetGen)
 export function loadVol(fileData, mesh) {
     // Get boundary elements
-    let data = getRow(fileData);
-    while (!data.eof) {
-        if (data.row === "surfaceelements") {
+    while (fileData.position < fileData.lines.length) {
+        if (fileData.lines[fileData.position++] === "surfaceelements") {
             break;
         }
-        data = getRow(fileData);
     }
-    if (data.eof) {
+    if (fileData.position >= fileData.lines.length) {
         console.log("Wrong VOL-file format");
         return false;
     }
 
     mesh.feType = "fe3d4";
     // Get BE number
-    let num = Number(getRow(fileData).row);
+    let num = Number(fileData.lines[fileData.position++]);
     // Get BE indexes
     for (let i = 0; i < num; i++) {
-        let words = getRow(fileData).row.trim().split(' ');
+        let words = fileData.lines[fileData.position++].trim().split(' ');
         let be = [];
         for (let j = 0; j < 3; j++) {
             if (words[j] !== "") {
@@ -134,23 +132,21 @@ export function loadVol(fileData, mesh) {
     }
 
     // Get finite elements
-    data = getRow(fileData);
-    while (!data.eof) {
-        if (data.row === "volumeelements") {
+    while (fileData.position < fileData.lines.length) {
+        if (fileData.lines[fileData.position++] === "volumeelements") {
             break;
         }
-        data = getRow(fileData);
     }
-    if (data.eof) {
+    if (fileData.position >= fileData.lines.length) {
         console.log("Wrong VOL-file format");
         return false;
     }
 
     // Get FE number
-    num = Number(getRow(fileData).row);
+    num = Number(fileData.lines[fileData.position++]);
     // Get FE indexes
     for (let i = 0; i < num; i++) {
-        let words = getRow(fileData).row.trim().split(' ');
+        let words = fileData.lines[fileData.position++].trim().split(' ');
         let fe = [];
         for (let j = 0; j < 4; j++) {
             if (words[j] !== "") {
@@ -161,23 +157,21 @@ export function loadVol(fileData, mesh) {
     }
 
     // Get vertex coordinates
-    data = getRow(fileData);
-    while (!data.eof) {
-        if (data.row === "points") {
+    while (fileData.position < fileData.lines.length) {
+        if (fileData.lines[fileData.position++] === "points") {
             break;
         }
-        data = getRow(fileData);
     }
-    if (data.eof) {
+    if (fileData.position >= fileData.lines.length) {
         console.log("Wrong VOL-file format");
         return false;
     }
 
     // Get vertex number
-    num = Number(getRow(fileData).row);
+    num = Number(fileData.lines[fileData.position++]);
     // Get vertexes
     for (let i = 0; i < num; i++) {
-        let words = getRow(fileData).row.trim().split(' ');
+        let words = fileData.lines[fileData.position++].trim().split(' ');
         let x = [];
         for (let j = 0; j < words.length; j++) {
             if (words[j] !== "") {
@@ -192,36 +186,32 @@ export function loadVol(fileData, mesh) {
 // Load *.msh file (GMSH)
 export function loadMsh(fileData, mesh) {
     // Get boundary elements
-    let data = getRow(fileData);
-
-    if (data.row !== "$MeshFormat") {
+    if (fileData.lines[fileData.position++] !== "$MeshFormat") {
         console.log("Wrong MSH-file format");
         return false;
     }
-    data = getRow(fileData);
-    while (!data.eof) {
-        if (data.row === "$Nodes") {
+    while (fileData.position < fileData.lines.length) {
+        if (fileData.lines[fileData.position++] === "$Nodes") {
             break;
         }
-        data = getRow(fileData);
     }
-    if (data.eof) {
+    if (fileData.position >= fileData.lines.length) {
         console.log("Wrong MSH-file format");
         return false;
     }
-    let words = getRow(fileData).row.trim().split(' ');
+    let words = fileData.lines[fileData.position++].trim().split(' ');
     let numEntities = Number(words[0]);
     let is2d = true;
     for (let i = 0; i < numEntities; i++) {
-        words = getRow(fileData).row.trim().split(' ');
+        words = fileData.lines[fileData.position++].trim().split(' ');
         let num = Number(words[3]);
         // Ignoring tags
         for (let j = 0; j < num; j++) {
-            data = getRow(fileData);
+            fileData.position++;
         }
         for (let j = 0; j < num; j++) {
             let x = [];
-            words = getRow(fileData).row.trim().split(' ');
+            words = fileData.lines[fileData.position++].trim().split(' ');
             for (let k = 0; k < 3; k++) {
                 x.push(Number(words[k]));
             }
@@ -231,29 +221,29 @@ export function loadMsh(fileData, mesh) {
             mesh.x.push(x);
         }
     }
-    if (getRow(fileData).row !== "$EndNodes") {
+    if (fileData.lines[fileData.position++] !== "$EndNodes") {
         console.log("Wrong MSH-file format");
         return false;
     }
-    if (getRow(fileData).row !== "$Elements") {
+    if (fileData.lines[fileData.position++] !== "$Elements") {
         console.log("Wrong MSH-file format");
         return false;
     }
     // Number of section
-    words = getRow(fileData).row.trim().split(' ');
+    words = fileData.lines[fileData.position++].trim().split(' ');
     numEntities = Number(words[0]);
     let minTag = Number(words[2]);
     for (let i = 0; i < numEntities; i++) {
-        words = getRow(fileData).row.trim().split(' ');
+        words = fileData.lines[fileData.position++].trim().split(' ');
         let dim = Number(words[0]);
         let elmType = Number(words[2]);
         let num = Number(words[3]);
         for (let j = 0; j < num; j++) {
-            data = getRow(fileData);
             if (dim === 0 || (dim === 1 && is2d === false)) {
+                fileData.position++;
                 continue;
             }
-            words = data.row.trim().split(' ');
+            words = fileData.lines[fileData.position++].trim().split(' ');
             // Reading current element
             let elm = [];
             for (let k = 1; k < words.length; k++) {
@@ -290,7 +280,7 @@ export function loadMsh(fileData, mesh) {
             }
         }
     }
-    if (getRow(fileData).row !== "$EndElements") {
+    if (fileData.lines[fileData.position++] !== "$EndElements") {
         console.log("Wrong MSH-file format");
         return false;
     }
@@ -306,9 +296,10 @@ export function loadMsh(fileData, mesh) {
     return true;
 }
 
+
 export function loadRes(fileData, mesh) {
     // Get signature
-    let row = getRow(fileData).row;
+    let row = fileData.lines[fileData.position++];
     if (row !== "QFEM results file" && row !== "FEM Solver Results File") {
         console.log("Wrong Results-file format");
         return false;
@@ -317,21 +308,21 @@ export function loadRes(fileData, mesh) {
     if (!loadMesh(fileData, mesh)) {
         return false;
     }
-    if (getRow(fileData).row === "Results") {
-        getRow(fileData);
+    if (fileData.lines[fileData.position++] === "Results") {
+        fileData.position++;
     }
     return loadResults(fileData, mesh);
 }
 
 function loadResults(fileData, mesh) {
-    let numFun = Number(getRow(fileData).row);
+    let numFun = Number(fileData.lines[fileData.position++]);
     for (let i = 0; i < numFun; i++) {
-        let name = getRow(fileData).row;
-        getRow(fileData);
-        let num = Number(getRow(fileData).row);
+        let name = fileData.lines[fileData.position++];
+        fileData.position++;
+        let num = Number(fileData.lines[fileData.position++]);
         let data = [];
         for (let j = 0; j < num; j++) {
-            let val = Number(getRow(fileData).row);
+            let val = Number(fileData.lines[fileData.position++]);
             data.push(val);
         }
         let minMax = getMinMax(data);
@@ -355,46 +346,42 @@ function getMinMax(data) {
     return {minU: minU, maxU: maxU};
 }
 
-// РњР†Р Р•Р›Рђ
+// Load TXT
 export function loadTxt(fileData, mesh) {
     let str;
-    let data = getRow(fileData);
     let attrib = [];
-    while (!data.eof) {
-        if (data.row.includes("M1 x M2 x M3")) {
+    while (fileData.position < fileData.lines.length) {
+        if (fileData.lines[fileData.position++].includes("M1 x M2 x M3")) {
             break;
         }
-        data = getRow(fileData);
     }
-    if (data.eof) {
+    if (fileData.position >= fileData.lines.length) {
         console.log("Wrong TXT-file format");
         return false;
     }
 
-    str = data.row;
+    str = fileData.lines[fileData.position - 1];
     str = str.replace(/\s/g, '').substring(str.indexOf("M1xM2xM3") + "M1xM2xM3".length + 1).replace(/x/gi, " ");
     let words = str.trim().split(' ');
     let m = [Number(words[0]), Number(words[1]), Number(words[2])];
     let size = m[0] * m[1] * m[2];
 
-    while (!data.eof) {
-        if (data.row.includes("NU")) {
+    while (fileData.position < fileData.lines.length) {
+        if (fileData.lines[fileData.position++].includes("NU")) {
             break;
         }
-        data = getRow(fileData);
     }
-    if (data.eof) {
+    if (fileData.position >= fileData.lines.length) {
         console.log("Wrong TXT-file format");
         return false;
     }
-    getRow(fileData);
+    fileData.position++;
     for (let i = 0; i < size; i++) {
-        data = getRow(fileData);
-        if (data.eof) {
+        if (fileData.position >= fileData.lines.length) {
             console.log("Wrong TXT-file format");
             return false;
         }
-        str = data.row.trim().replace(/\s+/g, "x").replace(/D/gi, "E");
+        str = fileData.lines[fileData.position++].trim().replace(/\s+/g, "x").replace(/D/gi, "E");
         words = str.trim().split('x');
         mesh.x.push([Number(words[1]), Number(words[2]), Number(words[3])]);
         attrib.push(Number(words[8]));
@@ -403,28 +390,25 @@ export function loadTxt(fileData, mesh) {
 
     let iter = 0;
     while (1) {
-        data = getRow(fileData);
-        if (data.eof) {
+        if (fileData.position >= fileData.lines.length) {
             break;
         }
-
-        if (data.row.includes("ITER=")) {
-            str = data.row;
+        str = fileData.lines[fileData.position++];
+        if (str.includes("ITER=")) {
             iter = Number(str.substring(str.indexOf("ITER=") + "ITER=".length + 1).trim());
             continue;
         }
-        if (data.row.includes("NU")) {
-            str = data.row.trim().replace(/\s+/g, "|");
+        if (str.includes("NU")) {
+            str = str.trim().replace(/\s+/g, "|");
             let names = str.trim().split('|');
             let u = createMatrix(9, size);
-            getRow(fileData);
+            fileData.position++;
             for (let i = 0; i < size; i++) {
-                data = getRow(fileData);
-                if (data.eof) {
+                if (fileData.position >= fileData.lines.length) {
                     console.log("Wrong TXT-file format");
                     return false;
                 }
-                str = data.row.trim().replace(/\s+/g, "x").replace(/D/gi, "E");
+                str = fileData.lines[fileData.position++].trim().replace(/\s+/g, "x").replace(/D/gi, "E");
                 words = str.trim().split('x');
                 for (let j = 0; j < 9; j++) {
                     u[j][i] = Number(words[j + 1]);
@@ -616,16 +600,18 @@ export function loadFile(file) {
 
         // Mesh & results data structure
         let mesh = {
-            feType: "", // Type of mesh
-            x: [],      // Vertex coordinates
-            fe: [],     // Finite element
-            be: [],     // Boundary elements
-            func: [],   // Results data
+            feType: null, // Type of mesh
+            x: [],        // Vertex coordinates
+            fe: [],       // Finite element
+            be: [],       // Boundary elements
+            func: [],     // Results data
         };
         reader.onload = function () {
             let ok = false;
             let fileData = {
-                data: reader.result
+                position: 0,
+                //lines: reader.result.split('\n'),
+                lines: reader.result.split(reader.result.indexOf("\r\n") === -1 ? "\n" : "\r\n"),
             };
             switch (fileExt.toUpperCase()) {
                 case "MESH":
