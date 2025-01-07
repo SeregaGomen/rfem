@@ -81,6 +81,7 @@ export function ProblemForm(props)  {
                                 setIsMeshVisible(false);
                                 setMeshFile(null);
                                 setMesh(null);
+                                setContainerHeight(5);
                             } else {
                                 loadFile(event.target.files[0]).then((value) => {
                                     setMeshFile(event.target.files[0]);
