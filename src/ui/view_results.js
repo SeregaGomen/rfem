@@ -72,7 +72,7 @@ export function OpenResultsFileForm() {
                 <fieldset>
                     <legend>Saved results files</legend>
                     <label>File name:<br/>
-                        <LoadButton onChange={onChange} mask=".mesh, .msh, .vol, .qres, .res, .txt"/>
+                        <LoadButton onChange={onChange} mask=".qres, .res, .txt"/>
                     </label>
                 </fieldset>
             </Modal>
