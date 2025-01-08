@@ -1,4 +1,6 @@
 import React, {useRef, useState} from "react";
+import ReactDOM from "react-dom";
+import "../index.css";
 
 export function RadioButton(props) {
     return (
@@ -384,5 +386,17 @@ export function Progress(props) {
                 props.indeterminate ? <progress/> : <progress value={props.completed} max={100}/>
             }
         </div>
+    );
+}
+
+export function ProgressOverlay() {
+    return ReactDOM.createPortal(
+        <div className="overlay">
+            <div className="progress">
+                <div className="spinner"></div>
+                <p>Loading...</p>
+            </div>
+        </div>,
+        document.body
     );
 }

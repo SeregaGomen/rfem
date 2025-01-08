@@ -11,7 +11,7 @@ import {
     VisualizationBox,
     TranslationSceneBox,
     ScaleSceneBox,
-    TransformationObjectBox
+    TransformationObjectBox, ProgressOverlay
 } from "./components";
 //import {loadFile} from "../file/file";
 
@@ -28,9 +28,10 @@ export function OpenResultsFileForm() {
     if (isLoading && !isDialogOpen) {
         return (
             <div>
-                <h1>Loading file</h1>
+                {/*<h1>Loading file</h1>*/}
                 {
-                    <progress/>
+                    // <progress/>
+                    <ProgressOverlay/>
                 }
             </div>);
     }
