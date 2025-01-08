@@ -31,23 +31,9 @@ export function ProblemForm(props)  {
         if (props.data == null) {
             setNumThread(navigator.hardwareConcurrency);
         }
-
-        // const interval = setInterval(() => {
-        //     fetch(window.serverURL + "/progress")
-        //         .then(response => response.json())
-        //         .then(data => setProgress(data))
-        //         .catch(error => console.error('Error fetching data:', error));
-        // }, 1000);
-        //
-        // return () => clearInterval(interval);
-
     }, [props]);
     if (calculating) {
         return (
-            // <div>
-            //     <label> Calculating...</label><br/>
-            //     <div className="spinner"></div>
-            // </div>
             <div>
                 <Progress completed={progress.completed} status={progress.status} indeterminate={progress.indeterminate}/>
                 <input type="button" value="Cancel" onClick={async (event) => {
@@ -245,7 +231,7 @@ export function ProblemForm(props)  {
                 formData.append('pointLoad', pointLoad);
                 formData.append('pressureLoad', pressureLoad);
                 formData.append('boundaryCondition', boundaryCondition);
-                formData.append('meshFileName', props.data.Mesh);
+                formData.append('meshFileName', props.data ? props.data.Mesh : meshFile);
                 axios.post(window.serverURL + "/problem", formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
