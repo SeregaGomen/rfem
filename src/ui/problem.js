@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
-import {CheckBox, LoadButton, ParamTable, Progress} from "./components";
+import {CheckBox, LoadButton, ParamTable, Progress, ProgressOverlay} from "./components";
 import {CalculationProblemInfo} from "./problem_info";
 import {loadFile} from "../file/file";
 import {ViewResultsForm} from "./view_results";
@@ -25,6 +25,7 @@ export function ProblemForm(props)  {
     const [isMeshVisible, setIsMeshVisible] = React.useState(false);
     const [containerHeight, setContainerHeight] = useState(5);
     const [progress, setProgress] = useState({ status: "Preparing problem", percent_complete: 0 });
+    const [isLoading, setIsLoading] = React.useState(false);
 
     useEffect(() => {
         if (props.data == null) {
@@ -69,6 +70,13 @@ export function ProblemForm(props)  {
             </div>
         );
     }
+    if (isLoading) {
+        return (
+            <div>
+                <ProgressOverlay/>
+            </div>
+        );
+    }
     return (
         <form>
             {(props.data == null) ? <h1>New Problem</h1> : <h1>Saved Problem ({props.data.Mesh.split('/').pop()})</h1>}
@@ -82,11 +90,15 @@ export function ProblemForm(props)  {
                                 setMeshFile(null);
                                 setMesh(null);
                                 setContainerHeight(5);
+                                setIsLoading(false);
                             } else {
+                                setIsLoading(true);
                                 loadFile(event.target.files[0]).then((value) => {
                                     setMeshFile(event.target.files[0]);
                                     setMesh(value.mesh);
+                                    setIsLoading(false);
                                 }).catch(() => {
+                                    setIsLoading(false);
                                     alert("Failed to load file!")
                                 });
                             }
