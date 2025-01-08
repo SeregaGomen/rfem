@@ -189,15 +189,18 @@ export function ProblemForm(props)  {
                 <legend>Loads and boundary conditions</legend>
                 <label>Volume loads:<br/>
                     <ParamTable headers={["Value", "Predicate"]} data={volumeLoad}
-                                colType={["str", "str"]} direct="on" updateData={setVolumeLoad}/>
+                                colType={["str", "str"]} direct="on" updateData={setVolumeLoad}
+                                dim={mesh && (mesh.feType === "fe2d3" || mesh.feType === "fe2d4") ? "2d" : "3d"}/>
                 </label><br/>
                 <label>Point loads:<br/>
                     <ParamTable headers={["Value", "Predicate"]} data={pointLoad}
-                                colType={["str", "str"]} direct="on" updateData={setPointLoad}/>
+                                colType={["str", "str"]} direct="on" updateData={setPointLoad}
+                                dim={mesh && (mesh.feType === "fe2d3" || mesh.feType === "fe2d4") ? "2d" : "3d"}/>
                 </label><br/>
                 <label>Surface loads:<br/>
                     <ParamTable headers={["Value", "Predicate"]} data={surfaceLoad}
-                                colType={["str", "str"]} direct="on" updateData={setSurfaceLoad}/>
+                                colType={["str", "str"]} direct="on" updateData={setSurfaceLoad}
+                                dim={mesh && (mesh.feType === "fe2d3" || mesh.feType === "fe2d4") ? "2d" : "3d"}/>
                 </label><br/>
                 <label>Pressure loads:<br/>
                     <ParamTable headers={["Value", "Predicate"]} data={pressureLoad}
@@ -205,7 +208,8 @@ export function ProblemForm(props)  {
                 </label><br/>
                 <label>Boundary conditions:<br/>
                     <ParamTable headers={["Value", "Predicate"]} data={boundaryCondition}
-                                colType={["str", "str"]} direct="on" updateData={setBoundaryCondition}/>
+                                colType={["str", "str"]} direct="on" updateData={setBoundaryCondition}
+                                dim={mesh && (mesh.feType === "fe2d3" || mesh.feType === "fe2d4") ? "2d" : "3d"}/>
                 </label>
             </fieldset>
             <input type="button" onClick={async () => {

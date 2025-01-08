@@ -297,6 +297,7 @@ export function ParamTable(props)  {
                 row.push(
                     <td key={j}><input id={i.toString() + "_" + j.toString()} type="checkbox"
                                        checked={Boolean(value)}
+                                       disabled={props.dim === "2d" && j === 2}
                                        onChange={(event) => {
                                            let index = Number(event.target.id.substring(0, 1));
                                            let table = [...props.data];
