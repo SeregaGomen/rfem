@@ -13,7 +13,7 @@ import {
     ScaleSceneBox,
     TransformationObjectBox, ProgressOverlay
 } from "./components";
-//import {loadFile} from "../file/file";
+import {loadFile} from "../file/file";
 
 export function OpenResultsFileForm() {
     const [mesh, setMesh] = React.useState(null);
@@ -40,29 +40,32 @@ export function OpenResultsFileForm() {
             //console.log("File is undefined!");
             return;
         }
+
         setIsLoading(true);
         setIsDialogOpen(false)
-
-        // loadFile(event.target.files[0]).then((value) => {
-        //     setMesh(value.mesh);
-        //     setIsLoading(false);
-        // }).catch(() => {
-        //     alert("Failed to load file!")
-        // });
-
-        const worker = new Worker(new URL("../file/file_worker.js", import.meta.url));
-
-        worker.postMessage(event.target.files[0]);
-        worker.onmessage = function(event) {
-            if (event.data.status === "success") {
-                setMesh(event.data.mesh);
-            } else {
-                setIsDialogOpen(true);
-                alert("Failed to load file!");
-            }
+        // -------------------------------------
+        // Открытие без воркера
+        loadFile(event.target.files[0]).then((value) => {
+            setMesh(value.mesh);
             setIsLoading(false);
-            worker.terminate();
-        };
+        }).catch(() => {
+            alert("Failed to load file!")
+        });
+
+        // Открытие с воркером (в потоке)
+        // const worker = new Worker(new URL("../file/file_worker.js", import.meta.url));
+        // worker.postMessage(event.target.files[0]);
+        // worker.onmessage = function(event) {
+        //     if (event.data.status === "success") {
+        //         setMesh(event.data.mesh);
+        //     } else {
+        //         setIsDialogOpen(true);
+        //         alert("Failed to load file!");
+        //     }
+        //     setIsLoading(false);
+        //     worker.terminate();
+        // };
+        // -------------------------------------
 
     }
 

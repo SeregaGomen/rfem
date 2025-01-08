@@ -174,7 +174,7 @@ progress::-moz-progress-bar {
   color: white;
 }
 
-/* Спиннер */
+ /* Спиннер */
 .spinner {
   width: 50px;
   height: 50px;
@@ -183,6 +183,15 @@ progress::-moz-progress-bar {
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
+/*.spinner {*/
+/*  border: 8px solid rgba(255, 255, 255, 0.3); !* Полупрозрачный серый бордюр *!*/
+/*  border-top: 8px solid white; !* Белая секция *!*/
+/*  border-radius: 50%;*/
+/*  width: 50px;*/
+/*  height: 50px;*/
+/*  animation: spin 1s linear infinite;*/
+/*}*/
+
 
 @keyframes spin {
   to {
