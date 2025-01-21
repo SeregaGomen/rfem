@@ -30,6 +30,51 @@ export function ProblemForm(props)  {
     useEffect(() => {
         if (props.data == null) {
             setNumThread(navigator.hardwareConcurrency);
+        } else {
+            const formData = new FormData();
+            formData.append('meshName', props.data.Mesh);
+            axios.post(window.serverURL + "/load_mesh", formData, {
+                headers: {
+                    'Content-Type': 'text/plain',
+                },
+            })
+                .then((response) => {
+                    let msh = {};
+                    switch (response.data.FeType) {
+                        case 1:
+                            msh.feType = "fe2d3";
+                            break;
+                        case 2:
+                            msh.feType = "fe2d4";
+                            break;
+                        case 3:
+                            msh.feType = "fe3d4";
+                            break;
+                        case 4:
+                            msh.feType = "fe3d8";
+                            break;
+                        case 5:
+                            msh.feType = "fe3d3s";
+                            break;
+                        case 6:
+                            msh.feType = "fe3d4s";
+                            break;
+                        default:
+                            alert("Wrong meshFile format!");
+                            return;
+                    }
+                    msh.x = response.data.X;
+                    msh.fe = response.data.FE;
+                    msh.be = response.data.BE;
+                    msh.func = [];
+
+                    //renderMesh.setMesh(msh);
+                    setMesh(msh);
+                })
+                .catch((error) => {
+                    alert("Error: " + error);
+                });
+
         }
     }, [props]);
     if (calculating) {
@@ -95,49 +140,49 @@ export function ProblemForm(props)  {
                                       setIsMeshVisible(!isMeshVisible);
                                       setContainerHeight(!isMeshVisible ? 85 : 5); // Изменяем высоту в зависимости от состояния
                                       if (props.data !== undefined) {
-                                          const formData = new FormData();
-                                          formData.append('meshName', props.data.Mesh);
-                                          axios.post(window.serverURL + "/load_mesh", formData, {
-                                              headers: {
-                                                  'Content-Type': 'text/plain',
-                                              },
-                                          })
-                                              .then((response) => {
-                                                  let msh = {};
-                                                  switch (response.data.FeType) {
-                                                      case 1:
-                                                          msh.feType = "fe2d3";
-                                                          break;
-                                                      case 2:
-                                                          msh.feType = "fe2d4";
-                                                          break;
-                                                      case 3:
-                                                          msh.feType = "fe3d4";
-                                                          break;
-                                                      case 4:
-                                                          msh.feType = "fe3d8";
-                                                          break;
-                                                      case 5:
-                                                          msh.feType = "fe3d3s";
-                                                          break;
-                                                      case 6:
-                                                          msh.feType = "fe3d4s";
-                                                          break;
-                                                      default:
-                                                          alert("Wrong meshFile format!");
-                                                          return;
-                                                  }
-                                                  msh.x = response.data.X;
-                                                  msh.fe = response.data.FE;
-                                                  msh.be = response.data.BE;
-                                                  msh.func = [];
-
-                                                  //renderMesh.setMesh(msh);
-                                                  setMesh(msh);
-                                              })
-                                              .catch((error) => {
-                                                  alert("Error: " + error);
-                                              });
+                                          // const formData = new FormData();
+                                          // formData.append('meshName', props.data.Mesh);
+                                          // axios.post(window.serverURL + "/load_mesh", formData, {
+                                          //     headers: {
+                                          //         'Content-Type': 'text/plain',
+                                          //     },
+                                          // })
+                                          //     .then((response) => {
+                                          //         let msh = {};
+                                          //         switch (response.data.FeType) {
+                                          //             case 1:
+                                          //                 msh.feType = "fe2d3";
+                                          //                 break;
+                                          //             case 2:
+                                          //                 msh.feType = "fe2d4";
+                                          //                 break;
+                                          //             case 3:
+                                          //                 msh.feType = "fe3d4";
+                                          //                 break;
+                                          //             case 4:
+                                          //                 msh.feType = "fe3d8";
+                                          //                 break;
+                                          //             case 5:
+                                          //                 msh.feType = "fe3d3s";
+                                          //                 break;
+                                          //             case 6:
+                                          //                 msh.feType = "fe3d4s";
+                                          //                 break;
+                                          //             default:
+                                          //                 alert("Wrong meshFile format!");
+                                          //                 return;
+                                          //         }
+                                          //         msh.x = response.data.X;
+                                          //         msh.fe = response.data.FE;
+                                          //         msh.be = response.data.BE;
+                                          //         msh.func = [];
+                                          //
+                                          //         //renderMesh.setMesh(msh);
+                                          //         setMesh(msh);
+                                          //     })
+                                          //     .catch((error) => {
+                                          //         alert("Error: " + error);
+                                          //     });
                                       }
                                   }}/>
 
